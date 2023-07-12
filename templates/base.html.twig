@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Task Manager{% endblock %}</title>
-    <link rel="stylesheet" href="{{ asset('build/styles/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/custom-button.css') }}">
+
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
+
 </head>
 <body>
     {% include 'header.html.twig' %}
@@ -15,7 +18,8 @@
         {% block body %}{% endblock %}
     </div>
 
-    <script src="{{ asset('app.js') }}"></script>
+    <script src="{{ asset('build/app.js') }}"></script>
+
     {% block javascripts %}{% endblock %}
 </body>
 </html>

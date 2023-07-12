@@ -1,21 +1,15 @@
-<header class="sticky top-0 bg-black shadow-md">
-  <div class="container flex items-center justify-between px-4 py-2">
+<header class="sticky top-0 bg-primary shadow-md">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-10 py-4">
     <!-- Logo -->
     <div class="flex items-center">
-      <img src="logo.png" alt="Logo" class="h-8 mr-2">
-      <h1 class="text-lg font-bold">My App</h1>
+      <img src={{ asset('images/logo.svg') }} alt="Logo" class="h-14 mr-4 ml-4">
+      <h1 class="text-xl font-bold text-white">Task Manager <span class="italic mx-4 text-highlight">by Loïc Mougin</span></h1>
     </div>
-    
-    <!-- Navigation -->
-    <nav class="space-x-4">
-      <a href="#" class="text-gray-700 hover:text-gray-900">Dashboard</a>
-      <a href="#" class="text-gray-700 hover:text-gray-900">Collections</a>
-    </nav>
     
     <!-- Buttons -->
     <div class="flex items-center space-x-4">
-      <button class="bg-blue-500 text-white rounded px-4 py-2">+</button>
-      <button class="bg-gray-700 text-white rounded px-4 py-2">Connect</button>
+      <button class="custom-button bg-highlight text-white rounded px-4 py-2">+</button>
+      <button class="custom-button bg-gray-700 text-white rounded px-4 py-2">Connect</button>
     </div>
   </div>
 </header>
