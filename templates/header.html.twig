@@ -1,0 +1,18 @@
+{% block body %}
+    <header class="p-6 bg-blue-500 text-white">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <div class="flex items-center">
+                <img src="{{ asset('build/images/logo.svg') }}" alt="Logo" class="mr-6">
+                <nav>
+                    <a href="#" class="text-lg px-6 text-white hover:text-gray-300">Dashboard</a>
+                    <a href="#" class="text-lg px-6 text-white hover:text-gray-300">Collections</a>
+                </nav>
+            </div>
+            <div class="flex items-center">
+                <button class="mr-6 bg-white text-blue-500 rounded px-5 py-2">+</button>
+                <button class="mr-6 text-white">Search</button>
+                <button class="bg-white text-blue-500 rounded px-5 py-2">Sign in</button>
+            </div>
+        </div>
+    </header>
+{% endblock %}
