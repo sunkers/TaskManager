@@ -4,22 +4,104 @@
     <meta charset="UTF-8">
     <title>{% block title %}Task Manager{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('build/app.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/custom-button.css') }}">
 
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+<!-- Navigation -->
     {% include 'header.html.twig' %}
 
-    <div class="container mx-auto">
-        {% block body %}{% endblock %}
+    <!-- Page Content -->
+    <div class="container-fluid">
+        <div class="grid grid-cols-12 gap-4">
+            {% include '_sidebar.html.twig' %}
+            
+            <div class="col-span-9" id="task-container">
+                {% block titlebar %}{% endblock %}
+                {% block body %}{% endblock %}
+            </div>
+        </div>
     </div>
+    <!-- end Page Content -->
 
     <script src="{{ asset('build/app.js') }}"></script>
 
-    {% block javascripts %}{% endblock %}
+    {% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $.get('/tasks', function(data) {
+                // `data` est l'objet JSON retourné par votre endpoint `/tasks`
+                for (var i = 0; i < data.length; i++) {
+                    var task = data[i];
+                    $('.task-list').append(
+                        '<li class="task-item mb-4 p-4 bg-gray-200 rounded shadow">' +
+                            '<h3 class="task-title font-bold mb-2">' + task.title + '</h3>' +
+                            '<p class="task-description mb-2">' + task.description + '</p>' +
+                        '</li>'
+                    );
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the task container
+            var taskContainer = document.getElementById('task-container');
+
+            // Function to fetch tasks for a collection and update the task container
+            var fetchTasks = function(collection) {
+                // Fetch the tasks data
+                fetch('/tasks?collection=' + encodeURIComponent(collection))
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(tasks) {
+                        // Clear the task container
+                        taskContainer.innerHTML = '';
+
+                        // Iterate over each task
+                        tasks.forEach(function(task) {
+                            // Create an element for the task
+                            var taskElement = document.createElement('div');
+                            taskElement.textContent = task.name;
+
+                            // Add the task element to the task container
+                            taskContainer.appendChild(taskElement);
+                        });
+                    });
+            };
+
+            // Fetch the tasks for the current collection
+            fetchTasks('{{ app.session.get('currentCollection') }}');
+
+            // Add click event handlers to the collection elements
+            document.querySelectorAll('.collection-element').forEach(function(collectionElement) {
+                collectionElement.addEventListener('click', function() {
+                    var collection = this.dataset.collection;
+
+                    // Update the current collection in the session
+                    fetch('/change-collection', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: 'collection=' + encodeURIComponent(collection)
+                    })
+                    .then(function() {
+                        // Fetch the tasks for the new collection
+                        fetchTasks(collection);
+                    });
+                });
+            });
+        });
+    </script>
+    {% endblock %}
+
+
 </body>
 </html>
+
+

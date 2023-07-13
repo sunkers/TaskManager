@@ -1,9 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Task Manager - Accueil{% endblock %}
+{% block titlebar %}
+    <h1>{{ collection.name }}</h1>
+{% endblock %}
 
 {% block body %}
-<div class="example-wrapper max-w-7xl">
-    <h1>Hello HomeController! ✅</h1>
-</div>
+    <div class="task-container">
+        <!-- Add a task button -->
+        <div class="add-task my-4">
+            <button class="custom-button bg-accent text-white rounded px-4 py-2">Add a task</button>
+        </div>
+        <!-- Show user's tasks -->
+        <div class="task-list">
+            <p> Test </p>
+            <!-- Tasks will be added here with JavaScript -->
+        </div>
+    </div>
+
+    {% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $.get('/tasks', function(data) {
+                // `data` is the JSON object returned by your `/tasks` endpoint
+                for (var i = 0; i < data.length; i++) {
+                    var task = data[i];
+                    $('.task-list').append(
+                        '<div class="task-item mb-4 p-4 bg-gray-200 rounded shadow">' +
+                            '<h3 class="task-title font-bold mb-2">' + task.title + '</h3>' +
+                            '<p class="task-description mb-2">' + task.description + '</p>' +
+                            '<div class="task-controls">' +
+                                '<button class="custom-button bg-blue-500 text-white rounded px-2 py-1">Edit</button>' +
+                                '<button class="custom-button bg-red-500 text-white rounded px-2 py-1">Delete</button>' +
+                                '<button class="custom-button bg-green-500 text-white rounded px-2 py-1">Complete</button>' +
+                            '</div>' +
+                        '</div>'
+                    );
+                }
+            });
+        });
+    </script>
+    {% endblock %}
 {% endblock %}
