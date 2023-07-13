@@ -22,6 +22,8 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .enablePostCssLoader()
+    .addEntry('tasks', './assets/js/tasks.js')
+    .addEntry('collections', './assets/js/collections.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

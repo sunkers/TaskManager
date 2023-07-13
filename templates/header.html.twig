@@ -8,8 +8,60 @@
     
     <!-- Buttons -->
     <div class="flex items-center space-x-4">
-      <button class="custom-button bg-highlight text-white rounded px-4 py-2">+</button>
-      <button class="custom-button bg-gray-700 text-white rounded px-4 py-2">Connect</button>
+      <button class="bg-highlight text-white rounded px-4 py-2">+</button>
+      <button id="openModalButton" class="bg-gray-700 text-white rounded px-4 py-2">Connect</button>
     </div>
   </div>
+
+<div id="loginModal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center" style="background-color: rgba(0, 0, 0, 0.5); display: none;">
+  <div class="bg-white rounded shadow-lg px-8 pt-6 pb-8 mb-4">
+    <div class="mb-4">
+      <h5 class="font-bold">Log in</h5>
+    </div>
+    <form id="loginForm">
+      <div class="mb-4">
+        <label for="username" class="block text-grey-darker text-sm font-bold mb-2">Username:</label>
+        <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="username">
+      </div>
+      <div class="mb-4">
+        <label for="password" class="block text-grey-darker text-sm font-bold mb-2">Password:</label>
+        <input type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker" id="password">
+      </div>
+      <div class="flex items-center justify-between">
+        <button type="button" class="bg-blue hover:bg-blue-dark text-black font-bold py-2 px-4 rounded" id="loginButton">Log in</button>
+        <button type="button" id="closeModalButton" class="bg-grey-light hover:bg-grey text-grey-darker font-bold py-2 px-4 rounded">Close</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 </header>
+
+<script>
+document.getElementById('openModalButton').addEventListener('click', function() {
+  document.getElementById('loginModal').style.display = 'flex';
+});
+
+document.getElementById('closeModalButton').addEventListener('click', function() {
+  document.getElementById('loginModal').style.display = 'none';
+});
+
+document.getElementById('loginButton').addEventListener('click', function() {
+  var username = document.getElementById('username').value;
+  var password = document.getElementById('password').value;
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.open('POST', '/login', true);
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById('loginModal').style.display = 'none';
+      location.reload();
+    } else {
+      alert('La connexion a échoué. Veuillez réessayer.');
+    }
+  };
+  xhttp.send('username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password));
+});
+
+</script>
