@@ -19,6 +19,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
             console.log('User logged in successfully');
             document.getElementById('overlay').style.display = 'none';
             document.getElementById('loginModal').style.display = 'none';
+            location.reload();
         } else if (response.status === 401) {
             console.log('Login failed');
         }

@@ -11,13 +11,13 @@
       <button class="bg-highlight text-white rounded px-4 py-2">+</button>
       {% if is_logged %}
         <div class="relative inline-block text-left">
-          <button class="inline-flex justify-center w-full rounded-md px-4 py-2 bg-gray-700 text-white" id="options-menu" aria-haspopup="true" aria-expanded="true">
-            Dashboard
+          <button class="inline-flex justify-center w-full rounded-md px-4 py-2 bg-gray-700 text-white" id="dashboard-button" aria-haspopup="true" aria-expanded="true">
+              Dashboard
           </button>
 
-          <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white">
+          <div class="origin-top-right absolute right-0 w-24 rounded-md shadow-lg bg-white hidden" id="dropdown-menu">
             <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-              <a href="{{ path('logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Log Out</a>
+              <a href="{{ path('logout') }}" class="block text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Log Out</a>
             </div>
           </div>
         </div>
@@ -30,6 +30,23 @@
 {{ include('modal.html.twig') }}
 
 </header>
+
+<script>
+  document.getElementById('dashboard-button').addEventListener('mouseover', function() {
+    document.getElementById('dropdown-menu').classList.remove('hidden');
+  });
+  document.getElementById('dashboard-button').addEventListener('mouseout', function() {
+    document.getElementById('dropdown-menu').classList.add('hidden');
+  });
+  // Make sure the dropdown stays visible when hovering over it
+  document.getElementById('dropdown-menu').addEventListener('mouseover', function() {
+    document.getElementById('dropdown-menu').classList.remove('hidden');
+  });
+  document.getElementById('dropdown-menu').addEventListener('mouseout', function() {
+    document.getElementById('dropdown-menu').classList.add('hidden');
+  });
+</script>
+
 
 {% block javascripts %}
     {{ encore_entry_script_tags('login') }}
