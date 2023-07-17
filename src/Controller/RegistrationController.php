@@ -26,10 +26,12 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/login", name="app_login", methods={"POST", "GET"})
      */
-    public function login(Request $request, AuthenticationUtils $authenticationUtils, EntityManagerInterface $entityManager, ): Response
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
+
+        $this->addFlash('success', 'You are now connected');
 
         return new Response('User logged in successfully', Response::HTTP_OK);
     }
@@ -62,6 +64,8 @@ class RegistrationController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
 
+        $this->addFlash('info', 'Your account has been created');
+
         return new Response('User created successfully', Response::HTTP_CREATED);
     }
 
@@ -71,6 +75,6 @@ class RegistrationController extends AbstractController
      */
     public function logout()
     {
-        // This method can be blank - it will be intercepted by the logout key on your firewall
+        $this->addFlash('info', 'You have been disconnected');
     }
 }
