@@ -24,11 +24,18 @@ class HomeController extends AbstractController
         }
 
         $collection = $session->get('currentCollection');
+
+        // Check if the user is connected
+        $is_logged = false;
+        if ($this->getUser() !== null) {
+            $is_logged = true;
+        }
         
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'collection' => $collection,
+            'is_logged' => $is_logged
         ]);
     }
 }

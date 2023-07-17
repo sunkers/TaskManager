@@ -5,56 +5,32 @@ namespace App\Entity;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=TaskRepository::class)
- */
+#[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id, ORM\GeneratedValue, ORM\Column(type: "integer")]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private ?string $name = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $description = null;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
+    #[ORM\Column(type: "integer", nullable: true)]
     private ?int $status = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $color = null;
 
-    /**
-     * @ORM\Column(type="smallint", nullable=true)
-     */
+    #[ORM\Column(type: "smallint", nullable: true)]
     private ?int $importance = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Collection::class, inversedBy="tasks")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: Collection::class, inversedBy: "tasks"), ORM\JoinColumn(nullable: false)]
     private $collection;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Label::class, mappedBy="task")
-     */
+    #[ORM\OneToMany(targetEntity: Label::class, mappedBy: "task")]
     private $labels;
-
-
-    // Getters and setters...
 
     public function getId(): ?int
     {

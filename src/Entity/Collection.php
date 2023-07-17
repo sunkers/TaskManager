@@ -3,48 +3,28 @@
 namespace App\Entity;
 
 use App\Repository\CollectionRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass=CollectionRepository::class)
- */
+#[ORM\Entity(repositoryClass: CollectionRepository::class)]
 class Collection
 {
-
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id, ORM\GeneratedValue, ORM\Column(type: "integer")]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private ?string $name = null;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: "text", nullable: true)]
     private ?string $description = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: "datetime")]
     private ?\DateTimeInterface $creationDate = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="collections")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "collections"), ORM\JoinColumn(nullable: false)]
     private $user;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="collection")
-     */
+    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: "collection")]
     private $tasks;
-
 
 
     public function getId(): ?int
