@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Collection;
+use App\Entity\User;
 use App\Repository\CollectionRepository;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -61,15 +62,20 @@ class CollectionService
         }
     }
 
-    public function initCollection()
+    public function initCollection(User $user)
     {
-        $collection = new Collection();
-        $collection->setUser($this->security->getUser());
-        $collection->setName('My Day');
-        $collection->setDescription('A collection of tasks for today');
-        $collection->setCreationDate(new \DateTime());
-        $session = $this->requestStack->getSession();
-        $session->set('currentCollection', $collection);
+        $entityManager = $this->entityManager;
+        // Create 4 basic Collections at the creation of the user
+        $collections = ['☀️ My Day' => 'A collection for your daily tasks', '⚠️ Important' => 'Keep your most important tasks here!', '💼 Work' => 'When it comes to work...', '🧑‍💼 Personal' => "Don't forget to pick up the kids!"];
+        foreach ($collections as $collection => $description) {
+            $newCollection = new Collection();
+            $newCollection->setName($collection);
+            $newCollection->setDescription($description);
+            $newCollection->setCreationDate(new \DateTime());
+            $newCollection->setUser($user);
+            $entityManager->persist($newCollection);
+            $entityManager->flush();
+        }
     }
 
 }

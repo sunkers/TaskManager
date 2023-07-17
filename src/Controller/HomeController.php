@@ -19,7 +19,6 @@ class HomeController extends AbstractController
         if ($this->getUser() === null) {
             if ($session->get('currentCollection') === null) {
                 $session->set('collections', ['My Day', 'Important', 'Work', 'Personal']);
-                $collectionService->initCollection();
             }
         }
 

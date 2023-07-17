@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Collection;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use SebastianBergmann\Environment\Console;
@@ -13,6 +14,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use App\Service\CollectionService;
 
 class RegistrationController extends AbstractController
 {
@@ -39,7 +41,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register", methods={"POST"})
      */
-    public function register(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager, CollectionService $collectionService): Response
     {
         $email = $request->request->get('email');
         $password = $request->request->get('password');
@@ -65,6 +67,22 @@ class RegistrationController extends AbstractController
         $entityManager->flush();
 
         $this->addFlash('info', 'Your account has been created');
+
+        
+        $collectionService->initCollection($user);
+
+        // Create 4 basic Collections at the creation of the user
+        $collections = ['☀️ My Day' => 'A collection for your daily tasks', '⚠️ Important' => 'Keep your most important tasks here!', '💼 Work' => 'When it comes to work...', '🧑‍💼 Personal' => "Don't forget to pick up the kids!"];
+        foreach ($collections as $collection => $description) {
+            $newCollection = new Collection();
+            $newCollection->setName($collection);
+            $newCollection->setDescription($description);
+            $newCollection->setCreationDate(new \DateTime());
+            $newCollection->setUser($user);
+            $entityManager->persist($newCollection);
+            $entityManager->flush();
+        }
+
 
         return new Response('User created successfully', Response::HTTP_CREATED);
     }
