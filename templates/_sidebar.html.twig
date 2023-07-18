@@ -1,17 +1,17 @@
-<div class="col-span-2 bg-secondary text-white flex flex-col justify-between h-full" style="height: calc(100vh - 108px);" data-collection="My Day">
+<div class="col-span-2 bg-secondary text-white flex flex-col justify-between h-full" style="height: calc(100vh - 108px);" data-folder="My Day">
     <div> 
-        <div class="text-center mb-8 mt-8 text-2xl">📚 My Collections</div>
+        <div class="text-center mb-8 mt-8 text-2xl">📚 My Folders</div>
         <div class="flex text-start flex-col space-y-6 mt-4 ml-8 text-xl">
-            {% for collection in collections %}
-                <a href="#" class="collection-item" data-name="{{ collection.name }}">{{ collection.name }}</a>
+            {% for folder in folders %}
+                <a href="#" class="folder-item" data-name="{{ folder.name }}">{{ folder.name }}</a>
             {% endfor %}
         </div>
     </div>
 
     <div class="flex flex-col space-y-6 mb-6 text-xl pt-4 border-t border-slate-400">
         <div class="ml-8 flex flex-col space-y-6">
-            {% for collection in defaultCollections %}
-                <a href="#" class="collection-item" data-name="{{ collection.name }}">{{ collection.name }}</a>
+            {% for folder in defaultFolders %}
+                <a href="#" class="folder-item" data-name="{{ folder.name }}">{{ folder.name }}</a>
             {% endfor %}
         </div>
     </div>
@@ -19,6 +19,6 @@
 
 
 {% block javascripts %}
-    {{ encore_entry_script_tags('changeCurrentCollectionOnClick') }}
+    {{ encore_entry_script_tags('changeCurrentFolderOnClick') }}
 {% endblock %}
 

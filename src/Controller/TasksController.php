@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\TaskService;
-use App\Service\CollectionService;
+use App\Service\FolderService;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class TasksController extends AbstractController
@@ -17,11 +17,11 @@ class TasksController extends AbstractController
     /**
      * @Route("/tasks", name="tasks", methods={"GET"})
      */
-    public function tasks(TaskService $taskService, SessionInterface $session, CollectionService $collectionService): Response
+    public function tasks(TaskService $taskService, SessionInterface $session, FolderService $folderService): Response
     {
-        $collection = $session->get('currentCollection');
-        // $tasks = $taskService->getTasksForCollection($collection);
-        $tasks = $taskService->getTasks();
+        $folder = $session->get('currentFolder');
+        $tasks = $taskService->getTasksForFolder($folder);
+        // $tasks = $taskService->getTasks();
 
         return $this->json($tasks);
     }
@@ -37,4 +37,16 @@ class TasksController extends AbstractController
         $tasks = $taskService->getTasks();
         return new JsonResponse($tasks);
     }
+
+    /**
+     * @Route("/getTasksForFolder/{folderName}", name="get_tasks_for_folder", methods={"GET"})
+     */
+    public function getTasksForFolder(string $folderName, FolderService $folderService, TaskService $taskService): Response
+    {
+        $folder = $folderService->getFolderByName($folderName);
+        $tasks = $taskService->getTasksForFolder($folder);
+
+        return $this->json($tasks);
+    }
+
 }

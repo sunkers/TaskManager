@@ -27,8 +27,8 @@ Encore
     .addEntry('signup', './assets/js/signup.js')
     .addEntry('modal', './assets/js/modal.js')
     .addEntry('connectButton', './assets/js/connectButton.js')
-    .addEntry('collections', './assets/js/collections.js')
-    .addEntry('changeCurrentCollectionOnClick', './assets/js/changeCurrentCollectionOnClick.js')
+    .addEntry('folders', './assets/js/folders.js')
+    .addEntry('changeCurrentFolderOnClick', './assets/js/changeCurrentFolderOnClick.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

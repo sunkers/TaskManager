@@ -5,7 +5,8 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\CollectionService;
+use App\Service\FolderService;
+use App\Service\TaskService;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
@@ -15,28 +16,31 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(SessionInterface $session, CollectionService $collectionService): Response
+    public function index(SessionInterface $session, FolderService $folderService, TaskService $taskService): Response
     {
         $is_logged = false;
         if ($this->getUser() !== null) {
             $is_logged = true;
-            $collections = $collectionService->getCollections();
-            $defaultCollections = $collectionService->getCollectionsDefault();
-            $currentCollectionName = ($session->set('currentCollection', '☀️ My Day'));
-            $currentCollection = $collectionService->getCollectionByName('☀️ My Day');
+            $folders = $folderService->getFolders();
+            $defaultFolders = $folderService->getFoldersDefault();
+            $currentFolderName = ($session->set('currentFolder', '☀️ My Day'));
+            $currentFolder = $folderService->getFolderByName('☀️ My Day');
+            $tasks = $taskService->getTasksForFolder($currentFolder);
         } else {
-            $collections = '';
-            $defaultCollections = '';
-            $currentCollectionName = '';
-            $currentCollection = '';
+            $folders = '';
+            $defaultFolders = '';
+            $currentFolderName = '';
+            $currentFolder = '';
+            $tasks = '';
         }
         
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
-            'currentCollection' => $currentCollection,
-            'collections' => $collections,
-            'defaultCollections' => $defaultCollections,
+            'currentFolder' => $currentFolder,
+            'folders' => $folders,
+            'defaultFolders' => $defaultFolders,
+            'tasks' => $tasks,
             'is_logged' => $is_logged
         ]);
     }

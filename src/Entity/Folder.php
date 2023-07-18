@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CollectionRepository;
+use App\Repository\FolderRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CollectionRepository::class)]
-class Collection
+#[ORM\Entity(repositoryClass: FolderRepository::class)]
+class Folder
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column(type: "integer")]
     private ?int $id = null;
@@ -20,10 +20,10 @@ class Collection
     #[ORM\Column(type: "datetime")]
     private ?\DateTimeInterface $creationDate = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "collections"), ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "folders"), ORM\JoinColumn(nullable: false)]
     private $user;
 
-    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: "collection")]
+    #[ORM\OneToMany(targetEntity: Task::class, mappedBy: "folder")]
     private $tasks;
 
     #[ORM\Column(type: "boolean", options: ["default" => 0])]

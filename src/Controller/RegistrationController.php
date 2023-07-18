@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Collection;
+use App\Entity\Folder;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use SebastianBergmann\Environment\Console;
@@ -14,7 +14,7 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use App\Service\CollectionService;
+use App\Service\FolderService;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -36,9 +36,9 @@ class RegistrationController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        // Set 'My Day' as the currentCollection in the session
+        // Set 'My Day' as the currentFolder in the session
         $session = $this->requestStack->getSession();
-        $session->set('currentCollection', 'My Day');
+        $session->set('currentFolder', 'My Day');
 
         $this->addFlash('success', 'You are now connected');
 
@@ -48,7 +48,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/register", name="app_register", methods={"POST"})
      */
-    public function register(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager, CollectionService $collectionService): Response
+    public function register(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager, FolderService $folderService): Response
     {
         $email = $request->request->get('email');
         $password = $request->request->get('password');
@@ -76,17 +76,17 @@ class RegistrationController extends AbstractController
         $this->addFlash('info', 'Your account has been created');
 
         
-        $collectionService->initCollection($user);
+        $folderService->initFolder($user);
 
-        // Create 4 basic Collections at the creation of the user
-        $collections = ['☀️ My Day' => 'A collection for your daily tasks', '⚠️ Important' => 'Keep your most important tasks here!', '💼 Work' => 'When it comes to work...', '🧑‍💼 Personal' => "Don't forget to pick up the kids!"];
-        foreach ($collections as $collection => $description) {
-            $newCollection = new Collection();
-            $newCollection->setName($collection);
-            $newCollection->setDescription($description);
-            $newCollection->setCreationDate(new \DateTime());
-            $newCollection->setUser($user);
-            $entityManager->persist($newCollection);
+        // Create 4 basic Folders at the creation of the user
+        $folders = ['☀️ My Day' => 'A folder for your daily tasks', '⚠️ Important' => 'Keep your most important tasks here!', '💼 Work' => 'When it comes to work...', '🧑‍💼 Personal' => "Don't forget to pick up the kids!"];
+        foreach ($folders as $folder => $description) {
+            $newFolder = new Folder();
+            $newFolder->setName($folder);
+            $newFolder->setDescription($description);
+            $newFolder->setCreationDate(new \DateTime());
+            $newFolder->setUser($user);
+            $entityManager->persist($newFolder);
             $entityManager->flush();
         }
 

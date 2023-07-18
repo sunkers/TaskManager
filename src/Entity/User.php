@@ -3,7 +3,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Collection as Collection;
+use App\Entity\Folder;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection as ArrayCollection;
@@ -26,12 +26,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private string $password;
     
-    #[ORM\OneToMany(targetEntity: Collection::class, mappedBy: "user")]
-    private $collections;
+    #[ORM\OneToMany(targetEntity: Folder::class, mappedBy: "user")]
+    private $folders;
 
     public function __construct()
     {
-        $this->collections = new ArrayCollection();
+        $this->folders = new ArrayCollection();
     }
     
 
@@ -116,27 +116,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getCollections()
+    public function getFolders()
     {
-        return $this->collections;
+        return $this->folders;
     }
 
-    public function addCollection(Collection $collection): self
+    public function addFolder(Folder $folder): self
     {
-        if (!$this->collections->contains($collection)) {
-            $this->collections[] = $collection;
-            $collection->setUser($this);
+        if (!$this->folders->contains($folder)) {
+            $this->folders[] = $folder;
+            $folder->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeCollection(Collection $collection): self
+    public function removeFolder(Folder $folder): self
     {
-        if ($this->collections->removeElement($collection)) {
+        if ($this->folders->removeElement($folder)) {
             // set the owning side to null (unless already changed)
-            if ($collection->getUser() === $this) {
-                $collection->setUser(null);
+            if ($folder->getUser() === $this) {
+                $folder->setUser(null);
             }
         }
 

@@ -2,10 +2,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get the task container
     var taskContainer = document.getElementById('task-container');
 
-    // Function to fetch tasks for a collection and update the task container
-    var fetchTasks = function(collection) {
+    // Function to fetch tasks for a folder and update the task container
+    var fetchTasks = function(folder) {
         // Fetch the tasks data
-        fetch('/tasks?collection=' + encodeURIComponent(collection))
+        fetch('/tasks?folder=' + encodeURIComponent(folder))
             .then(function(response) {
                 return response.json();
             })
@@ -25,25 +25,25 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     };
 
-    // Fetch the tasks for the current collection
-    fetchTasks(app.session.get('currentCollection'));
+    // Fetch the tasks for the current folder
+    fetchTasks(app.session.get('currentFolder'));
 
-    // Add click event handlers to the collection elements
-    document.querySelectorAll('.collection-element').forEach(function(collectionElement) {
-        collectionElement.addEventListener('click', function() {
-            var collection = this.dataset.collection;
+    // Add click event handlers to the folder elements
+    document.querySelectorAll('.folder-element').forEach(function(folderElement) {
+        folderElement.addEventListener('click', function() {
+            var folder = this.dataset.folder;
 
-            // Update the current collection in the session
-            fetch('/change-collection', {
+            // Update the current folder in the session
+            fetch('/change-folder', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: 'collection=' + encodeURIComponent(collection)
+                body: 'folder=' + encodeURIComponent(folder)
             })
             .then(function() {
-                // Fetch the tasks for the new collection
-                fetchTasks(collection);
+                // Fetch the tasks for the new folder
+                fetchTasks(folder);
             });
         });
     });

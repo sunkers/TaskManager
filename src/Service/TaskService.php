@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Collection;
+use App\Entity\Folder;
 use App\Entity\User;
 use App\Entity\Task;
 use App\Repository\TaskRepository;
@@ -14,19 +14,16 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class TaskService
 {
     private TaskRepository $taskRepository;
-    private Security $security;
     private EntityManagerInterface $entityManager;
     private RequestStack $requestStack;
 
     public function __construct(
         TaskRepository $taskRepository, 
-        Security $security,
         EntityManagerInterface $entityManager,
         RequestStack $requestStack,
     )
     {
         $this->taskRepository = $taskRepository;
-        $this->security = $security;
         $this->entityManager = $entityManager;
         $this->requestStack = $requestStack;
     }
@@ -37,9 +34,9 @@ class TaskService
             return $session->get('tasks', []);
     }
 
-    public function getTasksForCollection(Collection $collection)
+    public function getTasksForFolder(Folder $folder)
     {
-        return $this->taskRepository->findBy(['collection' => $collection]);
+        return $this->taskRepository->findBy(['folder' => $folder]);
     }
 
     public function saveTask(array $taskData): void
