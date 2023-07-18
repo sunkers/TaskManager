@@ -61,24 +61,24 @@ class CollectionService
 
     public function getCollectionByName(string $name): Collection
     {
-        // if ($this->security->getUser() !== null) {
+        if ($this->security->getUser() !== null) {
             // L'utilisateur est connecté, récupérer la collection de la base de données
             $collection = $this->collectionRepository->findOneBy(['name' => $name]);
             if ($collection === null) {
                 throw new \Exception("Collection not found");
             }
             return $collection;
-        // } else {
-        //     // L'utilisateur n'est pas connecté, récupérer la collection depuis la session
-        //     $session = $this->requestStack->getSession();
-        //     $collections = $session->get('collections', []);
-        //     foreach ($collections as $collection) {
-        //         if ($collection['name'] == $name) {
-        //             return $collection;
-        //         }
-        //     }
-        //     throw new \Exception("Collection not found");
-        // }
+        } else {
+            // L'utilisateur n'est pas connecté, récupérer la collection depuis la session
+            $session = $this->requestStack->getSession();
+            $collections = $session->get('collections', []);
+            foreach ($collections as $collection) {
+                if ($collection['name'] == $name) {
+                    return $collection;
+                }
+            }
+            throw new \Exception("Collection not found");
+        }
     }
 
     public function initCollection(User $user)

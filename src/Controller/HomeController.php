@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Service\CollectionService;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 
 class HomeController extends AbstractController
 {
@@ -16,16 +17,18 @@ class HomeController extends AbstractController
      */
     public function index(SessionInterface $session, CollectionService $collectionService): Response
     {
-        $collections = $collectionService->getCollections();
-        $defaultCollections = $collectionService->getCollectionsDefault();
-        $currentCollectionName = ($session->get('currentCollection'));
-        $currentCollection = $collectionService->getCollectionByName($currentCollectionName);
-
-
-        // Check if the user is connected
         $is_logged = false;
         if ($this->getUser() !== null) {
             $is_logged = true;
+            $collections = $collectionService->getCollections();
+            $defaultCollections = $collectionService->getCollectionsDefault();
+            $currentCollectionName = ($session->set('currentCollection', '☀️ My Day'));
+            $currentCollection = $collectionService->getCollectionByName('☀️ My Day');
+        } else {
+            $collections = '';
+            $defaultCollections = '';
+            $currentCollectionName = '';
+            $currentCollection = '';
         }
         
 
