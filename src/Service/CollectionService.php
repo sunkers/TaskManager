@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Collection;
+use App\Entity\User;
 use App\Repository\CollectionRepository;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -31,11 +32,30 @@ class CollectionService
     public function getCollections()
     {
         if ($this->security->getUser() !== null) {
-            // L'utilisateur est connecté, récupérer les collections de la base de données
-            return $this->collectionRepository->findAll();
+            // L'utilisateur est connecté, récupérer la collection de la base de données
+            $collections = $this->collectionRepository->findBy(['by_default' => 'false']);
+            if ($collections === null) {
+                return null;
+            }
+            return $collections;
         } else {
-            $session = $this->requestStack->getSession();
-            return $session->get('collections', []);
+            // L'utilisateur n'est pas connecté, récupérer la collection depuis la session
+
+        }
+    }
+
+    public function getCollectionsDefault()
+    {
+        if ($this->security->getUser() !== null) {
+            // L'utilisateur est connecté, récupérer la collection de la base de données
+            $collections = $this->collectionRepository->findBy(['by_default' => 'true']);
+            if ($collections === null) {
+                return null;
+            }
+            return $collections;
+        } else {
+            // L'utilisateur n'est pas connecté, récupérer la collection depuis la session
+
         }
     }
 
@@ -61,15 +81,21 @@ class CollectionService
         }
     }
 
-    public function initCollection()
+    public function initCollection(User $user)
     {
-        $collection = new Collection();
-        $collection->setUser($this->security->getUser());
-        $collection->setName('My Day');
-        $collection->setDescription('A collection of tasks for today');
-        $collection->setCreationDate(new \DateTime());
-        $session = $this->requestStack->getSession();
-        $session->set('currentCollection', $collection);
+        $entityManager = $this->entityManager;
+        // Create 4 basic Collections at the creation of the user
+        $collections = ['☀️ My Day' => 'A collection for your daily tasks', '⚠️ Important' => 'Keep your most important tasks here!', '💼 Work' => 'When it comes to work...', '🧑‍💼 Personal' => "Don't forget to pick up the kids!"];
+        foreach ($collections as $collection => $description) {
+            $newCollection = new Collection();
+            $newCollection->setName($collection);
+            $newCollection->setDescription($description);
+            $newCollection->setCreationDate(new \DateTime());
+            $newCollection->setUser($user);
+            $newCollection->setByDefault(true);
+            $entityManager->persist($newCollection);
+            $entityManager->flush();
+        }
     }
 
 }

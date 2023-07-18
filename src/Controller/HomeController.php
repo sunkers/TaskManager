@@ -16,14 +16,8 @@ class HomeController extends AbstractController
      */
     public function index(SessionInterface $session, CollectionService $collectionService): Response
     {
-        if ($this->getUser() === null) {
-            if ($session->get('currentCollection') === null) {
-                $session->set('collections', ['My Day', 'Important', 'Work', 'Personal']);
-                $collectionService->initCollection();
-            }
-        }
-
-        $collection = $session->get('currentCollection');
+        $collections = $collectionService->getCollections();
+        $defaultCollections = $collectionService->getCollectionsDefault();
 
         // Check if the user is connected
         $is_logged = false;
@@ -34,7 +28,8 @@ class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
-            'collection' => $collection,
+            'collections' => $collections,
+            'defaultCollections' => $defaultCollections,
             'is_logged' => $is_logged
         ]);
     }

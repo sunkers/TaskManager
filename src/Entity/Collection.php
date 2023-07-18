@@ -26,6 +26,8 @@ class Collection
     #[ORM\OneToMany(targetEntity: Task::class, mappedBy: "collection")]
     private $tasks;
 
+    #[ORM\Column(type: "boolean", options: ["default" => 0])]
+    private bool $by_default = false;
 
     public function getId(): ?int
     {
@@ -88,6 +90,18 @@ class Collection
     public function setTasks(?Task $tasks): static
     {
         $this->tasks = $tasks;
+
+        return $this;
+    }
+
+    public function getByDefault(): ?bool
+    {
+        return $this->by_default;
+    }
+
+    public function setByDefault(bool $byDefault): static
+    {
+        $this->by_default = $byDefault;
 
         return $this;
     }
