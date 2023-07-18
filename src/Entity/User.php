@@ -23,6 +23,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string')]
     private string $password;
+    
+    #[ORM\OneToMany(targetEntity: Collection::class, mappedBy: "user")]
+    private $collections;
+    
 
     public function getId(): ?int
     {
@@ -103,5 +107,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getCollections(): Collection
+    {
+        return $this->collections;
+    }
+
+    public function addCollection(Collection $collection): self
+    {
+        if (!$this->collections->contains($collection)) {
+            $this->collections[] = $collection;
+            $collection->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollection(Collection $collection): self
+    {
+        if ($this->collections->removeElement($collection)) {
+            // set the owning side to null (unless already changed)
+            if ($collection->getUser() === $this) {
+                $collection->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

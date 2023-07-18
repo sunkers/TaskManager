@@ -1,4 +1,4 @@
-<header class="sticky top-0 bg-primary shadow-md">
+<header class="sticky top-0 bg-primary shadow-md h-18 items-center">
   <div class="max-w-7xl mx-auto flex items-center justify-between px-10 py-4">
     <!-- Logo -->
     <div class="flex items-center">
@@ -31,27 +31,11 @@
 
 </header>
 
-<script>
-  document.getElementById('dashboard-button').addEventListener('mouseover', function() {
-    document.getElementById('dropdown-menu').classList.remove('hidden');
-  });
-  document.getElementById('dashboard-button').addEventListener('mouseout', function() {
-    document.getElementById('dropdown-menu').classList.add('hidden');
-  });
-  // Make sure the dropdown stays visible when hovering over it
-  document.getElementById('dropdown-menu').addEventListener('mouseover', function() {
-    document.getElementById('dropdown-menu').classList.remove('hidden');
-  });
-  document.getElementById('dropdown-menu').addEventListener('mouseout', function() {
-    document.getElementById('dropdown-menu').classList.add('hidden');
-  });
-</script>
-
-
 {% block javascripts %}
     {{ encore_entry_script_tags('login') }}
     {{ encore_entry_script_tags('signup') }}
     {{ encore_entry_script_tags('modal') }}
+    {{ encore_entry_script_tags('connectButton') }}
 {% endblock %}
 
 <style>

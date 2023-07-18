@@ -32,11 +32,30 @@ class CollectionService
     public function getCollections()
     {
         if ($this->security->getUser() !== null) {
-            // L'utilisateur est connecté, récupérer les collections de la base de données
-            return $this->collectionRepository->findAll();
+            // L'utilisateur est connecté, récupérer la collection de la base de données
+            $collections = $this->collectionRepository->findBy(['by_default' => 'false']);
+            if ($collections === null) {
+                return null;
+            }
+            return $collections;
         } else {
-            $session = $this->requestStack->getSession();
-            return $session->get('collections', []);
+            // L'utilisateur n'est pas connecté, récupérer la collection depuis la session
+
+        }
+    }
+
+    public function getCollectionsDefault()
+    {
+        if ($this->security->getUser() !== null) {
+            // L'utilisateur est connecté, récupérer la collection de la base de données
+            $collections = $this->collectionRepository->findBy(['by_default' => 'true']);
+            if ($collections === null) {
+                return null;
+            }
+            return $collections;
+        } else {
+            // L'utilisateur n'est pas connecté, récupérer la collection depuis la session
+
         }
     }
 
@@ -73,6 +92,7 @@ class CollectionService
             $newCollection->setDescription($description);
             $newCollection->setCreationDate(new \DateTime());
             $newCollection->setUser($user);
+            $newCollection->setByDefault(true);
             $entityManager->persist($newCollection);
             $entityManager->flush();
         }
