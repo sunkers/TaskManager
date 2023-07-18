@@ -15,10 +15,13 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use App\Service\CollectionService;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class RegistrationController extends AbstractController
 {
     private $authenticator;
+    private RequestStack $requestStack;
 
     public function __construct(UserAuthenticatorInterface $authenticator)
     {
@@ -32,6 +35,10 @@ class RegistrationController extends AbstractController
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
+
+        // Set 'My Day' as the currentCollection in the session
+        $session = $this->requestStack->getSession();
+        $session->set('currentCollection', 'My Day');
 
         $this->addFlash('success', 'You are now connected');
 

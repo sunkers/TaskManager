@@ -18,6 +18,9 @@ class HomeController extends AbstractController
     {
         $collections = $collectionService->getCollections();
         $defaultCollections = $collectionService->getCollectionsDefault();
+        $currentCollectionName = ($session->get('currentCollection'));
+        $currentCollection = $collectionService->getCollectionByName($currentCollectionName);
+
 
         // Check if the user is connected
         $is_logged = false;
@@ -28,6 +31,7 @@ class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
+            'currentCollection' => $currentCollection,
             'collections' => $collections,
             'defaultCollections' => $defaultCollections,
             'is_logged' => $is_logged

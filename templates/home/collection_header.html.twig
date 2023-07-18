@@ -1,0 +1,30 @@
+<div class="header gradient-background min-h-[10rem] w-full text-white">
+<div class="bg-white/10 pt-2">
+    <div class="flex justify-end text-right p-4 w-3/4">
+        <div>
+            <p id="currentCollection" class="text-4xl mt-10">{{ currentCollection.name }}</p>
+            <p id="descriptionElement" class="text-lg">{{ currentCollection.description }}</p>
+        </div>
+    </div>
+</div>
+</div>
+
+<style>
+.gradient-background {
+  background: linear-gradient(300deg,#145d2f,#1e2e65);
+  background-size: 120% 120%;
+  animation: gradient-animation 4s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+<style>

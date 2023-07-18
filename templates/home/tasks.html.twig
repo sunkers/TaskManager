@@ -1,0 +1,14 @@
+<div class="task-container">
+    <!-- Add a task input and button -->
+    <div class="add-task my-4">
+        <input type="text" id="taskInput" placeholder="Task name">
+        <button id="addTaskButton" class="custom-button bg-accent text-white rounded px-4 py-2">Add a task</button>
+    </div>
+    <!-- Show user's tasks -->
+    <div class="task-list" id="taskList">
+    </div>
+</div>
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('tasks') }}
+{% endblock %}
