@@ -50,7 +50,25 @@ class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-10" s
     <p class="title text-center text-xl leading-8 font-bold">
       Wanna create something ?
     </p>
-    <button id="createCollection" class="bg-highlight text-white w-60 rounded px-4 py-2 my-2">+ Add New Collection 📗</button>
+    <button id="createCollectionButton" class="bg-highlight text-white w-60 rounded px-4 py-2 my-2">+ Add New Collection 📗</button>
     <button id="createTask" class="bg-highlight text-white rounded w-60  px-4 py-2 my-2">+ Add New Task ✅</button>
   </div>
+</div>
+
+{# <-- Create Collection Modal --> #}
+<div id="createCollectionModal"
+  class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-10" style="display: none;">
+  <div class="form-container w-100 rounded-xl bg-secondary p-8 text-white flex flex-col items-center justify-center">
+    <p class="title text-center text-xl leading-8 font-bold">
+      Create a new collection 📗
+    </p>
+    <div class="input-group mt-1 text-sm leading-5 w-80">
+      <label for="collectionName" class="block text-gray-400 mb-1">Collection Name</label>
+      <input type="text" name="collectionName" id="collectionName" placeholder="My Collection" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
+    </div>
+    <div class="input-group mt-1 text-sm leading-5 w-80">
+      <label for="collectionDescription" class="block text-gray-400 mb-1">Collection Description</label>
+      <textarea name="collectionDescription" id="collectionDescription" placeholder="My Collection Description" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" style="background-color: rgba(17, 24, 39, 1);"></textarea>
+    <button id="createFolder" class="bg-highlight text-white rounded w-40  px-4 py-2 my-2">Create Collection</button>
+    </div>
 </div>

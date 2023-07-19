@@ -1,7 +1,7 @@
 <div class="col-span-2 bg-secondary text-white flex flex-col justify-between h-full" style="height: calc(100vh - 108px);" data-folder="My Day">
     <div> 
         <div class="text-center mb-8 mt-8 text-2xl">📚 My Folders</div>
-        <div class="flex text-start flex-col space-y-6 mt-4 ml-8 text-xl">
+        <div id="myFoldersContainer" class="myFoldersContainer flex text-start flex-col space-y-6 mt-4 ml-8 text-xl">
             {% for folder in folders %}
                 <a href="#" class="folder-item" data-name="{{ folder.name }}">{{ folder.name }}</a>
             {% endfor %}

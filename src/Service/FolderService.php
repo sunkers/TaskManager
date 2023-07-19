@@ -49,7 +49,7 @@ class FolderService
         if ($this->security->getUser() !== null) {
             // L'utilisateur est connecté, récupérer la folder de la base de données
             $folders = $this->folderRepository->findBy(['by_default' => 'true']);
-            if ($folders === null) {
+                if ($folders === null) {
                 return null;
             }
             return $folders;
@@ -98,4 +98,17 @@ class FolderService
         }
     }
 
+    public function createFolder(string $name, string $description)
+    {
+        $entityManager = $this->entityManager;
+        $user = $this->security->getUser();
+        $newFolder = new Folder();
+        $newFolder->setName($name);
+        $newFolder->setDescription($description);
+        $newFolder->setCreationDate(new \DateTime());
+        $newFolder->setUser($user);
+        $newFolder->setByDefault(false);
+        $entityManager->persist($newFolder);
+        $entityManager->flush();
+    }
 }

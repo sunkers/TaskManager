@@ -37,4 +37,34 @@ class FolderController extends AbstractController
         return new Response('Folder successfully changed', Response::HTTP_OK);
     }
 
+    /**
+     * @Route("/getFolders", name="getFolders", methods={"GET"})
+     */
+    public function getFolders(FolderService $folderService, SerializerService $serializerService): Response
+    {
+        $folders = $folderService->getFolders();
+        $jsonFolders = $serializerService->getSerializer()->serialize($folders, 'json');
+    
+        return new Response($jsonFolders, 200, ['Content-Type' => 'application/json']);
+    }
+
+    /**
+     * @Route("/folder/new", name="folder_new", methods={"GET","POST"})
+     */
+    public function new(Request $request, FolderService $folderService): Response
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if ($data === null || !isset($data['collectionName']) || !isset($data['collectionDescription'])) {
+            return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
+        }
+
+        try {
+            $folderService->createFolder($data['collectionName'], $data['collectionDescription']);
+            return new Response('Folder successfully created', Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return new Response('Error: ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

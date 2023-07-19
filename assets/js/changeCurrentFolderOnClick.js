@@ -16,7 +16,7 @@ $(document).ready(function(){
     });
 });
 
-$(".folder-item").click(function(){
+$(document).on('click', '.folder-item', function(){
     var folderName = $(this).data("name");
 
     $.ajax({
@@ -59,3 +59,4 @@ $(".folder-item").click(function(){
         }
     });
 });
+

@@ -38,6 +38,12 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('createModal').style.display = 'flex';
       document.getElementById('overlay').style.display = 'block';
     });
+
+    // Open the create collection modal and close the create modal
+    createCollectionButton.addEventListener('click', function() {
+      document.getElementById('createModal').style.display = 'none';
+      document.getElementById('createCollectionModal').style.display = 'flex';
+    });
   
     // Switch to signup form from login form
     switchToSignupFromLogin.addEventListener('click', function() {
@@ -59,6 +65,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('createModal').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
       }
+      if (event.target == document.getElementById('createCollectionModal')) {
+        document.getElementById('createCollectionModal').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+      }
     });
 
     // Close the modal when the user presses the ESC key
@@ -67,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('loginModal').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('createModal').style.display = 'none';
+        document.getElementById('createCollectionModal').style.display = 'none';
       }
     });
 });
