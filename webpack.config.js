@@ -30,6 +30,7 @@ Encore
     .addEntry('folders', './assets/js/folders.js')
     .addEntry('changeCurrentFolderOnClick', './assets/js/changeCurrentFolderOnClick.js')
     .addEntry('createFolder', './assets/js/createFolder.js')
+    .addEntry('createTask', './assets/js/createTask.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

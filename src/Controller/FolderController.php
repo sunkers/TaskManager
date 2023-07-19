@@ -17,24 +17,40 @@ class FolderController extends AbstractController
     /**
      * @Route("/getCurrentFolder", name="getCurrentFolder")
      */
-    public function getCurrentFolder(SessionInterface $session, FolderService $folderService, SerializerService $serializerService): Response
+    public function getCurrentFolder(SessionInterface $session, SerializerService $serializerService): Response
     {
-        $currentFolderName = $session->get('currentFolder');
-        $currentFolder = $folderService->getFolderByName($currentFolderName);
-        $jsonFolders = $serializerService->getSerializer()->serialize($currentFolder, 'json');
-    
-        return new Response($jsonFolders, 200, ['Content-Type' => 'application/json']);
+        $currentFolder = $session->get('currentFolder');
+
+        if ($currentFolder === null) {
+            return new JsonResponse(['error' => 'No current folder set'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $jsonFolder = $serializerService->getSerializer()->serialize($currentFolder, 'json');
+
+        return new Response($jsonFolder, 200, ['Content-Type' => 'application/json']);
     }
 
     /**
-     * @Route("/changeFolder", name="changeFolder", methods={"POST"})
+     * @Route("/changeFolder", name="change_folder", methods={"POST"})
      */
-    public function changeFolder(Request $request, SessionInterface $session, FolderService $folderService): Response
+    public function changeFolder(Request $request, SessionInterface $session, FolderService $folderService): JsonResponse
     {
         $folderName = $request->request->get('folderName');
-        $session->set('currentFolder', $folderName);
-        
-        return new Response('Folder successfully changed', Response::HTTP_OK);
+
+        if ($folderName === null) {
+            return new JsonResponse(['error' => 'Folder name is missing'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $folder = $folderService->getFolderByName($folderName);
+
+        if ($folder === null) {
+            return new JsonResponse(['error' => 'Folder not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
+
+        $session->set('currentFolder', $folder);
+        dump($folder);
+
+        return new JsonResponse(['success' => 'Folder changed successfully'], JsonResponse::HTTP_OK);
     }
 
     /**

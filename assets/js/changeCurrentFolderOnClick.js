@@ -1,21 +1,3 @@
-$(document).ready(function(){
-    $(".folder-item").click(function(){
-        var folderName = $(this).data("name");
-
-        $.ajax({
-            url: '/changeFolder', 
-            type: 'POST',
-            data: {
-                'folderName': folderName,
-            },
-            success: function(data){
-                // Refresh the index content without reloading the whole page
-                // This depends on the structure of your index.html.twig
-            }
-        });
-    });
-});
-
 $(document).on('click', '.folder-item', function(){
     var folderName = $(this).data("name");
 

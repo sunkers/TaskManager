@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Button to open the modal
     const openModalButton = document.getElementById('openModalButton');
     const openCreateModalButton = document.getElementById('openCreateModalButton');
+    const createCollectionButton = document.getElementById('createCollectionButton');
+    const createTaskButton = document.getElementById('createTaskButton');
     
     // Switch label inside the login form
     const switchToSignupFromLogin = document.querySelector('#loginForm .switch');
@@ -43,7 +45,15 @@ document.addEventListener('DOMContentLoaded', function() {
     createCollectionButton.addEventListener('click', function() {
       document.getElementById('createModal').style.display = 'none';
       document.getElementById('createCollectionModal').style.display = 'flex';
+      
     });
+
+    // Open the create task modal and close the create modal
+    createTaskButton.addEventListener('click', function() {
+      document.getElementById('createModal').style.display = 'none';
+      document.getElementById('createTaskModal').style.display = 'flex';
+    });
+
   
     // Switch to signup form from login form
     switchToSignupFromLogin.addEventListener('click', function() {
@@ -69,6 +79,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('createCollectionModal').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
       }
+      if (event.target == document.getElementById('createTaskModal')) {
+        document.getElementById('createTaskModal').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+      }
     });
 
     // Close the modal when the user presses the ESC key
@@ -78,6 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('createModal').style.display = 'none';
         document.getElementById('createCollectionModal').style.display = 'none';
+        document.getElementById('createTaskModal').style.display = 'none';
       }
     });
 });

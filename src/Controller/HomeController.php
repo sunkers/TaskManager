@@ -23,8 +23,8 @@ class HomeController extends AbstractController
             $is_logged = true;
             $folders = $folderService->getFolders();
             $defaultFolders = $folderService->getFoldersDefault();
-            $currentFolderName = ($session->set('currentFolder', '☀️ My Day'));
-            $currentFolder = $folderService->getFolderByName('☀️ My Day');
+            if($session->get('currentFolder') == null) $session->set('currentFolder', $defaultFolders[0]);
+            $currentFolder = $session->get('currentFolder');
             $tasks = $taskService->getTasksForFolder($currentFolder);
         } else {
             $folders = '';

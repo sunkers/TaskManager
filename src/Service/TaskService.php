@@ -30,8 +30,7 @@ class TaskService
 
     public function getTasks(): array
     {
-            $session = $this->requestStack->getSession();
-            return $session->get('tasks', []);
+        return $this->taskRepository->findAll();
     }
 
     public function getTasksForFolder(Folder $folder)
@@ -39,12 +38,15 @@ class TaskService
         return $this->taskRepository->findBy(['folder' => $folder]);
     }
 
-    public function saveTask(array $taskData): void
+    public function saveTask(array $taskData, Folder $folder): void
     {
-            $session = $this->requestStack->getSession();
-            $tasks = $session->get('tasks', []);
-            $tasks[] = $taskData;
-            $session->set('tasks', $tasks);
-
+        $task = new Task();
+        $task->setName($taskData['taskName']);
+        $task->setDescription($taskData['taskDescription']);
+        $task->setStatus(0);
+        $task->setFolder($folder);
+        
+        $this->entityManager->persist($task);
+        $this->entityManager->flush();
     }
 }
