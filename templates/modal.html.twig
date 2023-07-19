@@ -1,4 +1,6 @@
 <div id="overlay" class="fixed top-0 left-0 w-full h-full z-1" style="display: none;"></div>
+
+{# <-- Login Modal --> #}
 <div id="loginModal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-10" style="display: none;">
     <form id="loginForm" class="tabContent">
       <div class="form-container w-80 rounded-xl bg-secondary p-8 text-white">
@@ -39,4 +41,16 @@
           <span class="bottom_text m-3">Already have an account? <a href="#" class="switch" for"register_toggle">Connect</a> </span>
       </div>
     </form>
+</div>
+
+{# <-- Create Modal --> #}
+<div id="createModal" 
+class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-10" style="display: none;">
+  <div class="form-container w-100 rounded-xl bg-secondary p-8 text-white flex flex-col items-center justify-center">
+    <p class="title text-center text-xl leading-8 font-bold">
+      Wanna create something ?
+    </p>
+    <button id="createCollection" class="bg-highlight text-white w-60 rounded px-4 py-2 my-2">+ Add New Collection 📗</button>
+    <button id="createTask" class="bg-highlight text-white rounded w-60  px-4 py-2 my-2">+ Add New Task ✅</button>
+  </div>
 </div>

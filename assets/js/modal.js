@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('modal.js loaded');
+
     // Button to open the modal
     const openModalButton = document.getElementById('openModalButton');
+    const openCreateModalButton = document.getElementById('openCreateModalButton');
     
     // Switch label inside the login form
     const switchToSignupFromLogin = document.querySelector('#loginForm .switch');
@@ -20,10 +23,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   
     // Open the login modal
-    openModalButton.addEventListener('click', function() {
-      document.getElementById('loginModal').style.display = 'flex';
+    if (openModalButton) {
+      openModalButton.addEventListener('click', function() {
+        document.getElementById('loginModal').style.display = 'flex';
+        document.getElementById('overlay').style.display = 'block';
+        changeTab('login'); 
+      });
+    }
+
+
+    // Open the create modal
+    openCreateModalButton.addEventListener('click', function() {
+      console.log('create modal button clicked');
+      document.getElementById('createModal').style.display = 'flex';
       document.getElementById('overlay').style.display = 'block';
-      changeTab('login'); 
     });
   
     // Switch to signup form from login form
@@ -42,6 +55,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('loginModal').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
       }
+      if (event.target == document.getElementById('createModal')) {
+        document.getElementById('createModal').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+      }
     });
 
     // Close the modal when the user presses the ESC key
@@ -49,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (event.key === 'Escape') {
         document.getElementById('loginModal').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
+        document.getElementById('createModal').style.display = 'none';
       }
     });
 });

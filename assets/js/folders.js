@@ -25,8 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
     };
 
-    // Fetch the tasks for the current folder
-    fetchTasks(app.session.get('currentFolder'));
 
     // Add click event handlers to the folder elements
     document.querySelectorAll('.folder-element').forEach(function(folderElement) {
