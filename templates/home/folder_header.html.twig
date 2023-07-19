@@ -1,0 +1,32 @@
+<div class="header gradient-background min-h-[10rem] pt-2 w-full text-white">
+<div class="bg-white/10 pt-0">
+    <div class="flex justify-end text-right p-4 w-3/4">
+        <div>
+          {% if is_logged %}
+            <p id="currentFolder" class="text-4xl mt-10">{{ currentFolder.name }}</p>
+            <p id="descriptionElement" class="text-lg">{{ currentFolder.description }}</p>
+          {% endif %}
+        </div>
+    </div>
+</div>
+</div>
+
+<style>
+.gradient-background {
+  background: linear-gradient(326deg,#042326,#0a3a40,#1d7373,#107361);
+  background-size: 240% 240%;
+  animation: gradient-animation 24s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+</style>

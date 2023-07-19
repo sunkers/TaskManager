@@ -3,7 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\TaskRepository;
+use Doctrine\Common\Collections\ArrayCollection as ArrayCollectionAlias;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
@@ -26,11 +30,17 @@ class Task
     #[ORM\Column(type: "smallint", nullable: true)]
     private ?int $importance = null;
 
-    #[ORM\ManyToOne(targetEntity: Collection::class, inversedBy: "tasks"), ORM\JoinColumn(nullable: false)]
-    private $collection;
+    #[ORM\ManyToOne(targetEntity: Folder::class, inversedBy: "tasks"), ORM\JoinColumn(nullable: false)]
+    #[MaxDepth(1)]
+    private $folder;
 
     #[ORM\OneToMany(targetEntity: Label::class, mappedBy: "task")]
     private $labels;
+
+    public function __construct()
+    {
+        $this->labels = new ArrayCollectionAlias();
+    }
 
     public function getId(): ?int
     {
@@ -104,26 +114,42 @@ class Task
         return $this;
     }
 
-    public function getCollection(): ?Collection
+    public function getCollection(): ?Folder
     {
-        return $this->collection;
+        return $this->folder;
     }
-
-    public function setCollection(?Collection $collection): self
+    
+    public function setFolder(?Folder $folder): self
     {
-        $this->collection = $collection;
-
+        $this->folder = $folder;
+    
         return $this;
     }
+    
 
-    public function getLabels(): ?Label
+    public function getLabels()
     {
         return $this->labels;
     }
 
-    public function setLabels(?Label $labels): self
+
+    public function addLabel(Label $label): self
     {
-        $this->labels = $labels;
+        if (!$this->labels->contains($label)) {
+            $this->labels[] = $label;
+            $label->setTask($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLabel(Label $label): self
+    {
+        if ($this->labels->removeElement($label)) {
+            if ($label->getTask() === $this) {
+                $label->setTask(null);
+            }
+        }
 
         return $this;
     }

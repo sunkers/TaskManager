@@ -6,6 +6,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backdropBlur: {
+        'none': '0',
+        'blur': 'blur(20px)',
+      },
       colors: {
         primary: '#042326',
         secondary: '#0A3A40',

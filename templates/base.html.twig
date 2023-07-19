@@ -17,10 +17,10 @@
 
     <!-- Page Content -->
     <div class="container-fluid">
-        <div class="grid grid-cols-12 gap-4">
+        <div class="grid grid-cols-12">
             {% include '_sidebar.html.twig' %}
             
-            <div class="col-span-9" id="task-container">
+            <div class="col-span-10" id="task-container">
                 {% block titlebar %}{% endblock %}
                 {% block body %}{% endblock %}
             </div>
@@ -31,7 +31,7 @@
     <script src="{{ asset('build/app.js') }}"></script>
 
     {% block javascripts %}
-        {{ encore_entry_script_tags('collections') }}
+        {{ encore_entry_script_tags('folders') }}
     {% endblock %}
 
 
