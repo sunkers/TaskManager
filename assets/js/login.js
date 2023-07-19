@@ -17,6 +17,8 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     .then(response => {
         if (response.status === 200) {
             console.log('User logged in successfully');
+            // save User entity in session storage
+            sessionStorage.setItem('user', JSON.stringify(response));
             document.getElementById('overlay').style.display = 'none';
             document.getElementById('loginModal').style.display = 'none';
             location.reload();

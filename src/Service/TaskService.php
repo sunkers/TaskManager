@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Config\SecurityConfig;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class TaskService
 {
@@ -40,12 +42,14 @@ class TaskService
 
     public function saveTask(array $taskData, Folder $folder): void
     {
+        $folder = $this->entityManager->getRepository(Folder::class)->findOneById($folder->getId());
+
         $task = new Task();
         $task->setName($taskData['taskName']);
         $task->setDescription($taskData['taskDescription']);
         $task->setStatus(0);
         $task->setFolder($folder);
-        
+
         $this->entityManager->persist($task);
         $this->entityManager->flush();
     }

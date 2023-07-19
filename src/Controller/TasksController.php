@@ -31,12 +31,11 @@ class TasksController extends AbstractController
     /**
      * @Route("/task/new", name="add_task", methods={"POST"})
      */
-    public function addTask(Request $request, SessionInterface $session, FolderService $folderService, TaskService $taskService, SerializerService $serializerService): Response
+    public function addTask(Request $request, SessionInterface $session, TaskService $taskService, SerializerService $serializerService): Response
     {
         $taskData = json_decode($request->getContent(), true);
-        $currentFolder = $folderService->getFolderByName($session->get('currentFolder'));
+        $currentFolder = $session->get('currentFolder');
         if ($currentFolder === null) {
-            // Handle the error, for example return a 400 Bad Request response
             return new JsonResponse(['error' => 'Folder not found'], Response::HTTP_BAD_REQUEST);
         }
         
