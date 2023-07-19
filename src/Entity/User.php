@@ -7,6 +7,7 @@ use App\Entity\Folder;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection as ArrayCollection;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: "`user`")]
@@ -27,6 +28,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $password;
     
     #[ORM\OneToMany(targetEntity: Folder::class, mappedBy: "user")]
+    #[MaxDepth(1)]
     private $folders;
 
     public function __construct()

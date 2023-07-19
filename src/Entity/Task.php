@@ -6,6 +6,7 @@ use App\Repository\TaskRepository;
 use Doctrine\Common\Collections\ArrayCollection as ArrayCollectionAlias;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
@@ -30,6 +31,7 @@ class Task
     private ?int $importance = null;
 
     #[ORM\ManyToOne(targetEntity: Folder::class, inversedBy: "tasks"), ORM\JoinColumn(nullable: false)]
+    #[MaxDepth(1)]
     private $folder;
 
     #[ORM\OneToMany(targetEntity: Label::class, mappedBy: "task")]
@@ -124,10 +126,8 @@ class Task
         return $this;
     }
     
-    /**
-     * @return Collection
-     */
-    public function getLabels(): Collection
+
+    public function getLabels()
     {
         return $this->labels;
     }
