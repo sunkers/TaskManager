@@ -3,7 +3,7 @@
     <div id="myFoldersContainer" class="flex-grow overflow-y-auto myFoldersContainer flex text-start flex-col mt-4 mb-4 mr-2 text-xl ">
     {% for folder in folders %}
         <div class="flex justify-between items-center pl-8 pr-6 hover:bg-primary py-3">
-            <a class="folder-item" data-name="{{ folder.name }}" href="#">{{ folder.name }}</a>
+            <a class="folder-item" data-id="{{ folder.id }}" href="#">{{ folder.name }}</a>
             <a href="#" data-id="{{folder.id}}" class="delete-folder text-gray-400 hover:text-white transition-colors duration-200">
                 <i class="fa fa-trash"></i>
             </a>
@@ -13,7 +13,7 @@
     <div class="flex flex-col mb-6 text-xl pt-4 border-t border-slate-400">
         <div class="flex flex-col">
         {% for folder in defaultFolders %}
-            <a href="#" class="folder-item pl-8 py-3 hover:bg-primary" data-name="{{ folder.name }}">{{ folder.name }}</a>
+            <a href="#" class="folder-item pl-8 py-3 hover:bg-primary" data-id="{{ folder.id }}">{{ folder.name }}</a>
         {% endfor %}
         </div>
     </div>

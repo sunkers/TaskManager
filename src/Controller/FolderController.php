@@ -35,16 +35,18 @@ class FolderController extends AbstractController
      */
     public function changeFolder(Request $request, SessionInterface $session, FolderService $folderService): JsonResponse
     {
-        $folderName = $request->request->get('folderName');
+        $data = json_decode($request->getContent(), true);
+        $folderId = $data['folderId'] ?? null;
 
-        if ($folderName === null) {
-            return new JsonResponse(['error' => 'Folder name is missing'], JsonResponse::HTTP_BAD_REQUEST);
+        if ($folderId === null) {
+            return new JsonResponse(['error' => 'Folder ID is missing'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $folder = $folderService->getFolderByName($folderName);
+        $folder = $folderService->getFolderById($folderId);
 
         if ($folder === null) {
-            return new JsonResponse(['error' => 'Folder not found'], JsonResponse::HTTP_NOT_FOUND);
+            $defaultFolder = $folderService->getFoldersDefault();
+            $folder = $defaultFolder[0];
         }
 
         $session->set('currentFolder', $folder);

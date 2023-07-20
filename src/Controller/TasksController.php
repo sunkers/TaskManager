@@ -57,11 +57,11 @@ class TasksController extends AbstractController
 
 
     /**
-     * @Route("/getTasksForFolder/{folderName}", name="get_tasks_for_folder", methods={"GET"})
+     * @Route("/getTasksForFolder/{folderId}", name="get_tasks_for_folder", methods={"GET"})
      */
-    public function getTasksForFolder(string $folderName, FolderService $folderService, TaskService $taskService, SerializerService $serializerService): Response
+    public function getTasksForFolder(int $folderId, FolderService $folderService, TaskService $taskService, SerializerService $serializerService): Response
     {
-        $folder = $folderService->getFolderByName($folderName);
+        $folder = $folderService->getFolderById($folderId);
         $tasks = $taskService->getTasksForFolder($folder);
 
         $jsonTasks = $serializerService->getSerializer()->serialize($tasks, 'json');

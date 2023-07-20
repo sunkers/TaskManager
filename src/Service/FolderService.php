@@ -136,4 +136,12 @@ class FolderService
         $entityManager->flush();
     }
     
+    public function getFolderById(int $id): Folder
+    {
+        $folder = $this->folderRepository->findOneById($id);
+        if ($folder === null) {
+            throw new \Exception("Folder not found");
+        }
+        return $folder;
+    }
 }
