@@ -1,5 +1,11 @@
-$(document).on('click', '.folder-item', function(){
-    var folderName = $(this).data("name");
+$(document).on('click', '.folder-item', updateCurrentFolder);
+$(document).on('click', '.delete-folder', updateCurrentFolder);
+
+
+function updateCurrentFolder() {
+    var folderName;
+    $(this).data("name") == undefined ? folderName ="☀️ My Day": folderName = $(this).data("name");
+
 
     $.ajax({
         url: '/changeFolder', 
@@ -40,5 +46,5 @@ $(document).on('click', '.folder-item', function(){
             });
         }
     });
-});
+}
 

@@ -83,4 +83,16 @@ class FolderController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/delete_folder/{id}", name="delete_folder", methods={"DELETE"}) 
+     */
+    public function deleteFolder($id, FolderService $folderService): Response
+    {
+        try {
+            $folderService->deleteFolder($id);
+            return new Response('Folder successfully deleted', Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return new Response('Error: ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

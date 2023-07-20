@@ -111,4 +111,29 @@ class FolderService
         $entityManager->persist($newFolder);
         $entityManager->flush();
     }
+
+    public function deleteFolder(int $id)
+    {
+        $entityManager = $this->entityManager;
+        $folder = $this->folderRepository->findOneById($id);
+    
+        // If folder is by_default, we can't delete it
+        if ($folder->getByDefault() == true) {
+            throw new \Exception("You can't delete this folder");
+        }
+    
+        $session = $this->requestStack->getSession();
+        $currentFolder = $session->get('currentFolder');
+        $user = $this->security->getUser();
+    
+        // If the folder to delete is the current collection, set a new current collection
+        if ($folder->getName() === $currentFolder->getName()) {
+            $defaultFolders = $this->folderRepository->findBy(['by_default' => true, 'user' => $user]);
+            $session->set('currentFolder', $defaultFolders[0]);
+        }
+    
+        $entityManager->remove($folder);
+        $entityManager->flush();
+    }
+    
 }

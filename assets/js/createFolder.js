@@ -27,7 +27,7 @@ document.getElementById("createFolder").addEventListener('click', function(event
             document.getElementById('createCollectionModal').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
             updateCollections();
-        } else {
+            } else {
             alert("An error occurred: " + response.status);
         }
     })
@@ -44,11 +44,42 @@ function updateCollections() {
             collectionsContainer.innerHTML = '';
             data.forEach(collection => {
                 collectionsContainer.innerHTML += `
+                <div class="flex justify-between items-center">
                     <a href="#" class="folder-item" data-name="${collection.name}">${collection.name}</a>
+                    <a href="#" data-id="${collection.id}" class="delete-folder text-gray-400 hover:text-white transition-colors duration-200">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </div>
                 `;
             });
+            bindDeleteFolderEvents();
         })
         .catch((error) => {
             console.error('Error:', error);
         });
 }
+
+function bindDeleteFolderEvents() {
+    document.querySelectorAll('.delete-folder').forEach(deleteLink => {
+        deleteLink.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            var id = this.dataset.id;
+            var url = `/delete_folder/${id}`;
+
+            fetch(url, { method: 'DELETE' })
+                .then(response => {
+                    if (!response.ok) { throw response; }
+                    // Mettez à jour la liste des dossiers
+                    updateCollections();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    bindDeleteFolderEvents();
+});

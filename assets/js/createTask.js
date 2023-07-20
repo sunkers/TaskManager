@@ -49,12 +49,7 @@ function refreshTaskList(tasks) {
         taskItem.className = "task-item mb-4 p-4 bg-gray-200 rounded shadow";
         taskItem.innerHTML =
             '<h3 class="task-title font-bold mb-2">' + task.name + '</h3>' +
-            '<p class="task-description mb-2">' + task.description + '</p>' +
-            '<div class="task-controls">' +
-                '<button class="custom-button bg-blue-500 text-white rounded px-2 py-1">Edit</button>' +
-                '<button class="custom-button bg-red-500 text-white rounded px-2 py-1">Delete</button>' +
-                '<button class="custom-button bg-green-500 text-white rounded px-2 py-1">Complete</button>' +
-            '</div>';
+            '<p class="task-description mb-2">' + task.description + '</p>';
         taskList.appendChild(taskItem);
     }
 }
