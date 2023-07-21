@@ -64,7 +64,7 @@ export function updateTasks() {
                 </div>
                 <button class="ml-2 mr-2 p-1 rounded text-gray-600 hover:text-gray-800"><i class="fas fa-ellipsis-h"></i></button>
                 <input class="star" type="checkbox" id="star_${task.id}" data-task-id="${task.id}" ${task.importance ? 'checked' : ''}>
-                <label for="star_${task.id}">
+                <label for="star_${task.id}" style="cursor: pointer;">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
                 </svg>

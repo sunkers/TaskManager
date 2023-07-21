@@ -1,6 +1,10 @@
 
-input[type="checkbox"].star {
+  input[type="checkbox"].star {
     display: none;
+  }
+
+  label[for^="star"]:hover {
+    cursor: pointer;
   }
   
   input[type="checkbox"].star + label svg {

@@ -36,7 +36,7 @@
     width: calc(var(--size) * .7);
     height: calc(var(--size) * .7);
     margin: 0 auto;
-    background-color: #fff;
+    background-color: rgb(229 231 235 / var(--tw-bg-opacity));
     transform: translateY(-50%);
     border-radius: 50%;
     box-shadow: inset 0 var(--shadow) #ffbeb8;
