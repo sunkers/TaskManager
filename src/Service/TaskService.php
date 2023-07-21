@@ -32,27 +32,31 @@ class TaskService
 
     public function getTasks(): array
     {
-        return $this->taskRepository->findAll();
+        return $this->taskRepository->findBy([], ['id' => 'ASC']);
     }
 
     public function getTasksForFolder(Folder $folder)
     {
-        return $this->taskRepository->findBy(['folder' => $folder]);
+        return $this->taskRepository->findBy(['folder' => $folder], ['id' => 'ASC']);
     }
 
     public function saveTask(array $taskData, Folder $folder): void
     {
         $folder = $this->entityManager->getRepository(Folder::class)->findOneById($folder->getId());
-
+    
         $task = new Task();
         $task->setName($taskData['taskName']);
         $task->setDescription($taskData['taskDescription']);
+        dump($taskData['goalDate']);
+        $task->setGoalDate(new \DateTime($taskData['goalDate']));
+        $task->setLocation($taskData['location']);
         $task->setStatus(0);
         $task->setFolder($folder);
-
+    
         $this->entityManager->persist($task);
         $this->entityManager->flush();
     }
+    
 
     public function updateTaskStatus(int $taskId, int $status): void
     {

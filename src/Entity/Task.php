@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection as ArrayCollectionAlias;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
+use DateTime;
 
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
@@ -30,6 +31,15 @@ class Task
     #[ORM\Column(type: "smallint", nullable: true)]
     private ?int $importance = null;
 
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private ?DateTime $createdAt = null;
+
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private ?DateTime $goalDate = null;
+
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $location = null;
+
     #[ORM\ManyToOne(targetEntity: Folder::class, inversedBy: "tasks"), ORM\JoinColumn(nullable: false)]
     #[MaxDepth(1)]
     private $folder;
@@ -40,7 +50,9 @@ class Task
     public function __construct()
     {
         $this->labels = new ArrayCollectionAlias();
+        $this->createdAt = new \DateTime();
     }
+    
 
     public function getId(): ?int
     {
@@ -111,6 +123,40 @@ class Task
     {
         $this->importance = $importance;
 
+        return $this;
+    }
+
+
+    public function getCreatedAt(): ?DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?DateTime $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getGoalDate(): ?DateTime
+    {
+        return $this->goalDate;
+    }
+
+    public function setGoalDate(?DateTime $goalDate): self
+    {
+        $this->goalDate = $goalDate;
+        return $this;
+    }
+
+    public function getLocation(): ?string
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?string $location): self
+    {
+        $this->location = $location;
         return $this;
     }
 

@@ -157,6 +157,8 @@ document.getElementById("createTask").addEventListener('click', function(event) 
 
     let name = document.getElementById("taskName").value;
     let description = document.getElementById("taskDescription").value;
+    let goalDate = document.getElementById("goalDate").value;
+    let location = document.getElementById("location").value;
 
     if(name == "" ) {
         alert("Please give a name to your task!");
@@ -165,7 +167,9 @@ document.getElementById("createTask").addEventListener('click', function(event) 
 
     let data = {
         taskName: name,
-        taskDescription: description
+        taskDescription: description,
+        goalDate: goalDate,
+        location: location,
     };
 
     fetch('/task/new', {

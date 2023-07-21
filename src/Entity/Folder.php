@@ -20,7 +20,7 @@ class Folder
     private ?string $description = null;
 
     #[ORM\Column(type: "datetime")]
-    private ?\DateTimeInterface $creationDate = null;
+    private ?\DateTime $creationDate = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "folders"), ORM\JoinColumn(nullable: false)]
     #[MaxDepth(1)]

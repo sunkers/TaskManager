@@ -39,21 +39,22 @@ class TasksController extends AbstractController
             return new JsonResponse(['error' => 'Folder not found'], Response::HTTP_BAD_REQUEST);
         }
         
-        if (!isset($taskData['taskName']) || !isset($taskData['taskDescription'])) {
+        if (!isset($taskData['taskName'])) {
             return new JsonResponse(['error' => 'Task data is incomplete'], Response::HTTP_BAD_REQUEST);
         }
-
+    
         try {
             $taskService->saveTask($taskData, $currentFolder);
         } catch (\Exception $e) {
             return new JsonResponse(['error' => 'Failed to save task: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
+    
         $tasks = $taskService->getTasksForFolder($currentFolder);
         $jsonTasks = $serializerService->getSerializer()->serialize($tasks, 'json');
         
         return new Response($jsonTasks, 200, ['Content-Type' => 'application/json']);
     }
+    
 
 
     /**
