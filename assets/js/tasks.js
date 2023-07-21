@@ -166,6 +166,10 @@ document.getElementById("createTask").addEventListener('click', function(event) 
         return;
     }
 
+    if (goalDate == "") {
+        goalDate = new Date().toISOString().slice(0, 10);
+    }
+
     let combinedDateTime = goalDate + ' ' + goalTime;
 
     let data = {
