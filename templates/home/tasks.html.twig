@@ -1,11 +1,26 @@
 <div id="scrollbar-container" class="w-full overflow-auto" style="height: calc(100vh - 268px);">
     <div id="task-container" class="task-container flex justify-center" style="min-height: calc(100vh - 268px);">
-        {# <div id="blurry-overlay" class="absolute inset-0 z-10 bg-white opacity-50 backdrop-blur"></div> #}
         <div id="taskList" class="task-list pt-20 w-3/6 flex flex-col">
             {% for task in tasks %}
-            <div class="task-item mb-4 p-4 bg-gray-200 rounded shadow">
-                <h3 class="task-title font-bold mb-2">{{ task.name }}</h3>
-                <p class="task-description mb-2">{{ task.description }}</p>
+            <div class="task-item mb-4 p-4 bg-gray-200 rounded shadow flex items-center">
+                <div class="checkbox-wrapper">
+                  <input id="_checkbox-{{ loop.index }}" type="checkbox">
+                  <label for="_checkbox-{{ loop.index }}">
+                    <div class="tick_mark"></div>
+                  </label>
+                </div>
+                <div class="flex-grow ml-10 mt-1">
+                    <h3 class="task-title font-bold mb-1">{{ task.name }}</h3>
+                    <p class="task-description mb-1">{{ task.description }}</p>
+                </div>
+                <button class="ml-2 mr-2 p-1 bg-gray-200 rounded text-gray-600 hover:text-gray-800"><i class="fas fa-ellipsis-h"></i></button>
+                <input class="star" type="checkbox" id="star_{{ loop.index }}">
+                <label for="star_{{ loop.index }}">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+                  </svg>
+                </label>
+                <button class="ml-2 p-1 bg-gray-200 rounded text-gray-600 hover:text-gray-800"><i class="fa fa-trash"></i></button>
             </div>
             {% endfor %}
         </div>
@@ -16,43 +31,9 @@
     {{ encore_entry_script_tags('tasks') }}
 {% endblock %}
 
-<style>
-.task-container {
-  background: linear-gradient(210deg,#8dada0,#b5c0bc,#b5dfc2);
-  background-size: 240% 240%;
-  animation: gradient-animation 15s ease infinite;
-}
-
-#blurry-overlay {
-  backdrop-filter: blur(2px);
-}
-
-@keyframes gradient-animation {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-#scrollbar-container::-webkit-scrollbar {
-  width: 10px; 
-}
-
-#scrollbar-container::-webkit-scrollbar-track {
-  background: transparent; 
-}
-
-#scrollbar-container::-webkit-scrollbar-thumb {
-  background: gray;
-  border-radius: 20px; 
-}
-
-#scrollbar-container::-webkit-scrollbar-thumb:hover {
-  background: darkgray;
-}
-</style>
+{% block stylesheets %}
+    {{ encore_entry_link_tags('checkbutton') }}
+    {{ encore_entry_link_tags('star') }}
+    {{ encore_entry_link_tags('tasksBackground') }}
+    {{ encore_entry_link_tags('scrollbar') }}
+{% endblock %}

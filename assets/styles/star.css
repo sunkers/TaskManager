@@ -1,0 +1,31 @@
+
+input[type="checkbox"].star {
+    display: none;
+  }
+  
+  input[type="checkbox"].star + label svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: #000;
+    stroke-width: 1px;
+  }
+  
+  input[type="checkbox"].star:checked + label svg {
+    fill: #0A3A40;
+    animation: pop_42 0.5s ease-out;
+  }
+  
+  @keyframes pop_42 {
+    0% {
+      transform: scale(1);
+    }
+  
+    50% {
+      transform: scale(1.5);
+    }
+  
+    100% {
+      transform: scale(1);
+    }
+  }
