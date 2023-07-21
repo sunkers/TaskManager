@@ -31,7 +31,7 @@ function updateTaskStatus(taskId, status) {
 }
 
 // Function to bind task checkbox change events
-function bindTaskCheckboxChangeEvents() {
+export function bindTaskCheckboxChangeEvents() {
     document.querySelectorAll('.task-checkbox').forEach(checkbox => {
         checkbox.removeEventListener('change', onTaskCheckboxChange);
         checkbox.addEventListener('change', onTaskCheckboxChange);
@@ -39,7 +39,8 @@ function bindTaskCheckboxChangeEvents() {
 }
 
 // Function to update tasks
-function updateTasks() {
+export function updateTasks() {
+    console.log("update tasks");
     var currentFolderId = JSON.parse(document.getElementById('currentFolder').dataset.id);
 
     fetch('/getTasksForFolder/' + currentFolderId)
@@ -103,7 +104,7 @@ function deleteTask(taskId) {
     });
 }
 
-function bindDeleteTaskBtnClickEvents() {
+export function bindDeleteTaskBtnClickEvents() {
     document.querySelectorAll('.delete-task-btn').forEach(deleteBtn => {
         deleteBtn.removeEventListener('click', onDeleteTaskBtnClick);
         deleteBtn.addEventListener('click', onDeleteTaskBtnClick);
@@ -130,7 +131,7 @@ function updateTaskImportance(taskId, importance) {
 }
 
 // Function to bind star input change events
-function bindStarInputChangeEvents() {
+export function bindStarInputChangeEvents() {
     document.querySelectorAll('.star').forEach(starInput => {
         starInput.removeEventListener('change', onStarInputChange);
         starInput.addEventListener('change', onStarInputChange);
@@ -142,4 +143,53 @@ document.addEventListener('DOMContentLoaded', function() {
     bindTaskCheckboxChangeEvents();
     bindStarInputChangeEvents();
     bindDeleteTaskBtnClickEvents();
+});
+
+// Ajouter une fonction pour vider les champs du formulaire
+function resetFormFields() {
+    document.getElementById("taskName").value = '';
+    document.getElementById("taskDescription").value = '';
+}
+
+document.getElementById("createTask").addEventListener('click', function(event) {
+    console.log("create task button clicked");
+    event.preventDefault(); 
+
+    let name = document.getElementById("taskName").value;
+    let description = document.getElementById("taskDescription").value;
+
+    if(name == "" ) {
+        alert("Please give a name to your task!");
+        return;
+    }
+
+    let data = {
+        taskName: name,
+        taskDescription: description
+    };
+
+    fetch('/task/new', {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error("Server response wasn't OK");
+        }
+    })
+    .then(taskData => {
+        document.getElementById('createTaskModal').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+        updateTasks();
+        resetFormFields();
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+    
 });
