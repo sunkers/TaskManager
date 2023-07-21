@@ -5,6 +5,13 @@ function onTaskCheckboxChange(e) {
     updateTaskStatus(taskId, status);
 }
 
+// Function to handle task delete button click events
+function onDeleteTaskBtnClick(e) {
+    var taskId = this.dataset.taskId;
+    deleteTask(taskId);
+}
+
+
 // Function to update task status
 function updateTaskStatus(taskId, status) {
     var url = `/update_task_status/${taskId}`;
@@ -61,12 +68,13 @@ function updateTasks() {
                     <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
                 </svg>
                 </label>
-                <button class="ml-2 p-1 rounded text-gray-600 hover:text-gray-800"><i class="fa fa-trash"></i></button>
+                <button data-task-id="${task.id}" class="delete-task-btn ml-2 p-1 rounded text-gray-600 hover:text-gray-800"><i class="fa fa-trash"></i></button>
             `;
             taskList.appendChild(taskItem);
         });
         bindTaskCheckboxChangeEvents();
         bindStarInputChangeEvents();
+        bindDeleteTaskBtnClickEvents();
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -78,6 +86,30 @@ function onStarInputChange(e) {
     var importance = this.checked ? 1 : 0;
     updateTaskImportance(taskId, importance);
 }
+
+// Function to delete task
+function deleteTask(taskId) {
+    var url = `/delete_task/${taskId}`;
+
+    fetch(url, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Couldn't delete task");
+        updateTasks();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+function bindDeleteTaskBtnClickEvents() {
+    document.querySelectorAll('.delete-task-btn').forEach(deleteBtn => {
+        deleteBtn.removeEventListener('click', onDeleteTaskBtnClick);
+        deleteBtn.addEventListener('click', onDeleteTaskBtnClick);
+    });
+}
+
 
 // Function to update task importance
 function updateTaskImportance(taskId, importance) {
@@ -109,4 +141,5 @@ function bindStarInputChangeEvents() {
 document.addEventListener('DOMContentLoaded', function() {
     bindTaskCheckboxChangeEvents();
     bindStarInputChangeEvents();
+    bindDeleteTaskBtnClickEvents();
 });

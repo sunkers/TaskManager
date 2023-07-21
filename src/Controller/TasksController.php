@@ -101,5 +101,17 @@ class TasksController extends AbstractController
         return new JsonResponse(['status' => 'success'], Response::HTTP_OK);
     }
 
+    /**
+     * @Route("/delete_task/{id}", name="delete_task", methods={"DELETE"})
+     */
+    public function deleteTask(int $id, TaskService $taskService): Response
+    {
+        try {
+            $taskService->deleteTask($id);
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => 'Failed to delete task: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
+        return new JsonResponse(['status' => 'success'], Response::HTTP_OK);
+    }
 }

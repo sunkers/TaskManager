@@ -71,4 +71,13 @@ class TaskService
             $this->entityManager->flush();
         }
     }
+
+    public function deleteTask(int $taskId): void
+    {
+        $task = $this->taskRepository->find($taskId);
+        if ($task !== null) {
+            $this->entityManager->remove($task);
+            $this->entityManager->flush();
+        }
+    }
 }
