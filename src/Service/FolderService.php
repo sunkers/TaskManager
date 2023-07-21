@@ -49,7 +49,7 @@ class FolderService
         if ($this->security->getUser() !== null) {
             // L'utilisateur est connecté, récupérer la folder de la base de données
             $folders = $this->folderRepository->findBy(['by_default' => 'true']);
-            if ($folders === null) {
+                if ($folders === null) {
                 return null;
             }
             return $folders;
@@ -98,4 +98,50 @@ class FolderService
         }
     }
 
+    public function createFolder(string $name, string $description)
+    {
+        $entityManager = $this->entityManager;
+        $user = $this->security->getUser();
+        $newFolder = new Folder();
+        $newFolder->setName($name);
+        $newFolder->setDescription($description);
+        $newFolder->setCreationDate(new \DateTime());
+        $newFolder->setUser($user);
+        $newFolder->setByDefault(false);
+        $entityManager->persist($newFolder);
+        $entityManager->flush();
+    }
+
+    public function deleteFolder(int $id)
+    {
+        $entityManager = $this->entityManager;
+        $folder = $this->folderRepository->findOneById($id);
+    
+        // If folder is by_default, we can't delete it
+        if ($folder->getByDefault() == true) {
+            throw new \Exception("You can't delete this folder");
+        }
+    
+        $session = $this->requestStack->getSession();
+        $currentFolder = $session->get('currentFolder');
+        $user = $this->security->getUser();
+    
+        // If the folder to delete is the current collection, set a new current collection
+        if ($folder->getName() === $currentFolder->getName()) {
+            $defaultFolders = $this->folderRepository->findBy(['by_default' => true, 'user' => $user]);
+            $session->set('currentFolder', $defaultFolders[0]);
+        }
+    
+        $entityManager->remove($folder);
+        $entityManager->flush();
+    }
+    
+    public function getFolderById(int $id): Folder
+    {
+        $folder = $this->folderRepository->findOneById($id);
+        if ($folder === null) {
+            throw new \Exception("Folder not found");
+        }
+        return $folder;
+    }
 }

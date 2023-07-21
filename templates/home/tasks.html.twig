@@ -1,23 +1,58 @@
-<div class="task-container">
-    <!-- Add a task input and button -->
-    {# <div class="add-task my-4">
-        <input type="text" id="taskInput" placeholder="Task name">
-        <button id="addTaskButton" class="custom-button bg-accent text-white rounded px-4 py-2">Add a task</button>
-    </div> #}
-    <!-- Show folder's tasks -->
-    <div class="task-list" id="taskList">
-        {% for task in tasks %}
-        <div class="task-item mb-4 p-4 bg-gray-200 rounded shadow">
-            <h3 class="task-title font-bold mb-2">{{ task.name }}</h3>
-            <p class="task-description mb-2">{{ task.description }}</p>
-            <div class="task-controls">
+<div id="scrollbar-container" class="w-full overflow-auto" style="height: calc(100vh - 268px);">
+    <div id="task-container" class="task-container flex justify-center relative" style="min-height: calc(100vh - 268px);">
+        <div id="blurry-overlay" class="absolute inset-0 z-2 bg-white opacity-50 backdrop-blur"></div>
+        <div id="taskList" class="task-list pt-20 w-3/6 flex flex-col z-5 relative">
+            {% for task in tasks %}
+            <div class="task-item mb-4 p-4 bg-gray-200 rounded shadow">
+                <h3 class="task-title font-bold mb-2">{{ task.name }}</h3>
+                <p class="task-description mb-2">{{ task.description }}</p>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
-
 
 {% block javascripts %}
     {{ encore_entry_script_tags('tasks') }}
 {% endblock %}
+
+<style>
+.task-container {
+  background: linear-gradient(210deg,#727a76,#8dada0);
+  background-size: 240% 240%;
+  animation: gradient-animation 15s ease infinite;
+}
+
+#blurry-overlay {
+  backdrop-filter: blur(2px);
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+#scrollbar-container::-webkit-scrollbar {
+  width: 10px; 
+}
+
+#scrollbar-container::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+#scrollbar-container::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 20px; 
+}
+
+#scrollbar-container::-webkit-scrollbar-thumb:hover {
+  background: darkgray;
+}
+</style>

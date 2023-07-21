@@ -1,9 +1,9 @@
 <div class="header gradient-background min-h-[10rem] pt-2 w-full text-white">
-<div class="bg-white/10 pt-0">
+<div id="myFolderHeader" class="bg-white/10 pt-0">
     <div class="flex justify-end text-right p-4 w-3/4">
         <div>
           {% if is_logged %}
-            <p id="currentFolder" class="text-4xl mt-10">{{ currentFolder.name }}</p>
+            <p id="currentFolder" data-id="{{ currentFolder.id }}" class="text-4xl mt-10">{{ currentFolder.name }}</p>
             <p id="descriptionElement" class="text-lg">{{ currentFolder.description }}</p>
           {% endif %}
         </div>
