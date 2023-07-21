@@ -62,4 +62,13 @@ class TaskService
             $this->entityManager->flush();
         }
     }
+
+    public function updateTaskImportance(int $taskId, int $importance): void
+    {
+        $task = $this->taskRepository->find($taskId);
+        if ($task !== null) {
+            $task->setImportance($importance);
+            $this->entityManager->flush();
+        }
+    }
 }

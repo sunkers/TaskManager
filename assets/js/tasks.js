@@ -55,23 +55,60 @@ function updateTasks() {
                     <p class="task-description mb-1 ${task.status == 1 ? 'line-through' : ''}">${task.description}</p>
                 </div>
                 <button class="ml-2 mr-2 p-1 rounded text-gray-600 hover:text-gray-800"><i class="fas fa-ellipsis-h"></i></button>
-                <input class="star" type="checkbox" id="star_${task.id}">
+                <input class="star" type="checkbox" id="star_${task.id}" data-task-id="${task.id}" ${task.importance ? 'checked' : ''}>
                 <label for="star_${task.id}">
-                  <svg viewBox="0 0 24 24">
+                <svg viewBox="0 0 24 24">
                     <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
-                  </svg>
+                </svg>
                 </label>
                 <button class="ml-2 p-1 rounded text-gray-600 hover:text-gray-800"><i class="fa fa-trash"></i></button>
             `;
             taskList.appendChild(taskItem);
         });
         bindTaskCheckboxChangeEvents();
+        bindStarInputChangeEvents();
     })
     .catch((error) => {
         console.error('Error:', error);
     });
 }
 
+function onStarInputChange(e) {
+    var taskId = this.dataset.taskId;
+    var importance = this.checked ? 1 : 0;
+    console.log(taskId, importance);
+    console.log(this.dataset);
+    updateTaskImportance(taskId, importance);
+}
+
+// Function to update task importance
+function updateTaskImportance(taskId, importance) {
+    var url = `/update_task_importance/${taskId}`;
+
+    fetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 'importance': importance })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Couldn't update task importance");
+        updateTasks();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+// Function to bind star input change events
+function bindStarInputChangeEvents() {
+    document.querySelectorAll('.star').forEach(starInput => {
+        starInput.removeEventListener('change', onStarInputChange);
+        starInput.addEventListener('change', onStarInputChange);
+    });
+}
+
+
 document.addEventListener('DOMContentLoaded', function() {
     bindTaskCheckboxChangeEvents();
+    bindStarInputChangeEvents();
 });
