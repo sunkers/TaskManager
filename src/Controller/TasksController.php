@@ -68,4 +68,22 @@ class TasksController extends AbstractController
     
         return new Response($jsonTasks, 200, ['Content-Type' => 'application/json']);
     }
+
+/**
+ * @Route("/update_task_status/{id}", name="update_task_status", methods={"PUT"})
+ */
+public function updateTaskStatus(int $id, Request $request, TaskService $taskService): Response
+{
+    $statusData = json_decode($request->getContent(), true);
+
+    try {
+        $taskService->updateTaskStatus($id, $statusData['status']);
+    } catch (\Exception $e) {
+        return new JsonResponse(['error' => 'Failed to update task status: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    return new JsonResponse(['status' => 'success'], Response::HTTP_OK);
+}
+
+
 }

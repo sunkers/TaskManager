@@ -53,4 +53,13 @@ class TaskService
         $this->entityManager->persist($task);
         $this->entityManager->flush();
     }
+
+    public function updateTaskStatus(int $taskId, int $status): void
+    {
+        $task = $this->taskRepository->find($taskId);
+        if ($task !== null) {
+            $task->setStatus($status);
+            $this->entityManager->flush();
+        }
+    }
 }

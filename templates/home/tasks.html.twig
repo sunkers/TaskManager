@@ -2,30 +2,31 @@
     <div id="task-container" class="task-container flex justify-center" style="min-height: calc(100vh - 268px);">
         <div id="taskList" class="task-list pt-20 w-3/6 flex flex-col">
             {% for task in tasks %}
-            <div class="task-item mb-4 p-4 bg-gray-200 rounded shadow flex items-center">
+            <div class="task-item mb-4 p-4 bg-gray-200 rounded shadow flex items-center {{ task.status == 1 ? 'bg-gray-400' : '' }}">
                 <div class="checkbox-wrapper">
-                  <input id="_checkbox-{{ loop.index }}" type="checkbox">
-                  <label for="_checkbox-{{ loop.index }}">
+                <input id="_checkbox-{{ task.id }}" class="task-checkbox" type="checkbox" data-task-id="{{ task.id }}" {{ task.status == 1 ? 'checked' : '' }}>
+                  <label for="_checkbox-{{ task.id }}">
                     <div class="tick_mark"></div>
                   </label>
                 </div>
                 <div class="flex-grow ml-10 mt-1">
-                    <h3 class="task-title font-bold mb-1">{{ task.name }}</h3>
-                    <p class="task-description mb-1">{{ task.description }}</p>
+                    <h3 class="task-title font-bold mb-1 {{ task.status == 1 ? 'line-through' : '' }}">{{ task.name }}</h3>
+                    <p class="task-description mb-1 {{ task.status == 1 ? 'line-through' : '' }}">{{ task.description }}</p>
                 </div>
-                <button class="ml-2 mr-2 p-1 bg-gray-200 rounded text-gray-600 hover:text-gray-800"><i class="fas fa-ellipsis-h"></i></button>
-                <input class="star" type="checkbox" id="star_{{ loop.index }}">
+                <button class="ml-2 mr-2 p-1 rounded text-gray-600 hover:text-gray-800"><i class="fas fa-ellipsis-h"></i></button>
+                <input class="star" type="checkbox" id="star_{{ task.id }}">
                 <label for="star_{{ loop.index }}">
                   <svg viewBox="0 0 24 24">
                     <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
                   </svg>
                 </label>
-                <button class="ml-2 p-1 bg-gray-200 rounded text-gray-600 hover:text-gray-800"><i class="fa fa-trash"></i></button>
+                <button class="ml-2 p-1 rounded text-gray-600 hover:text-gray-800"><i class="fa fa-trash"></i></button>
             </div>
             {% endfor %}
         </div>
     </div>
 </div>
+
 
 {% block javascripts %}
     {{ encore_entry_script_tags('tasks') }}
