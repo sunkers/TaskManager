@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
       openModalButton.addEventListener('click', function() {
         document.getElementById('loginModal').style.display = 'flex';
         document.getElementById('overlay').style.display = 'block';
+        toggleCheckboxDisplay('none');
         changeTab('login'); 
       });
     }
@@ -39,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('create modal button clicked');
       document.getElementById('createModal').style.display = 'flex';
       document.getElementById('overlay').style.display = 'block';
+      toggleCheckboxDisplay('none');
     });
 
     // Open the create collection modal and close the create modal
@@ -65,23 +67,34 @@ document.addEventListener('DOMContentLoaded', function() {
       changeTab('login');
     });
 
+    function toggleCheckboxDisplay(state) {
+      var checkboxes = document.getElementsByClassName('checkbox-wrapper');
+      for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].style.display = state;
+      }
+    }
+
     // If the user clicks outside the modal, close it
     window.addEventListener('click', function(event) {
       if (event.target == document.getElementById('loginModal')) {
         document.getElementById('loginModal').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
+        toggleCheckboxDisplay('block');
       }
       if (event.target == document.getElementById('createModal')) {
         document.getElementById('createModal').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
+        toggleCheckboxDisplay('block');
       }
       if (event.target == document.getElementById('createCollectionModal')) {
         document.getElementById('createCollectionModal').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
+        toggleCheckboxDisplay('block');
       }
       if (event.target == document.getElementById('createTaskModal')) {
         document.getElementById('createTaskModal').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
+        toggleCheckboxDisplay('block');
       }
     });
 
@@ -93,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('createModal').style.display = 'none';
         document.getElementById('createCollectionModal').style.display = 'none';
         document.getElementById('createTaskModal').style.display = 'none';
+        toggleCheckboxDisplay('block');
       }
     });
 });

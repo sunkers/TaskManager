@@ -3,7 +3,7 @@
         <div id="taskList" class="task-list pt-20 w-3/6 flex flex-col">
             {% for task in tasks %}
             <div class="task-item mb-4 p-4 bg-gray-200 rounded shadow flex items-center {{ task.status == 1 ? 'bg-gray-400' : '' }}">
-                <div class="checkbox-wrapper">
+                <div class="checkbox-wrapper" id="myCheckbox" style="display = block;">
                 <input id="_checkbox-{{ task.id }}" class="task-checkbox" type="checkbox" data-task-id="{{ task.id }}" {{ task.status == 1 ? 'checked' : '' }}>
                   <label for="_checkbox-{{ task.id }}">
                     <div class="tick_mark"></div>

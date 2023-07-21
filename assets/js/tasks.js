@@ -52,7 +52,7 @@ export function updateTasks() {
             var taskItem = document.createElement('div');
             taskItem.className = `task-item mb-4 p-4 rounded shadow flex items-center ${task.status == 1 ? 'bg-gray-400' : 'bg-gray-200'}`;
             taskItem.innerHTML = `
-                <div class="checkbox-wrapper">
+                <div class="checkbox-wrapper" id="myCheckbox">
                     <input id="_checkbox-${task.id}" data-task-id="${task.id}" class="task-checkbox" type="checkbox" ${task.status == 1 ? 'checked' : ''}>
                     <label for="_checkbox-${task.id}">
                     <div class="tick_mark"></div>
