@@ -76,8 +76,6 @@ function updateTasks() {
 function onStarInputChange(e) {
     var taskId = this.dataset.taskId;
     var importance = this.checked ? 1 : 0;
-    console.log(taskId, importance);
-    console.log(this.dataset);
     updateTaskImportance(taskId, importance);
 }
 
