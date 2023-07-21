@@ -158,6 +158,7 @@ document.getElementById("createTask").addEventListener('click', function(event) 
     let name = document.getElementById("taskName").value;
     let description = document.getElementById("taskDescription").value;
     let goalDate = document.getElementById("goalDate").value;
+    let goalTime = document.getElementById("goalTime").value;
     let location = document.getElementById("location").value;
 
     if(name == "" ) {
@@ -165,10 +166,12 @@ document.getElementById("createTask").addEventListener('click', function(event) 
         return;
     }
 
+    let combinedDateTime = goalDate + ' ' + goalTime;
+
     let data = {
         taskName: name,
         taskDescription: description,
-        goalDate: goalDate,
+        goalDate: combinedDateTime,
         location: location,
     };
 

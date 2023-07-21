@@ -89,9 +89,15 @@ class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-40" s
       <label for="taskDescription" class="block text-gray-400 mb-1">Task Description</label>
       <textarea name="taskDescription" id="taskDescription" placeholder="My Task Description" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" style="background-color: rgba(17, 24, 39, 1);"></textarea>
     </div>
-    <div class="input-group mt-1 text-sm leading-5 w-80">
-      <label for="goalDate" class="block text-gray-400 mb-1">Goal Date</label>
-      <input type="datetime-local" name="goalDate" id="goalDate" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
+    <div class="flex justify-between w-80">
+      <div class="input-group mt-1 text-sm leading-5 mr-2 flex-1">
+        <label for="goalDate" class="block text-gray-400 mb-1">Goal Date</label>
+        <input type="date" name="goalDate" id="goalDate" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
+      </div>
+      <div class="input-group mt-1 text-sm leading-5 ml-2 flex-1">
+        <label for="goalTime" class="block text-gray-400 mb-1">Goal Time</label>
+        <input type="time" name="goalTime" id="goalTime" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
+      </div>
     </div>
     <div class="input-group mt-1 text-sm leading-5 w-80">
       <label for="location" class="block text-gray-400 mb-1">Location</label>
