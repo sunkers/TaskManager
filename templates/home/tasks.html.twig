@@ -1,7 +1,7 @@
 <div id="scrollbar-container" class="w-full overflow-auto" style="height: calc(100vh - 268px);">
-    <div id="task-container" class="task-container flex justify-center relative" style="min-height: calc(100vh - 268px);">
-        <div id="blurry-overlay" class="absolute inset-0 z-2 bg-white opacity-50 backdrop-blur"></div>
-        <div id="taskList" class="task-list pt-20 w-3/6 flex flex-col z-5 relative">
+    <div id="task-container" class="task-container flex justify-center" style="min-height: calc(100vh - 268px);">
+        {# <div id="blurry-overlay" class="absolute inset-0 z-10 bg-white opacity-50 backdrop-blur"></div> #}
+        <div id="taskList" class="task-list pt-20 w-3/6 flex flex-col">
             {% for task in tasks %}
             <div class="task-item mb-4 p-4 bg-gray-200 rounded shadow">
                 <h3 class="task-title font-bold mb-2">{{ task.name }}</h3>
@@ -18,7 +18,7 @@
 
 <style>
 .task-container {
-  background: linear-gradient(210deg,#727a76,#8dada0);
+  background: linear-gradient(210deg,#8dada0,#b5c0bc,#b5dfc2);
   background-size: 240% 240%;
   animation: gradient-animation 15s ease infinite;
 }
