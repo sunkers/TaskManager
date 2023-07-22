@@ -71,6 +71,33 @@ class TasksController extends AbstractController
     }
 
     /**
+     * @Route("/get_task/{id}", name="get_task", methods={"GET"})
+     */
+    public function getTask(int $id, TaskService $taskService, SerializerService $serializerService): Response
+    {
+        $task = $taskService->getTaskById($id);
+        $jsonTask = $serializerService->getSerializer()->serialize($task, 'json');
+    
+        return new Response($jsonTask, 200, ['Content-Type' => 'application/json']);
+    }
+
+    /**
+     * @Route("/update_task/{id}", name="update_task", methods={"PUT"})
+     */
+    public function updateTask(int $id, Request $request, TaskService $taskService): Response
+    {
+        $taskData = json_decode($request->getContent(), true);
+
+        try {
+            $taskService->updateTask($id, $taskData);
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => 'Failed to update task: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return new JsonResponse(['status' => 'success'], Response::HTTP_OK);
+    }
+
+    /**
      * @Route("/update_task_status/{id}", name="update_task_status", methods={"PUT"})
      */
     public function updateTaskStatus(int $id, Request $request, TaskService $taskService): Response

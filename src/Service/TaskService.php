@@ -40,6 +40,11 @@ class TaskService
         return $this->taskRepository->findBy(['folder' => $folder], ['id' => 'ASC']);
     }
 
+    public function getTaskById(int $taskId): ?Task
+    {
+        return $this->taskRepository->find($taskId);
+    }
+
     public function saveTask(array $taskData, Folder $folder): void
     {
         $folder = $this->entityManager->getRepository(Folder::class)->findOneById($folder->getId());
@@ -55,6 +60,18 @@ class TaskService
     
         $this->entityManager->persist($task);
         $this->entityManager->flush();
+    }
+
+    public function updateTask(int $taskId, array $taskData): void
+    {
+        $task = $this->taskRepository->find($taskId);
+        if ($task !== null) {
+            $task->setName($taskData['taskName']);
+            $task->setDescription($taskData['taskDescription']);
+            $task->setGoalDate(new \DateTime($taskData['goalDate']));
+            $task->setLocation($taskData['location']);
+            $this->entityManager->flush();
+        }
     }
     
 

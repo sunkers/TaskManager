@@ -106,3 +106,46 @@ class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-40" s
     <button id="createTask" class="bg-highlight text-white rounded w-40  px-4 py-2 my-2">Create Task</button>
   </div>
 </div>
+
+{# <-- Edit Task Modal --> #}
+<div id="editTaskModal"
+  class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-40" style="display: none;">
+  <div class="form-container w-100 rounded-xl bg-secondary p-8 text-white flex flex-col items-center justify-center">
+    <p class="title text-center text-xl leading-8 font-bold">
+      Edit task ✏️
+    </p>
+    <div class="input-group mt-1 text-sm leading-5 w-80">
+      <label for="editTaskName" class="block text-gray-400 mb-1">Task Name</label>
+      <input type="text" name="editTaskName" id="editTaskName" placeholder="My Task" maxlength="50" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
+    </div>
+    <div class="input-group mt-1 text-sm leading-5 w-80">
+      <label for="editTaskDescription" class="block text-gray-400 mb-1">Task Description</label>
+      <textarea name="editTaskDescription" id="editTaskDescription" placeholder="My Task Description" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" style="background-color: rgba(17, 24, 39, 1);"></textarea>
+    </div>
+    <div class="flex justify-between w-80">
+      <div class="input-group mt-1 text-sm leading-5 mr-2 flex-1">
+        <label for="editGoalDate" class="block text-gray-400 mb-1">Goal Date</label>
+        <input type="date" name="editGoalDate" id="editGoalDate" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
+      </div>
+      <div class="input-group mt-1 text-sm leading-5 ml-2 flex-1">
+        <label for="editGoalTime" class="block text-gray-400 mb-1">Goal Time</label>
+        <input type="time" name="editGoalTime" id="editGoalTime" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
+      </div>
+    </div>
+    <div class="input-group mt-1 text-sm leading-5 w-80">
+      <label for="editLocation" class="block text-gray-400 mb-1">Location</label>
+      <input type="text" name="editLocation" id="editLocation" placeholder="Location" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
+    </div>
+  <button id="editTask" class="button-disabled text-white rounded w-40 px-4 py-2 mb-2 mt-8" disabled>Save Changes</button>
+  </div>
+</div>
+
+<style>
+.button-disabled {
+  background-color: gray;
+}
+
+.button-enabled {
+  background-color: #107361;
+}
+</style>
