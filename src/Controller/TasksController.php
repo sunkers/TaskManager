@@ -115,4 +115,18 @@ class TasksController extends AbstractController
 
         return new JsonResponse(['status' => 'success'], Response::HTTP_OK);
     }
+
+    /**
+     * @Route("/duplicate_task/{id}", name="duplicate_task", methods={"POST"})
+     */
+    public function duplicateTask(int $id, TaskService $taskService): Response
+    {
+        try {
+            $taskService->duplicateTask($id);
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => 'Failed to duplicate task: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return new JsonResponse(['status' => 'success'], Response::HTTP_OK);
+    }
 }

@@ -143,6 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
     bindTaskCheckboxChangeEvents();
     bindStarInputChangeEvents();
     bindDeleteTaskBtnClickEvents();
+    bindDuplicateTaskBtnClickEvents(); 
 });
 
 // Ajouter une fonction pour vider les champs du formulaire
@@ -204,3 +205,35 @@ document.getElementById("createTask").addEventListener('click', function(event) 
     });
     
 });
+
+// Fonction pour gérer le clic sur le bouton de duplication de tâche
+function onDuplicateTaskBtnClick(e) {
+    var taskId = this.dataset.taskId;
+    duplicateTask(taskId);
+}
+
+// Fonction pour dupliquer une tâche
+function duplicateTask(taskId) {
+    var url = `/duplicate_task/${taskId}`;
+
+    fetch(url, {
+        method: 'POST'
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Couldn't duplicate task");
+        updateTasks();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+// Fonction pour lier les événements de clic sur le bouton de duplication de tâche
+export function bindDuplicateTaskBtnClickEvents() {
+    document.querySelectorAll('.duplicate-task').forEach(duplicateBtn => {
+        duplicateBtn.removeEventListener('click', onDuplicateTaskBtnClick);
+        duplicateBtn.addEventListener('click', onDuplicateTaskBtnClick);
+    });
+}
+
+

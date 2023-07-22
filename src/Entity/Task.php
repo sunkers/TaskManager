@@ -160,7 +160,7 @@ class Task
         return $this;
     }
 
-    public function getCollection(): ?Folder
+    public function getFolder(): ?Folder
     {
         return $this->folder;
     }

@@ -84,4 +84,21 @@ class TaskService
             $this->entityManager->flush();
         }
     }
+
+    public function duplicateTask(int $taskId): void
+    {
+        $task = $this->taskRepository->find($taskId);
+        if ($task !== null) {
+            $newTask = new Task();
+            $newTask->setName($task->getName());
+            $newTask->setDescription($task->getDescription());
+            $newTask->setGoalDate($task->getGoalDate());
+            $newTask->setLocation($task->getLocation());
+            $newTask->setStatus($task->getStatus());
+            $newTask->setImportance($task->getImportance());
+            $newTask->setFolder($task->getFolder());
+            $this->entityManager->persist($newTask);
+            $this->entityManager->flush();
+        }
+    }
 }
