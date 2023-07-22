@@ -1,3 +1,5 @@
+import { getDateString } from "./dateManager";
+
 // Function to handle task checkbox change events
 function onTaskCheckboxChange(e) {
     var taskId = this.dataset.taskId;
@@ -49,27 +51,64 @@ export function updateTasks() {
         var taskList = document.getElementById('taskList');
         taskList.innerHTML = '';
         tasks.forEach(task => {
+            let goalDateString = '';
+            if(task.goalDate !== null) {
+                let goalDateObj = new Date(task.goalDate.timestamp * 1000);
+                goalDateString = getDateString(goalDateObj);
+            }else{
+                goalDateString = '';
+            }
+
+
             var taskItem = document.createElement('div');
-            taskItem.className = `task-item mb-4 p-4 rounded shadow flex items-center ${task.status == 1 ? 'bg-gray-400' : 'bg-gray-200'}`;
+            taskItem.className = `task-item mb-4 p-4 rounded shadow flex justify-between ${task.status == 1 ? 'bg-gray-400' : 'bg-gray-200'}`;
             taskItem.innerHTML = `
-                <div class="checkbox-wrapper" id="myCheckbox">
+                <div class="checkbox-wrapper flex items-center" style="flex: 0 5%;">
                     <input id="_checkbox-${task.id}" data-task-id="${task.id}" class="task-checkbox" type="checkbox" ${task.status == 1 ? 'checked' : ''}>
                     <label for="_checkbox-${task.id}">
-                    <div class="tick_mark"></div>
+                        <div class="tick_mark"></div>
                     </label>
                 </div>
-                <div class="flex-grow ml-10 mt-1">
-                    <h3 class="task-title font-bold mb-1 ${task.status == 1 ? 'line-through' : ''}">${task.name}</h3>
-                    <p class="task-description mb-1 ${task.status == 1 ? 'line-through' : ''}">${task.description}</p>
+                <div class="content ml-4 mt-1 flex flex-col" style="flex: 0 55%;">
+                    <div class="task-header mr-4">
+                        <h3 class="task-title font-bold mb-1 ${task.status == 1 ? 'line-through' : ''}">${task.name}</h3>
+                    </div>
+                    <div class="description-container">
+                        <p class="task-description mb-1 ${task.status == 1 ? 'line-through' : ''}">${task.description}</p>
+                    </div>
                 </div>
-                <button class="ml-2 mr-2 p-1 rounded text-gray-600 hover:text-gray-800"><i class="fas fa-ellipsis-h"></i></button>
-                <input class="star" type="checkbox" id="star_${task.id}" data-task-id="${task.id}" ${task.importance ? 'checked' : ''}>
-                <label for="star_${task.id}" style="cursor: pointer;">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
-                </svg>
-                </label>
-                <button data-task-id="${task.id}" class="delete-task-btn ml-2 p-1 rounded text-gray-600 hover:text-gray-800"><i class="fa fa-trash"></i></button>
+                <div class="date-location-container flex flex-col justify-center items-end" style="flex: 0 25%;">
+                    <div class="text-right" style="width: 100%;">
+                        <p class="task-goaldate text-gray-600 text-sm">
+                            ${goalDateString}
+                        </p>
+                    </div>
+                    ${task.location ? `
+                        <div class="text-right" style="width: 100%;">
+                            <p class="task-location text-gray-600 text-sm">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                ${task.location}
+                            </p>
+                        </div>` : ''}
+                </div>
+                <div class="right-side flex items-center" style="flex: 0 15%;">
+                    <div class="dropdownMenu relative inline-block">
+                        <button class="ml-2 mr-2 p-1 rounded text-gray-600 hover:text-gray-800" onclick="toggleDropdownMenu(event)">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                        <div class="dropdownItems absolute left-0 mt-0 w-40 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 overflow-hidden z-10 invisible">
+                            <a href="#" class="duplicate-task block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-task-id="${task.id}"><i class="fa fa-copy"></i><span class="ml-2">Duplicate</span></a>
+                            <a href="#" class="edit-task block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-task-id="${task.id}"><i class="fa fa-edit"></i><span class="ml-2">Edit</span></a>
+                        </div>
+                    </div>
+                    <input class="star" type="checkbox" id="star_${task.id}" data-task-id="${task.id}" ${task.importance ? 'checked' : ''}>
+                    <label for="star_${task.id}" style="cursor: pointer;">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
+                        </svg>
+                    </label>
+                    <button data-task-id="${task.id}" class="delete-task-btn ml-2 p-1 rounded text-gray-600 hover:text-gray-800"><i class="fa fa-trash"></i></button>
+                </div>
             `;
             taskList.appendChild(taskItem);
         });
@@ -81,6 +120,8 @@ export function updateTasks() {
         console.error('Error:', error);
     });
 }
+
+
 
 function onStarInputChange(e) {
     var taskId = this.dataset.taskId;
@@ -279,4 +320,3 @@ document.getElementById('editTask').addEventListener('click', function() {
       console.error('Error:', error);
     });
 });
-  
