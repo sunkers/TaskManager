@@ -48,12 +48,12 @@ class TaskService
     public function saveTask(array $taskData, Folder $folder): void
     {
         $folder = $this->entityManager->getRepository(Folder::class)->findOneById($folder->getId());
+        dump($taskData);
     
         $task = new Task();
         $task->setName($taskData['taskName']);
         $task->setDescription($taskData['taskDescription']);
-        dump($taskData['goalDate']);
-        $task->setGoalDate(new \DateTime($taskData['goalDate']));
+        if (isset($taskData['goalDate'])) $task->setGoalDate(new \DateTime($taskData['goalDate']));
         $task->setLocation($taskData['location']);
         $task->setStatus(0);
         $task->setFolder($folder);

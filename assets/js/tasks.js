@@ -167,10 +167,6 @@ document.getElementById("createTask").addEventListener('click', function(event) 
         return;
     }
 
-    if (goalDate == "") {
-        goalDate = new Date().toISOString().slice(0, 10);
-    }
-
     let combinedDateTime = goalDate + ' ' + goalTime;
 
     let data = {
@@ -179,6 +175,11 @@ document.getElementById("createTask").addEventListener('click', function(event) 
         goalDate: combinedDateTime,
         location: location,
     };
+    console.log(data);
+
+    if (data.goalDate === " ") {
+        data.goalDate = null;
+      }
 
     fetch('/task/new', {
         method: 'POST', 
