@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function openEditTaskModal(taskId) {
       document.getElementById('editTask').disabled = true;
+      document.getElementById('editTaskId').value = taskId;
   
       fetch(`/get_task/${taskId}`)
       .then(response => response.json())

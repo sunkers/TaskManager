@@ -236,4 +236,46 @@ export function bindDuplicateTaskBtnClickEvents() {
     });
 }
 
+document.getElementById('editTask').addEventListener('click', function() {
+    let taskId = document.getElementById('editTaskId').value;
+    if (taskId === '') {
+      console.error('Task ID is missing');
+      return;
+    }
+  
+    let taskData = {
+      taskName: document.getElementById('editTaskName').value,
+      taskDescription: document.getElementById('editTaskDescription').value,
+      goalDate: document.getElementById('editGoalDate').value + "T" + document.getElementById('editGoalTime').value,
+      location: document.getElementById('editLocation').value
+    };
 
+    if (taskData.goalDate === "T") {
+      taskData.goalDate = null;
+    }
+    
+  
+    fetch('/update_task/' + taskId, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(taskData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        // ferme la fenetre modal et updateTasks
+        document.getElementById('editTaskModal').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+
+        updateTasks();
+      } else {
+        console.error(data.error);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+});
+  

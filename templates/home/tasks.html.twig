@@ -34,8 +34,10 @@
                     Today{{ taskHour != "00:00" ? ", " ~ taskHour }}
                 {% elseif differenceInDays == 1 %}
                     Tomorrow{{ taskHour != "00:00" ? ", " ~ taskHour }}
-                {% elseif differenceInDays < 7 %}
-                    {{ task.goalDate|date("l") }}
+                {% elseif differenceInDays < 7 and differenceInDays > 0 %}
+                    {{ task.goalDate|date("l") }} {{ taskHour != "00:00" ? ", " ~ taskHour }}
+                {% elseif differenceInDays < 0 %}
+                    {{ task.goalDate|date("d-m") }}{{ taskHour != "00:00" ? " at " ~ taskHour }}
                 {% else %}
                     due to {{ task.goalDate|date("d-m") }}{{ taskHour != "00:00" ? " at " ~ taskHour }}
                 {% endif %}

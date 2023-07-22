@@ -68,7 +68,7 @@ class TaskService
         if ($task !== null) {
             $task->setName($taskData['taskName']);
             $task->setDescription($taskData['taskDescription']);
-            $task->setGoalDate(new \DateTime($taskData['goalDate']));
+            if (isset($taskData['goalDate'])) $task->setGoalDate(new \DateTime($taskData['goalDate']));
             $task->setLocation($taskData['location']);
             $this->entityManager->flush();
         }
