@@ -28,9 +28,10 @@ Encore
     .addEntry('modal', './assets/js/modal.js')
     .addEntry('connectButton', './assets/js/connectButton.js')
     .addEntry('folders', './assets/js/folders.js')
-    .addEntry('changeCurrentFolderOnClick', './assets/js/changeCurrentFolderOnClick.js')
-    .addEntry('createFolder', './assets/js/createFolder.js')
-    .addEntry('createTask', './assets/js/createTask.js')
+    .addEntry('checkbutton', './assets/styles/checkButton.css')
+    .addEntry('star', './assets/styles/star.css')
+    .addEntry('tasksBackground', './assets/styles/tasksBackground.css')
+    .addEntry('scrollbar', './assets/styles/scrollbar.css')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

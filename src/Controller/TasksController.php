@@ -39,21 +39,22 @@ class TasksController extends AbstractController
             return new JsonResponse(['error' => 'Folder not found'], Response::HTTP_BAD_REQUEST);
         }
         
-        if (!isset($taskData['taskName']) || !isset($taskData['taskDescription'])) {
+        if (!isset($taskData['taskName'])) {
             return new JsonResponse(['error' => 'Task data is incomplete'], Response::HTTP_BAD_REQUEST);
         }
-
+    
         try {
             $taskService->saveTask($taskData, $currentFolder);
         } catch (\Exception $e) {
             return new JsonResponse(['error' => 'Failed to save task: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
+    
         $tasks = $taskService->getTasksForFolder($currentFolder);
         $jsonTasks = $serializerService->getSerializer()->serialize($tasks, 'json');
         
         return new Response($jsonTasks, 200, ['Content-Type' => 'application/json']);
     }
+    
 
 
     /**
@@ -67,5 +68,92 @@ class TasksController extends AbstractController
         $jsonTasks = $serializerService->getSerializer()->serialize($tasks, 'json');
     
         return new Response($jsonTasks, 200, ['Content-Type' => 'application/json']);
+    }
+
+    /**
+     * @Route("/get_task/{id}", name="get_task", methods={"GET"})
+     */
+    public function getTask(int $id, TaskService $taskService, SerializerService $serializerService): Response
+    {
+        $task = $taskService->getTaskById($id);
+        $jsonTask = $serializerService->getSerializer()->serialize($task, 'json');
+    
+        return new Response($jsonTask, 200, ['Content-Type' => 'application/json']);
+    }
+
+    /**
+     * @Route("/update_task/{id}", name="update_task", methods={"PUT"})
+     */
+    public function updateTask(int $id, Request $request, TaskService $taskService): Response
+    {
+        $taskData = json_decode($request->getContent(), true);
+
+        try {
+            $taskService->updateTask($id, $taskData);
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => 'Failed to update task: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return new JsonResponse(['status' => 'success'], Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/update_task_status/{id}", name="update_task_status", methods={"PUT"})
+     */
+    public function updateTaskStatus(int $id, Request $request, TaskService $taskService): Response
+    {
+        $statusData = json_decode($request->getContent(), true);
+
+        try {
+            $taskService->updateTaskStatus($id, $statusData['status']);
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => 'Failed to update task status: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return new JsonResponse(['status' => 'success'], Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/update_task_importance/{id}", name="update_task_importance", methods={"PUT"})
+     */
+    public function updateTaskImportance(int $id, Request $request, TaskService $taskService): Response
+    {
+        $importanceData = json_decode($request->getContent(), true);
+
+        try {
+            $taskService->updateTaskImportance($id, $importanceData['importance']);
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => 'Failed to update task importance: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return new JsonResponse(['status' => 'success'], Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/delete_task/{id}", name="delete_task", methods={"DELETE"})
+     */
+    public function deleteTask(int $id, TaskService $taskService): Response
+    {
+        try {
+            $taskService->deleteTask($id);
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => 'Failed to delete task: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return new JsonResponse(['status' => 'success'], Response::HTTP_OK);
+    }
+
+    /**
+     * @Route("/duplicate_task/{id}", name="duplicate_task", methods={"POST"})
+     */
+    public function duplicateTask(int $id, TaskService $taskService): Response
+    {
+        try {
+            $taskService->duplicateTask($id);
+        } catch (\Exception $e) {
+            return new JsonResponse(['error' => 'Failed to duplicate task: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return new JsonResponse(['status' => 'success'], Response::HTTP_OK);
     }
 }

@@ -1,3 +1,6 @@
+import { getDateString } from "./dateManager";
+import { updateTasks, bindTaskCheckboxChangeEvents, bindStarInputChangeEvents, bindDeleteTaskBtnClickEvents } from './tasks.js';
+
 // Function to handle folder item click events
 function onFolderItemClick(e) {
     e.preventDefault();
@@ -5,28 +8,14 @@ function onFolderItemClick(e) {
     updateCurrentFolder(folderId);
 }
 
-// Function to handle delete folder click events
-function onDeleteFolderClick(e) {
-    e.preventDefault();
-    var id = this.dataset.id;
-    var url = `/delete_folder/${id}`;
-    fetch(url, { method: 'DELETE' })
-        .then(response => {
-            if (!response.ok) { throw response; }
-            updateCollections();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
-
 function onDeleteFolderClick(e) {
     e.preventDefault();
     var id = this.dataset.id;
     var url = `/delete_folder/${id}`;
 
-    // Get current folder ID
-    var currentFolderId = JSON.parse(document.getElementById('currentFolder').dataset.id);
+    // Get current folder ID from session
+    var currentFolderId = document.getElementById('currentFolder').dataset.id;
+    // var currentFolderId = JSON.parse(document.getElementById('currentFolder').dataset.id);
 
     fetch(url, { method: 'DELETE' })
         .then(response => {
@@ -104,29 +93,16 @@ function updateCurrentFolder(folderId) {
     .then(response => response.json())
     .then(folder => {
         document.getElementById('currentFolder').textContent = folder.name;
+        document.getElementById('currentFolder').setAttribute('data-id', folder.id);
         document.getElementById('descriptionElement').textContent = folder.description;
 
-        fetch('/getTasksForFolder/' + folder.id)
-        .then(response => response.json())
-        .then(tasks => {
-            var taskList = document.getElementById('taskList');
-            taskList.innerHTML = '';
-            tasks.forEach(task => {
-                var taskItem = document.createElement('div');
-                taskItem.className = 'task-item mb-4 p-4 bg-gray-200 rounded shadow';
-                taskItem.innerHTML = `
-                    <h3 class="task-title font-bold mb-2">${task.name}</h3>
-                    <p class="task-description mb-2">${task.description}</p>
-                    <div class="task-controls"></div>
-                `;
-                taskList.appendChild(taskItem);
-            });
-        });
+        updateTasks();
     })
     .catch(error => {
         console.error('Error:', error);
     });
 }
+
 
 
 document.getElementById("createFolder").addEventListener('click', function(event) {
@@ -171,3 +147,5 @@ document.addEventListener('DOMContentLoaded', function() {
     bindDeleteFolderEvents();
     bindFolderItemClickEvents();
 });
+
+

@@ -50,7 +50,6 @@ class FolderController extends AbstractController
         }
 
         $session->set('currentFolder', $folder);
-        dump($folder);
 
         return new JsonResponse(['success' => 'Folder changed successfully'], JsonResponse::HTTP_OK);
     }
