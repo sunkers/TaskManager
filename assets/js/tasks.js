@@ -1,22 +1,23 @@
 import { getDateString } from "./dateManager";
+import { openEditTaskModal } from "./modal";
 
 // Function to handle task checkbox change events
 function onTaskCheckboxChange(e) {
-    var taskId = this.dataset.taskId;
-    var status = this.checked ? 1 : 0;
+    const taskId = this.dataset.taskId;
+    const status = this.checked ? 1 : 0;
     updateTaskStatus(taskId, status);
 }
 
 // Function to handle task delete button click events
 function onDeleteTaskBtnClick(e) {
-    var taskId = this.dataset.taskId;
+    const taskId = this.dataset.taskId;
     deleteTask(taskId);
 }
 
 
 // Function to update task status
 function updateTaskStatus(taskId, status) {
-    var url = `/update_task_status/${taskId}`;
+    const url = `/update_task_status/${taskId}`;
 
     fetch(url, {
         method: 'PUT',
@@ -35,7 +36,6 @@ function updateTaskStatus(taskId, status) {
 // Function to bind task checkbox change events
 export function bindTaskCheckboxChangeEvents() {
     document.querySelectorAll('.task-checkbox').forEach(checkbox => {
-        checkbox.removeEventListener('change', onTaskCheckboxChange);
         checkbox.addEventListener('change', onTaskCheckboxChange);
     });
 }
@@ -43,12 +43,12 @@ export function bindTaskCheckboxChangeEvents() {
 // Function to update tasks
 export function updateTasks() {
     console.log("update tasks");
-    var currentFolderId = JSON.parse(document.getElementById('currentFolder').dataset.id);
+    const currentFolderId = JSON.parse(document.getElementById('currentFolder').dataset.id);
 
     fetch('/getTasksForFolder/' + currentFolderId)
     .then(response => response.json())
     .then(tasks => {
-        var taskList = document.getElementById('taskList');
+        const taskList = document.getElementById('taskList');
         taskList.innerHTML = '';
         tasks.forEach(task => {
             let goalDateString = '';
@@ -60,7 +60,7 @@ export function updateTasks() {
             }
 
 
-            var taskItem = document.createElement('div');
+            const taskItem = document.createElement('div');
             taskItem.className = `task-item mb-4 p-4 rounded shadow flex justify-between ${task.status == 1 ? 'bg-gray-400' : 'bg-gray-200'}`;
             taskItem.innerHTML = `
                 <div class="checkbox-wrapper flex items-center" style="flex: 0 5%;">
@@ -115,6 +115,9 @@ export function updateTasks() {
         bindTaskCheckboxChangeEvents();
         bindStarInputChangeEvents();
         bindDeleteTaskBtnClickEvents();
+        bindEditTaskBtnClickEvents();
+        bindEditTaskEvents();
+        bindDuplicateTaskBtnClickEvents();
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -124,14 +127,14 @@ export function updateTasks() {
 
 
 function onStarInputChange(e) {
-    var taskId = this.dataset.taskId;
-    var importance = this.checked ? 1 : 0;
+    const taskId = this.dataset.taskId;
+    const importance = this.checked ? 1 : 0;
     updateTaskImportance(taskId, importance);
 }
 
 // Function to delete task
 function deleteTask(taskId) {
-    var url = `/delete_task/${taskId}`;
+    const url = `/delete_task/${taskId}`;
 
     fetch(url, {
         method: 'DELETE'
@@ -147,15 +150,36 @@ function deleteTask(taskId) {
 
 export function bindDeleteTaskBtnClickEvents() {
     document.querySelectorAll('.delete-task-btn').forEach(deleteBtn => {
-        deleteBtn.removeEventListener('click', onDeleteTaskBtnClick);
         deleteBtn.addEventListener('click', onDeleteTaskBtnClick);
     });
 }
 
+export function bindEditTaskBtnClickEvents() {
+    document.querySelectorAll('.edit-task').forEach(editBtn => {
+        editBtn.addEventListener('click', onEditTaskBtnClick);
+        console.log("edit task button binded");
+    });
+}
+
+// Function to handle edit task button click events
+function bindEditTaskEvents() {
+    const editTaskButtons = document.querySelectorAll('.edit-task');
+
+    editTaskButtons.forEach(button => {
+      button.addEventListener('click', function(event) {
+          event.preventDefault();
+          const taskId = this.getAttribute("data-task-id");
+          openEditTaskModal(taskId);
+      });
+    });
+}
+
+
+
 
 // Function to update task importance
 function updateTaskImportance(taskId, importance) {
-    var url = `/update_task_importance/${taskId}`;
+    const url = `/update_task_importance/${taskId}`;
 
     fetch(url, {
         method: 'PUT',
@@ -185,7 +209,19 @@ document.addEventListener('DOMContentLoaded', function() {
     bindStarInputChangeEvents();
     bindDeleteTaskBtnClickEvents();
     bindDuplicateTaskBtnClickEvents(); 
+    bindEditTaskBtnClickEvents();
 });
+
+document.addEventListener('click', function(event) {
+    if (event.target.matches('.edit-task')) {
+        onEditTaskBtnClick.call(event.target, event);
+    } else if (event.target.matches('.delete-task-btn')) {
+        onDeleteTaskBtnClick.call(event.target, event);
+    } else if (event.target.matches('.duplicate-task')) {
+        onDuplicateTaskBtnClick.call(event.target, event);
+    } 
+});
+
 
 // Ajouter une fonction pour vider les champs du formulaire
 function resetFormFields() {
@@ -250,13 +286,13 @@ document.getElementById("createTask").addEventListener('click', function(event) 
 
 // Fonction pour gérer le clic sur le bouton de duplication de tâche
 function onDuplicateTaskBtnClick(e) {
-    var taskId = this.dataset.taskId;
+    const taskId = this.dataset.taskId;
     duplicateTask(taskId);
 }
 
 // Fonction pour dupliquer une tâche
 function duplicateTask(taskId) {
-    var url = `/duplicate_task/${taskId}`;
+    const url = `/duplicate_task/${taskId}`;
 
     fetch(url, {
         method: 'POST'
@@ -273,50 +309,56 @@ function duplicateTask(taskId) {
 // Fonction pour lier les événements de clic sur le bouton de duplication de tâche
 export function bindDuplicateTaskBtnClickEvents() {
     document.querySelectorAll('.duplicate-task').forEach(duplicateBtn => {
-        duplicateBtn.removeEventListener('click', onDuplicateTaskBtnClick);
         duplicateBtn.addEventListener('click', onDuplicateTaskBtnClick);
     });
 }
 
-document.getElementById('editTask').addEventListener('click', function() {
-    let taskId = document.getElementById('editTaskId').value;
-    if (taskId === '') {
-      console.error('Task ID is missing');
-      return;
-    }
-  
-    let taskData = {
-      taskName: document.getElementById('editTaskName').value,
-      taskDescription: document.getElementById('editTaskDescription').value,
-      goalDate: document.getElementById('editGoalDate').value + "T" + document.getElementById('editGoalTime').value,
-      location: document.getElementById('editLocation').value
-    };
+function onEditTaskBtnClick(e) {
+    const taskId = this.dataset.taskId;
+    editTask(taskId);
+}
 
-    if (taskData.goalDate === "T") {
-      taskData.goalDate = null;
-    }
+function editTask(taskId) {
+    document.getElementById('editTask').addEventListener('click', function() {
+        let taskId = document.getElementById('editTaskId').value;
+        if (taskId === '') {
+        console.error('Task ID is missing');
+        return;
+        }
     
-  
-    fetch('/update_task/' + taskId, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(taskData)
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 'success') {
-        // ferme la fenetre modal et updateTasks
-        document.getElementById('editTaskModal').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
+        let taskData = {
+        taskName: document.getElementById('editTaskName').value,
+        taskDescription: document.getElementById('editTaskDescription').value,
+        goalDate: document.getElementById('editGoalDate').value + "T" + document.getElementById('editGoalTime').value,
+        location: document.getElementById('editLocation').value
+        };
 
-        updateTasks();
-      } else {
-        console.error(data.error);
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
+        if (taskData.goalDate === "T") {
+        taskData.goalDate = null;
+        }
+        
+    
+        fetch('/update_task/' + taskId, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(taskData)
+        })
+        .then(response => response.json())
+        .then(data => {
+        if (data.status === 'success') {
+            // ferme la fenetre modal et updateTasks
+            document.getElementById('editTaskModal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+
+            updateTasks();
+        } else {
+            console.error(data.error);
+        }
+        })
+        .catch(error => {
+        console.error('Error:', error);
+        });
     });
-});
+}

@@ -1,5 +1,4 @@
-import { getDateString } from "./dateManager";
-import { updateTasks, bindTaskCheckboxChangeEvents, bindStarInputChangeEvents, bindDeleteTaskBtnClickEvents } from './tasks.js';
+import { updateTasks } from './tasks.js';
 
 // Function to handle folder item click events
 function onFolderItemClick(e) {
