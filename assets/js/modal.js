@@ -1,5 +1,5 @@
 let userIsLoggedIn = false;
-function isLoggedIn() {
+export function isLoggedIn() {
   return fetch('/api/logged_in')
     .then(response => response.json())
     .then(data => data.loggedIn)
@@ -10,9 +10,6 @@ function isLoggedIn() {
 isLoggedIn().then(isLoggedIn => {
   userIsLoggedIn = isLoggedIn;
 });
-
-console.log(userIsLoggedIn);
-
 
 document.addEventListener('DOMContentLoaded', function() {
 
