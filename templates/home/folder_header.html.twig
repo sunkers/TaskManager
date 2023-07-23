@@ -9,8 +9,8 @@
                 {% if currentFolder.isDefault %} 
                   contenteditable="false"
                 {% else %}
-                contenteditable="true">
-                {% endif %}
+                contenteditable="true"
+                {% endif %}>
                 {{ currentFolder.name }}
               </p>
               <p id="currentFolderDescription" 
@@ -18,8 +18,8 @@
                 {% if currentFolder.isDefault %} 
                   contenteditable="false"
                 {% else %}
-                contenteditable="true">
-                {% endif %}
+                contenteditable="true"
+                {% endif %}>
                 {{ currentFolder.description }}
               </p>
             {% endif %}

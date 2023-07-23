@@ -1,4 +1,4 @@
-import { updateTasks } from './tasks.js';
+import { updateTasks } from './updateTasks.js';
 
 // Function to handle folder item click events
 function onFolderItemClick(e) {
@@ -99,8 +99,6 @@ function updateCurrentFolder(folderId) {
         console.error('Error:', error);
     });
 }
-
-
 
 document.getElementById("createFolder").addEventListener('click', function(event) {
     event.preventDefault(); 
