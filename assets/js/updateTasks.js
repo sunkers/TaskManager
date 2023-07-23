@@ -52,6 +52,13 @@ export function updateTasks() {
             });
         }
 
+        if(totalTasks == 0) {
+            taskList.insertAdjacentHTML('beforeend', `
+            <h2 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white"><span class="text-transparent bg-clip-text bg-gradient-to-r to-primary from-highlight text-center">No tasks yet</span></h2>
+            <p class="mb-4 text-md font-bold text-gray-900 dark:text-white"><span class="text-black text-center">Add a task to get started with the + button at the top of the page</span></p>
+            `);
+        }
+
         bindTaskCheckboxChangeEvents();
         bindStarInputChangeEvents();
         bindDeleteTaskBtnClickEvents();
