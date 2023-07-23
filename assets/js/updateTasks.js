@@ -141,4 +141,3 @@ function createTaskElement(task) {
 
     return taskElement;
 }
-
