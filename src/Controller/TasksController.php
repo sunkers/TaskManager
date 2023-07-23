@@ -62,8 +62,12 @@ class TasksController extends AbstractController
      */
     public function getTasksForFolder(int $folderId, FolderService $folderService, TaskService $taskService, SerializerService $serializerService): Response
     {
-        $folder = $folderService->getFolderById($folderId);
-        $tasks = $taskService->getTasksForFolder($folder);
+        if($folderId === 0) {
+            $tasks = $taskService->getImportantTasks();
+        } else {
+            $folder = $folderService->getFolderById($folderId);
+            $tasks = $taskService->getTasksForFolder($folder);
+        }
 
         $jsonTasks = $serializerService->getSerializer()->serialize($tasks, 'json');
     
