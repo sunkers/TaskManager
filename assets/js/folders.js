@@ -1,4 +1,4 @@
-import { updateTasks } from './tasks.js';
+import { updateTasks } from './updateTasks.js';
 
 // Function to handle folder item click events
 function onFolderItemClick(e) {
