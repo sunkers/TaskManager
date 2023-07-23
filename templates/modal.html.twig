@@ -7,7 +7,7 @@
   >
 </div>
 
-{# <-- Login Modal --> #}
+<!-- Login Modal -->
 <div 
   id="loginModal" 
   class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-40" 
@@ -22,17 +22,17 @@
         </p>
           <div class="input-group mt-1 text-sm leading-5">
             <label for="username" class="block text-gray-400 mb-1">Email</label>
-            <input type="text" name="_username" id="username" placeholder="youremail@example.com" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
+            <input type="email" name="_username" id="username" placeholder="youremail@example.com" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" required>
           </div>
           <div class="input-group mt-1 text-sm leading-5">
             <label for="password" class="block text-gray-400 mb-1">Password</label>
-            <input type="password" name="_password" id="password" placeholder="" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
+            <input type="password" name="_password" id="password" placeholder="********" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" required>
             <div class="forgot">
               <a rel="noopener noreferrer" href="#">Forgot Password ?</a>
             </div>
           </div>
-          <button class="sign">Sign in</button>
-          <span class="bottom_text m-3">Don't have an account? <a href="#" class="switch" for="register_toggle">Sign Up</a> </span>
+          <button class="sign mb-4">Sign in</button>
+          <span class="bottom_text">Don't have an account? <a href="#" class="switch" for="register_toggle">Sign Up</a> </span>
       </div>
     </form>
 
@@ -43,15 +43,15 @@
         </p>
           <div class="input-group mt-1 text-sm leading-5">
             <label for="signupEmail" class="block text-gray-400 mb-1">Email</label>
-            <input type="text" name="signupEmail" id="signupEmail" placeholder="youremail@example.com" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
+            <input type="email" name="signupEmail" id="signupEmail" placeholder="youremail@example.com" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" required>
           </div>
           <div class="input-group mt-1 text-sm leading-5">
             <label for="signupPassword" class="block text-gray-400 mb-1">Password</label>
-            <input type="password" name="signupPassword" id="signupPassword" placeholder="" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
+            <input type="password" name="signupPassword" id="signupPassword" placeholder="********" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" required>
           </div>
           <br>
-          <button class="sign">Create an account</button>
-          <span class="bottom_text m-3">Already have an account? <a href="#" class="switch" for"register_toggle">Connect</a> </span>
+          <button class="sign mb-4">Create an account</button>
+          <span class="bottom_text">Already have an account? <a href="#" class="switch" for"register_toggle">Connect</a> </span>
       </div>
     </form>
 </div>

@@ -1,11 +1,10 @@
-import { isLoggedIn } from './modal.js';
+// import { isLoggedIn } from './modal.js';
 
-let userIsLoggedIn = false;
-isLoggedIn().then(isLoggedIn => {
-    userIsLoggedIn = isLoggedIn;
-});
+// let userIsLoggedIn = false;
+// isLoggedIn().then(isLoggedIn => {
+//     userIsLoggedIn = isLoggedIn;
+// });
 
-if (userIsLoggedIn) {
     document.getElementById('dashboard-button').addEventListener('mouseover', function() {
         document.getElementById('dropdown-menu').classList.remove('hidden');
     });
@@ -19,4 +18,3 @@ if (userIsLoggedIn) {
     document.getElementById('dropdown-menu').addEventListener('mouseout', function() {
         document.getElementById('dropdown-menu').classList.add('hidden');
     });
-}

@@ -72,6 +72,14 @@ class RegistrationController extends AbstractController
             return new Response('Email already in use', Response::HTTP_CONFLICT);
         }
 
+        if (strlen($password) < 8) {
+            return new Response('Password must be at least 8 characters long', Response::HTTP_CONFLICT);
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return new Response('Email is not valid', Response::HTTP_CONFLICT);
+        }
+
         // create a new user
         $user = new User();
 
@@ -88,21 +96,7 @@ class RegistrationController extends AbstractController
 
         $this->addFlash('info', 'Your account has been created');
 
-        
         $folderService->initFolder($user);
-
-        // Create 4 basic Folders at the creation of the user
-        $folders = ['☀️ My Day' => 'A folder for your daily tasks', '⚠️ Important' => 'Keep your most important tasks here!', '💼 Work' => 'When it comes to work...', '🧑‍💼 Personal' => "Don't forget to pick up the kids!"];
-        foreach ($folders as $folder => $description) {
-            $newFolder = new Folder();
-            $newFolder->setName($folder);
-            $newFolder->setDescription($description);
-            $newFolder->setCreationDate(new \DateTime());
-            $newFolder->setUser($user);
-            $entityManager->persist($newFolder);
-            $entityManager->flush();
-        }
-
 
         return new Response('User created successfully', Response::HTTP_CREATED);
     }
