@@ -3,7 +3,9 @@ import { bindDeleteTaskBtnClickEvents, bindDuplicateTaskBtnClickEvents, bindEdit
 
 // Function to update tasks
 export function updateTasks() {
-    const currentFolderId = JSON.parse(document.getElementById('currentFolderName').dataset.id);
+    let currentFolderId = '';
+    // current id is set to 0 if the current folder is the important folder
+    document.getElementById('currentFolderName').dataset.id == 'important' ? currentFolderId = '0' : currentFolderId = JSON.parse(document.getElementById('currentFolderName').dataset.id);
 
     fetch('/getTasksForFolder/' + currentFolderId)
     .then(response => response.json())

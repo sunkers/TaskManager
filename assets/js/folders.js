@@ -78,26 +78,34 @@ function updateCollections() {
 }
 
 function updateCurrentFolder(folderId) {
-    fetch('/changeFolder', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 'folderId': folderId })
-    })
-    .then(response => {
-        if (!response.ok) throw new Error("Couldn't change the folder");
-        return fetch('/getCurrentFolder');
-    })
-    .then(response => response.json())
-    .then(folder => {
-        document.getElementById('currentFolderName').textContent = folder.name;
-        document.getElementById('currentFolderName').setAttribute('data-id', folder.id);
-        document.getElementById('currentFolderDescription').textContent = folder.description;
+    if (folderId == 'important') {
+        document.getElementById('currentFolderName').textContent = '⭐ Important';
+        document.getElementById('currentFolderName').setAttribute('data-id', folderId);
+        document.getElementById('currentFolderDescription').textContent = 'All your important tasks in one place';
 
         updateTasks();
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+    } else {
+        fetch('/changeFolder', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 'folderId': folderId })
+        })
+        .then(response => {
+            if (!response.ok) throw new Error("Couldn't change the folder");
+            return fetch('/getCurrentFolder');
+        })
+        .then(response => response.json())
+        .then(folder => {
+            document.getElementById('currentFolderName').textContent = folder.name;
+            document.getElementById('currentFolderName').setAttribute('data-id', folder.id);
+            document.getElementById('currentFolderDescription').textContent = folder.description;
+
+            updateTasks();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
 }
 
 document.getElementById("createFolder").addEventListener('click', function(event) {

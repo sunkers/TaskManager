@@ -48,7 +48,7 @@ class FolderService
     {
         if ($this->security->getUser() !== null) {
             // L'utilisateur est connecté, récupérer la folder de la base de données
-            $folders = $this->folderRepository->findBy(['isDefault' => 'true']);
+            $folders = $this->folderRepository->findBy(['isDefault' => 'true'], ['id' => 'ASC']);
                 if ($folders === null) {
                 return null;
             }
@@ -84,8 +84,8 @@ class FolderService
     public function initFolder(User $user)
     {
         $entityManager = $this->entityManager;
-        // Create 4 basic Folders at the creation of the user
-        $folders = ['☀️ My Day' => 'A folder for your daily tasks', '⚠️ Important' => 'Keep your most important tasks here!', '💼 Work' => 'When it comes to work...', '🧑‍💼 Personal' => "Don't forget to pick up the kids!"];
+        // Create 3 basic Folders at the creation of the user
+        $folders = ['☀️ My Day' => 'A folder for your daily tasks', '💼 Work' => 'When it comes to work...', '🧑‍💼 Personal' => "Don't forget to pick up the kids!"];
         foreach ($folders as $folder => $description) {
             $newFolder = new Folder();
             $newFolder->setName($folder);
