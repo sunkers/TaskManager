@@ -141,30 +141,41 @@ document.getElementById("createFolder").addEventListener('click', function(event
     });
 });
 
+let previousTitle;
+
+document.getElementById('currentFolderName').addEventListener('focus', function() {
+    previousTitle = this.innerText;
+});
+
 document.getElementById('currentFolderName').addEventListener('blur', function() {
     console.log("blur");
 
-    const newTitle = this.innerText;
+    const newTitle = this.innerText.trim();
     const id = this.getAttribute('data-id');
 
     let data = { collectionName: newTitle };
 
-    fetch(`/updateFolderTitle/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Error updating folder title");
-        } else {
-            console.log("Folder title successfully updated");
-        }
-        updateCollections();
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+    if (newTitle === '') {
+        this.innerText = previousTitle;
+        alert('Title cannot be empty');
+    } else {
+        fetch(`/updateFolderTitle/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error updating folder title");
+            } else {
+                console.log("Folder title successfully updated");
+            }
+            updateCollections();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
 });
 
 document.getElementById('currentFolderDescription').addEventListener('blur', function() {
