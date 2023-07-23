@@ -33,7 +33,7 @@ class FolderService
     {
         if ($this->security->getUser() !== null) {
             // L'utilisateur est connecté, récupérer la folder de la base de données
-            $folders = $this->folderRepository->findBy(['by_default' => 'false']);
+            $folders = $this->folderRepository->findBy(['isDefault' => 'false']);
             if ($folders === null) {
                 return null;
             }
@@ -48,7 +48,7 @@ class FolderService
     {
         if ($this->security->getUser() !== null) {
             // L'utilisateur est connecté, récupérer la folder de la base de données
-            $folders = $this->folderRepository->findBy(['by_default' => 'true']);
+            $folders = $this->folderRepository->findBy(['isDefault' => 'true']);
                 if ($folders === null) {
                 return null;
             }
@@ -92,7 +92,7 @@ class FolderService
             $newFolder->setDescription($description);
             $newFolder->setCreationDate(new \DateTime());
             $newFolder->setUser($user);
-            $newFolder->setByDefault(true);
+            $newFolder->setIsDefault(true);
             $entityManager->persist($newFolder);
             $entityManager->flush();
         }
@@ -107,7 +107,7 @@ class FolderService
         $newFolder->setDescription($description);
         $newFolder->setCreationDate(new \DateTime());
         $newFolder->setUser($user);
-        $newFolder->setByDefault(false);
+        $newFolder->setIsDefault(false);
         $entityManager->persist($newFolder);
         $entityManager->flush();
     }
@@ -118,7 +118,7 @@ class FolderService
         $folder = $this->folderRepository->findOneById($id);
     
         // If folder is by_default, we can't delete it
-        if ($folder->getByDefault() == true) {
+        if ($folder->getIsDefault() == true) {
             throw new \Exception("You can't delete this folder");
         }
     
@@ -128,7 +128,7 @@ class FolderService
     
         // If the folder to delete is the current collection, set a new current collection
         if ($folder->getName() === $currentFolder->getName()) {
-            $defaultFolders = $this->folderRepository->findBy(['by_default' => true, 'user' => $user]);
+            $defaultFolders = $this->folderRepository->findBy(['isDefault' => true, 'user' => $user]);
             $session->set('currentFolder', $defaultFolders[0]);
         }
     
@@ -143,5 +143,15 @@ class FolderService
             throw new \Exception("Folder not found");
         }
         return $folder;
+    }
+
+    public function updateFolder(int $id, string $type, string $description)
+    {
+        $entityManager = $this->entityManager;
+        $folder = $this->folderRepository->findOneById($id);
+        if ($type == 'title') $folder->setName($description);
+        if ($type == 'description') $folder->setDescription($description);
+        $entityManager->persist($folder);
+        $entityManager->flush();
     }
 }

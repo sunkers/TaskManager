@@ -1,15 +1,33 @@
 <div class="header gradient-background min-h-[10rem] pt-2 w-full text-white">
-<div id="myFolderHeader" class="bg-white/10 pt-0">
-    <div class="flex justify-end text-right p-4 w-3/4">
-        <div>
-          {% if is_logged %}
-            <p id="currentFolder" data-id="{{ currentFolder.id }}" class="text-4xl mt-10">{{ currentFolder.name }}</p>
-            <p id="descriptionElement" class="text-lg">{{ currentFolder.description }}</p>
-          {% endif %}
-        </div>
-    </div>
+  <div id="myFolderHeader" class="bg-white/10 pt-0">
+      <div class="flex justify-end text-right p-4 w-3/4">
+          <div>
+            {% if is_logged %}
+              <p id="currentFolderName" 
+                data-id="{{ currentFolder.id }}" 
+                class="text-4xl mt-10" 
+                {% if currentFolder.isDefault %} 
+                  contenteditable="false"
+                {% else %}
+                contenteditable="true">
+                {% endif %}
+                {{ currentFolder.name }}
+              </p>
+              <p id="currentFolderDescription" 
+                class="text-lg" 
+                {% if currentFolder.isDefault %} 
+                  contenteditable="false"
+                {% else %}
+                contenteditable="true">
+                {% endif %}
+                {{ currentFolder.description }}
+              </p>
+            {% endif %}
+          </div>
+      </div>
+  </div>
 </div>
-</div>
+
 
 <style>
 .gradient-background {

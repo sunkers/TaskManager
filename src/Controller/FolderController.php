@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\FolderService;
 use App\Service\SerializerService;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class FolderController extends AbstractController
 {
@@ -92,6 +93,50 @@ class FolderController extends AbstractController
         try {
             $folderService->deleteFolder($id);
             return new Response('Folder successfully deleted', Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return new Response('Error: ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @Route("/updateFolderTitle/{id}", name="update_folder", methods={"PUT"})
+     */
+    public function updateFolderTitle($id, Request $request, SessionInterface $session, FolderService $folderService): Response
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if ($data === null || !isset($data['collectionName'])) {
+            return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
+        }
+
+        try {
+            $folderService->updateFolder($id, 'title', $data['collectionName']);
+            $folder = $folderService->getFolderById($id);
+            $session->set('currentFolder', $folder);
+
+            return new Response('Folder successfully updated', Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return new Response('Error: ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @Route("/updateFolderDescription/{id}", name="update_folder_description", methods={"PUT"})
+     */
+    public function updateFolderDescription($id, Request $request, SessionInterface $session, FolderService $folderService): Response
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if ($data === null || !isset($data['collectionDescription'])) {
+            return new Response('Invalid JSON', Response::HTTP_BAD_REQUEST);
+        }
+
+        try {
+            $folderService->updateFolder($id, 'description', $data['collectionDescription']);
+            $folder = $folderService->getFolderById($id);
+            $session->set('currentFolder', $folder);
+            
+            return new Response('Folder successfully updated', Response::HTTP_OK);
         } catch (\Exception $e) {
             return new Response('Error: ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

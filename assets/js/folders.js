@@ -1,5 +1,4 @@
-import { getDateString } from "./dateManager";
-import { updateTasks, bindTaskCheckboxChangeEvents, bindStarInputChangeEvents, bindDeleteTaskBtnClickEvents } from './tasks.js';
+import { updateTasks } from './tasks.js';
 
 // Function to handle folder item click events
 function onFolderItemClick(e) {
@@ -13,9 +12,7 @@ function onDeleteFolderClick(e) {
     var id = this.dataset.id;
     var url = `/delete_folder/${id}`;
 
-    // Get current folder ID from session
-    var currentFolderId = document.getElementById('currentFolder').dataset.id;
-    // var currentFolderId = JSON.parse(document.getElementById('currentFolder').dataset.id);
+    var currentFolderId = document.getElementById('currentFolderName').dataset.id;
 
     fetch(url, { method: 'DELETE' })
         .then(response => {
@@ -92,9 +89,9 @@ function updateCurrentFolder(folderId) {
     })
     .then(response => response.json())
     .then(folder => {
-        document.getElementById('currentFolder').textContent = folder.name;
-        document.getElementById('currentFolder').setAttribute('data-id', folder.id);
-        document.getElementById('descriptionElement').textContent = folder.description;
+        document.getElementById('currentFolderName').textContent = folder.name;
+        document.getElementById('currentFolderName').setAttribute('data-id', folder.id);
+        document.getElementById('currentFolderDescription').textContent = folder.description;
 
         updateTasks();
     })
@@ -107,7 +104,6 @@ function updateCurrentFolder(folderId) {
 
 document.getElementById("createFolder").addEventListener('click', function(event) {
     event.preventDefault(); 
-    console.log("create folder button clicked");
 
     let name = document.getElementById("collectionName").value;
     let description = document.getElementById("collectionDescription").value;
@@ -142,6 +138,69 @@ document.getElementById("createFolder").addEventListener('click', function(event
         console.error('Error:', error);
     });
 });
+
+let previousTitle;
+
+document.getElementById('currentFolderName').addEventListener('focus', function() {
+    previousTitle = this.innerText;
+});
+
+document.getElementById('currentFolderName').addEventListener('blur', function() {
+    console.log("blur");
+
+    const newTitle = this.innerText.trim();
+    const id = this.getAttribute('data-id');
+
+    let data = { collectionName: newTitle };
+
+    if (newTitle === '') {
+        this.innerText = previousTitle;
+        alert('Title cannot be empty');
+    } else {
+        fetch(`/updateFolderTitle/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error updating folder title");
+            } else {
+                console.log("Folder title successfully updated");
+            }
+            updateCollections();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+});
+
+document.getElementById('currentFolderDescription').addEventListener('blur', function() {
+    console.log("blur");
+    const newDescription = this.innerText;
+    const id = document.getElementById('currentFolderName').getAttribute('data-id');
+
+    let data = { collectionDescription: newDescription };
+
+    fetch(`/updateFolderDescription/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error updating folder description");
+        } else {
+            console.log("Folder description successfully updated");
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+});
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     bindDeleteFolderEvents();

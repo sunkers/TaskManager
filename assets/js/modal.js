@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Open the create modal
     openCreateModalButton.addEventListener('click', function() {
-      console.log('create modal button clicked');
       document.getElementById('createModal').style.display = 'flex';
       document.getElementById('overlay').style.display = 'block';
       toggleDisplay('none');
@@ -66,19 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
     switchToLoginFromSignup.addEventListener('click', function() {
       changeTab('login');
     });
-
-    function toggleDisplay(state) {
-      var checkboxes = document.getElementsByClassName('checkbox-wrapper');
-      var dropdownMenus = document.getElementsByClassName('dropdownMenu');
-    
-      for (var i = 0; i < checkboxes.length; i++) {
-        checkboxes[i].style.display = state;
-      }
-    
-      for (var i = 0; i < dropdownMenus.length; i++) {
-        dropdownMenus[i].style.display = state;
-      }
-    }
 
     // Open the edit task modal
     editTaskButtons.forEach(button => {
@@ -116,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
       .catch((error) => {
           console.error('Error:', error);
       });
-  }
+    }
   
     
     // If the user clicks outside the modal, close it
@@ -176,4 +162,46 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 });
+
+function toggleDisplay(state) {
+  var checkboxes = document.getElementsByClassName('checkbox-wrapper');
+  var dropdownMenus = document.getElementsByClassName('dropdownMenu');
+
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].style.display = state;
+  }
+
+  for (var i = 0; i < dropdownMenus.length; i++) {
+    dropdownMenus[i].style.display = state;
+  }
+}
+
   
+export function openEditTaskModal(taskId) {
+  document.getElementById('editTask').disabled = true;
+  document.getElementById('editTaskId').value = taskId;
+
+  fetch(`/get_task/${taskId}`)
+  .then(response => response.json())
+  .then(data => {
+      document.getElementById('editTaskName').value = data.name;
+      document.getElementById('editTaskDescription').value = data.description;
+      
+      if (data.goalDate !== null) {
+        let goalDateTimestamp = data.goalDate.timestamp;
+        let goalDate = new Date(goalDateTimestamp * 1000)
+        document.getElementById('editGoalDate').value = goalDate.toISOString().split('T')[0];
+        document.getElementById('editGoalTime').value = goalDate.toTimeString().split(' ')[0].slice(0,5);
+      }
+      
+      
+      document.getElementById('editLocation').value = data.location;
+
+      document.getElementById('editTaskModal').style.display = 'flex';
+      document.getElementById('overlay').style.display = 'block';
+      toggleDisplay('none');
+  })
+  .catch((error) => {
+      console.error('Error:', error);
+  });
+}
