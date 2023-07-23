@@ -63,7 +63,7 @@ export function updateTasks() {
                 </h1>
             `);
 
-            if(totalTasks > 0) {
+            if(doneTasksCount > 0)  {
                 taskList.insertAdjacentHTML('beforeend', `
                     <div class="w-full bg-gray-300 rounded mb-4">
                         <div class="bg-gradient-to-r to-primary from-highlight text-xs leading-none text-center text-white rounded" style="width: ${(doneTasksCount / totalTasks) * 100}%">
