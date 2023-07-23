@@ -77,7 +77,7 @@ export function updateTasks() {
 function createTaskElement(task) {
     // Create a new task element
     const taskElement = document.createElement('div');
-    taskElement.classList.add('task-item', 'mb-4', 'p-4', 'bg-gray-200', 'rounded', 'shadow', 'flex', 'justify-between');
+    taskElement.classList.add('task-item', 'border' , 'border-black', 'mb-4', 'p-4', 'bg-gray-200', 'rounded', 'shadow', 'flex', 'justify-between');
     if (task.status == 1) {
         taskElement.classList.add('bg-gray-400');
     }

@@ -1,19 +1,17 @@
-
 /* .task-container {
-    background: linear-gradient(210deg,#8dada0,#b5c0bc,#b5dfc2);
-    background-size: 240% 240%;
-    animation: gradient-animation 15s ease infinite;
+  background: linear-gradient(300deg,#678674,#dfdfdf,#b0f9ce);
+  background-size: 180% 180%;
+  animation: gradient-animation 18s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
   }
-  
-  @keyframes gradient-animation {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
+  50% {
+    background-position: 100% 50%;
   }
-   */
+  100% {
+    background-position: 0% 50%;
+  }
+} */

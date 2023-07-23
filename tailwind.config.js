@@ -6,6 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // backgroundImage: theme => ({
+      //   'custom-background': "url('/public/images/background.png')",
+      // }),
       backdropBlur: {
         'none': '0',
         'blur': 'blur(20px)',
@@ -16,6 +19,9 @@ module.exports = {
         accent: '#0F5959',
         success: '#1D7373',
         highlight: '#107361',
+      },
+      fontFamily: {
+        invisible: ['Invisible'],
       },
     },
   },
