@@ -100,8 +100,6 @@ function updateCurrentFolder(folderId) {
     });
 }
 
-
-
 document.getElementById("createFolder").addEventListener('click', function(event) {
     event.preventDefault(); 
 
