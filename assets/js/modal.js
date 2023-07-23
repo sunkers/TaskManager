@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Open the create modal
     openCreateModalButton.addEventListener('click', function() {
-      console.log('create modal button clicked');
       document.getElementById('createModal').style.display = 'flex';
       document.getElementById('overlay').style.display = 'block';
       toggleDisplay('none');

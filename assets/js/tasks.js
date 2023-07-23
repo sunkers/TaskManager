@@ -42,7 +42,6 @@ export function bindTaskCheckboxChangeEvents() {
 
 // Function to update tasks
 export function updateTasks() {
-    console.log("update tasks");
     const currentFolderId = JSON.parse(document.getElementById('currentFolder').dataset.id);
 
     fetch('/getTasksForFolder/' + currentFolderId)
@@ -157,7 +156,6 @@ export function bindDeleteTaskBtnClickEvents() {
 export function bindEditTaskBtnClickEvents() {
     document.querySelectorAll('.edit-task').forEach(editBtn => {
         editBtn.addEventListener('click', onEditTaskBtnClick);
-        console.log("edit task button binded");
     });
 }
 
@@ -230,7 +228,6 @@ function resetFormFields() {
 }
 
 document.getElementById("createTask").addEventListener('click', function(event) {
-    console.log("create task button clicked");
     event.preventDefault(); 
 
     let name = document.getElementById("taskName").value;
@@ -252,7 +249,6 @@ document.getElementById("createTask").addEventListener('click', function(event) 
         goalDate: combinedDateTime,
         location: location,
     };
-    console.log(data);
 
     if (data.goalDate === " ") {
         data.goalDate = null;

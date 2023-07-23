@@ -31,7 +31,7 @@ class Folder
     private $tasks;
 
     #[ORM\Column(type: "boolean", options: ["default" => 0])]
-    private bool $by_default = false;
+    private bool $isDefault = false;
 
     public function __construct()
     {
@@ -104,14 +104,14 @@ class Folder
         return $this;
     }
 
-    public function getByDefault(): ?bool
+    public function getIsDefault(): ?bool
     {
-        return $this->by_default;
+        return $this->isDefault;
     }
 
-    public function setByDefault(bool $byDefault): static
+    public function setIsDefault(bool $isDefault): static
     {
-        $this->by_default = $byDefault;
+        $this->isDefault = $isDefault;
 
         return $this;
     }

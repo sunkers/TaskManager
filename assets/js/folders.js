@@ -106,7 +106,6 @@ function updateCurrentFolder(folderId) {
 
 document.getElementById("createFolder").addEventListener('click', function(event) {
     event.preventDefault(); 
-    console.log("create folder button clicked");
 
     let name = document.getElementById("collectionName").value;
     let description = document.getElementById("collectionDescription").value;
@@ -141,6 +140,58 @@ document.getElementById("createFolder").addEventListener('click', function(event
         console.error('Error:', error);
     });
 });
+
+document.getElementById('currentFolderName').addEventListener('blur', function() {
+    console.log("blur");
+
+    const newTitle = this.innerText;
+    const id = this.getAttribute('data-id');
+
+    let data = { collectionName: newTitle };
+
+    fetch(`/updateFolderTitle/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error updating folder title");
+        } else {
+            console.log("Folder title successfully updated");
+        }
+        updateCollections();
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+});
+
+document.getElementById('currentFolderDescription').addEventListener('blur', function() {
+    console.log("blur");
+    const newDescription = this.innerText;
+    const id = document.getElementById('currentFolderName').getAttribute('data-id');
+
+    let data = { collectionDescription: newDescription };
+
+    fetch(`/updateFolderDescription/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error updating folder description");
+        } else {
+            console.log("Folder description successfully updated");
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+});
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     bindDeleteFolderEvents();
