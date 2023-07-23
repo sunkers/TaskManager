@@ -3,10 +3,25 @@
       <div class="flex justify-end text-right p-4 w-3/4">
           <div>
             {% if is_logged %}
-              <p id="currentFolderName" data-id="{{ currentFolder.id }}" class="text-4xl mt-10" contenteditable="true">
+              <p id="currentFolderName" 
+                data-id="{{ currentFolder.id }}" 
+                class="text-4xl mt-10" 
+                {% if currentFolder.isDefault %} 
+                  contenteditable="false"
+                {% else %}
+                contenteditable="true">
+                {% endif %}
                 {{ currentFolder.name }}
               </p>
-              <p id="currentFolderDescription" class="text-lg" contenteditable="true">{{ currentFolder.description }}</p>
+              <p id="currentFolderDescription" 
+                class="text-lg" 
+                {% if currentFolder.isDefault %} 
+                  contenteditable="false"
+                {% else %}
+                contenteditable="true">
+                {% endif %}
+                {{ currentFolder.description }}
+              </p>
             {% endif %}
           </div>
       </div>

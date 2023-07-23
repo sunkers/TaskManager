@@ -12,9 +12,7 @@ function onDeleteFolderClick(e) {
     var id = this.dataset.id;
     var url = `/delete_folder/${id}`;
 
-    // Get current folder ID from session
-    var currentFolderId = document.getElementById('currentFolder').dataset.id;
-    // var currentFolderId = JSON.parse(document.getElementById('currentFolder').dataset.id);
+    var currentFolderId = document.getElementById('currentFolderName').dataset.id;
 
     fetch(url, { method: 'DELETE' })
         .then(response => {
@@ -91,9 +89,9 @@ function updateCurrentFolder(folderId) {
     })
     .then(response => response.json())
     .then(folder => {
-        document.getElementById('currentFolder').textContent = folder.name;
-        document.getElementById('currentFolder').setAttribute('data-id', folder.id);
-        document.getElementById('descriptionElement').textContent = folder.description;
+        document.getElementById('currentFolderName').textContent = folder.name;
+        document.getElementById('currentFolderName').setAttribute('data-id', folder.id);
+        document.getElementById('currentFolderDescription').textContent = folder.description;
 
         updateTasks();
     })

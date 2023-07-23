@@ -42,7 +42,7 @@ export function bindTaskCheckboxChangeEvents() {
 
 // Function to update tasks
 export function updateTasks() {
-    const currentFolderId = JSON.parse(document.getElementById('currentFolder').dataset.id);
+    const currentFolderId = JSON.parse(document.getElementById('currentFolderName').dataset.id);
 
     fetch('/getTasksForFolder/' + currentFolderId)
     .then(response => response.json())
