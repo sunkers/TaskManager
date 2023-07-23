@@ -1,3 +1,19 @@
+let userIsLoggedIn = false;
+function isLoggedIn() {
+  return fetch('/api/logged_in')
+    .then(response => response.json())
+    .then(data => data.loggedIn)
+    .catch(error => console.error('Error:', error));
+}
+
+
+isLoggedIn().then(isLoggedIn => {
+  userIsLoggedIn = isLoggedIn;
+});
+
+console.log(userIsLoggedIn);
+
+
 document.addEventListener('DOMContentLoaded', function() {
 
     // Button to open the modal
@@ -107,43 +123,47 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // If the user clicks outside the modal, close it
     window.addEventListener('click', function(event) {
-      if (event.target == document.getElementById('loginModal')) {
-        document.getElementById('loginModal').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-        toggleDisplay('block');
-      }
-      if (event.target == document.getElementById('createModal')) {
-        document.getElementById('createModal').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-        toggleDisplay('block');
-      }
-      if (event.target == document.getElementById('createCollectionModal')) {
-        document.getElementById('createCollectionModal').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-        toggleDisplay('block');
-      }
-      if (event.target == document.getElementById('createTaskModal')) {
-        document.getElementById('createTaskModal').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-        toggleDisplay('block');
-      }
-      if (event.target == document.getElementById('editTaskModal')) {
-        document.getElementById('editTaskModal').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-        toggleDisplay('block');
+      if (userIsLoggedIn) {
+        if (event.target == document.getElementById('loginModal')) {
+          document.getElementById('loginModal').style.display = 'none';
+          document.getElementById('overlay').style.display = 'none';
+          toggleDisplay('block');
+        }
+        if (event.target == document.getElementById('createModal')) {
+          document.getElementById('createModal').style.display = 'none';
+          document.getElementById('overlay').style.display = 'none';
+          toggleDisplay('block');
+        }
+        if (event.target == document.getElementById('createCollectionModal')) {
+          document.getElementById('createCollectionModal').style.display = 'none';
+          document.getElementById('overlay').style.display = 'none';
+          toggleDisplay('block');
+        }
+        if (event.target == document.getElementById('createTaskModal')) {
+          document.getElementById('createTaskModal').style.display = 'none';
+          document.getElementById('overlay').style.display = 'none';
+          toggleDisplay('block');
+        }
+        if (event.target == document.getElementById('editTaskModal')) {
+          document.getElementById('editTaskModal').style.display = 'none';
+          document.getElementById('overlay').style.display = 'none';
+          toggleDisplay('block');
+        }
       }
     });
 
     // Close the modal when the user presses the ESC key
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
-        document.getElementById('loginModal').style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-        document.getElementById('createModal').style.display = 'none';
-        document.getElementById('createCollectionModal').style.display = 'none';
-        document.getElementById('createTaskModal').style.display = 'none';
-        document.getElementById('editTaskModal').style.display = 'none';
-        toggleDisplay('block');
+          if (userIsLoggedIn) {
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('createModal').style.display = 'none';
+            document.getElementById('createCollectionModal').style.display = 'none';
+            document.getElementById('createTaskModal').style.display = 'none';
+            document.getElementById('editTaskModal').style.display = 'none';
+            toggleDisplay('block');
+          }
       }
     });
 

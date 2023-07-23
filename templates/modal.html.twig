@@ -1,7 +1,20 @@
-<div id="overlay" class="fixed top-0 left-0 w-full h-full z-30" style="display: none;"></div>
+<div 
+  id="overlay" 
+  class="fixed top-0 left-0 w-full h-full z-30" 
+  {% if is_logged %}
+  style="display: none;"
+  {% endif %}
+  >
+</div>
 
 {# <-- Login Modal --> #}
-<div id="loginModal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-40" style="display: none;">
+<div 
+  id="loginModal" 
+  class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-40" 
+  {% if is_logged %}
+  style="display: none;"
+  {% endif %}
+  >
     <form id="loginForm" class="tabContent">
       <div class="form-container w-80 rounded-xl bg-secondary p-8 text-white">
         <p class="title text-center text-xl leading-8 font-bold">

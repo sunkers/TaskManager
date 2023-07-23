@@ -32,6 +32,7 @@ class HomeController extends AbstractController
             $currentFolderName = '';
             $currentFolder = '';
             $tasks = '';
+            $is_logged = false;
         }
         
 

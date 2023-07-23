@@ -9,11 +9,11 @@ use SebastianBergmann\Environment\Console;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use App\Service\FolderService;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -23,9 +23,10 @@ class RegistrationController extends AbstractController
     private $authenticator;
     private RequestStack $requestStack;
 
-    public function __construct(UserAuthenticatorInterface $authenticator)
+    public function __construct(UserAuthenticatorInterface $authenticator, RequestStack $requestStack)
     {
         $this->authenticator = $authenticator;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -44,6 +45,18 @@ class RegistrationController extends AbstractController
 
         return new Response('User logged in successfully', Response::HTTP_OK);
     }
+
+    /**
+     * @Route("/api/logged_in", name="api_logged_in", methods={"GET"})
+     */
+    public function isLoggedIn(): JsonResponse
+    {
+        $isLoggedIn = $this->isGranted('IS_AUTHENTICATED_FULLY');
+        
+        // Envoi de la réponse en format JSON
+        return new JsonResponse(['loggedIn' => $isLoggedIn]);
+    }
+
 
     /**
      * @Route("/register", name="app_register", methods={"POST"})
