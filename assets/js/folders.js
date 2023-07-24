@@ -99,7 +99,11 @@ function updateCurrentFolder(folderId) {
             document.getElementById('currentFolderName').textContent = folder.name;
             document.getElementById('currentFolderName').setAttribute('data-id', folder.id);
             document.getElementById('currentFolderDescription').textContent = folder.description;
+            document.getElementById('currentFolderName').setAttribute('contenteditable', !folder.isDefault);
+            document.getElementById('currentFolderDescription').setAttribute('contenteditable', !folder.isDefault);
 
+            console.log("binding");
+            bindEditableEvents();
             updateTasks();
         })
         .catch(error => {
@@ -147,64 +151,78 @@ document.getElementById("createFolder").addEventListener('click', function(event
 
 let previousTitle;
 
-document.getElementById('currentFolderName').addEventListener('focus', function() {
-    previousTitle = this.innerText;
-});
+function bindEditableEvents() {
+    if (userIsLoggedIn) {
+        const currentFolderNameEl = document.getElementById('currentFolderName');
+        const currentFolderDescriptionEl = document.getElementById('currentFolderDescription');
 
-document.getElementById('currentFolderName').addEventListener('blur', function() {
-    console.log("blur");
+        currentFolderNameEl.removeEventListener('focus');
+        currentFolderNameEl.removeEventListener('blur');
+        currentFolderDescriptionEl.removeEventListener('blur');
 
-    const newTitle = this.innerText.trim();
-    const id = this.getAttribute('data-id');
+        currentFolderNameEl.addEventListener('focus', function() {
+            previousTitle = this.innerText;
+        });
 
-    let data = { collectionName: newTitle };
+        currentFolderNameEl.addEventListener('blur', function() {
+            console.log("blur");
 
-    if (newTitle === '') {
-        this.innerText = previousTitle;
-        alert('Title cannot be empty');
-    } else {
-        fetch(`/updateFolderTitle/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error updating folder title");
+            const newTitle = this.innerText.trim();
+            const id = this.getAttribute('data-id');
+
+            let data = { collectionName: newTitle };
+
+            if (newTitle === '') {
+                this.innerText = previousTitle;
+                alert('Title cannot be empty');
             } else {
-                console.log("Folder title successfully updated");
+                fetch(`/updateFolderTitle/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error updating folder title");
+                    } else {
+                        console.log("Folder title successfully updated");
+                    }
+                    updateCollections();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
             }
-            updateCollections();
-        })
-        .catch((error) => {
-            console.error('Error:', error);
+        });
+
+        currentFolderDescriptionEl.addEventListener('blur', function() {
+            console.log("blur");
+            const newDescription = this.innerText;
+            const id = currentFolderNameEl.getAttribute('data-id');
+
+            let data = { collectionDescription: newDescription };
+
+            fetch(`/updateFolderDescription/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error updating folder description");
+                } else {
+                    console.log("Folder description successfully updated");
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
         });
     }
-});
+}
 
-document.getElementById('currentFolderDescription').addEventListener('blur', function() {
-    console.log("blur");
-    const newDescription = this.innerText;
-    const id = document.getElementById('currentFolderName').getAttribute('data-id');
 
-    let data = { collectionDescription: newDescription };
 
-    fetch(`/updateFolderDescription/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Error updating folder description");
-        } else {
-            console.log("Folder description successfully updated");
-        }
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-});
 
 
 
@@ -212,5 +230,4 @@ document.addEventListener('DOMContentLoaded', function() {
     bindDeleteFolderEvents();
     bindFolderItemClickEvents();
 });
-
 
