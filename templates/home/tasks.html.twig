@@ -1,3 +1,4 @@
+{% if tasks %}
 {% set totalTasks = tasks|length %}
 {% set todoTasks = tasks|filter(task => task.status != 1) %}
 {% set doneTasks = tasks|filter(task => task.status == 1) %}
@@ -40,6 +41,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 
 {% block stylesheets %}
     {{ encore_entry_link_tags('checkbutton') }}
@@ -66,3 +68,17 @@ document.addEventListener('click', function(event) {
     }
 });
 </script>
+
+<style>
+.gridbg {
+  background-image: linear-gradient(#b5b5b5 1px, transparent 1px),
+    linear-gradient(to right, #b5b5b5 1px, transparent 1px);
+  background-size: 100px 100px;
+}
+
+.box {
+  display: grid;
+  background: radial-gradient(transparent, #ffffff 95%);
+  height: 100vh;
+}
+</style>

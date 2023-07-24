@@ -154,10 +154,6 @@ function bindEditableEvents() {
         const currentFolderNameEl = document.getElementById('currentFolderName');
         const currentFolderDescriptionEl = document.getElementById('currentFolderDescription');
 
-        // currentFolderNameEl.removeEventListener('focus');
-        // currentFolderNameEl.removeEventListener('blur');
-        // currentFolderDescriptionEl.removeEventListener('blur');
-
         currentFolderNameEl.addEventListener('focus', function() {
             previousTitle = this.innerText;
         });
@@ -193,7 +189,7 @@ function bindEditableEvents() {
         });
 
         currentFolderDescriptionEl.addEventListener('blur', function() {
-            console.log("blur");
+
             const newDescription = this.innerText;
             const id = currentFolderNameEl.getAttribute('data-id');
 

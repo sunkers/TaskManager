@@ -1,5 +1,5 @@
 
-<div class="task-item mb-4 p-4 bg-gray-200 rounded shadow flex justify-between {{ task.status == 1 ? 'bg-gray-400' : '' }}">
+<div class="task-item mb-4 p-4 bg-gray-200 border border-black rounded shadow flex justify-between {{ task.status == 1 ? 'bg-gray-400' : '' }}">
     <div class="checkbox-wrapper flex items-center" style="flex: 0 5%;">
         <input id="_checkbox-{{ task.id }}" class="task-checkbox" type="checkbox" data-task-id="{{ task.id }}" {{ task.status == 1 ? 'checked' : '' }}>
         <label for="_checkbox-{{ task.id }}">
