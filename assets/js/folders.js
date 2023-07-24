@@ -189,6 +189,7 @@ function bindEditableEvents() {
         });
 
         currentFolderDescriptionEl.addEventListener('blur', function() {
+
             const newDescription = this.innerText;
             const id = currentFolderNameEl.getAttribute('data-id');
 
@@ -221,3 +222,4 @@ document.addEventListener('DOMContentLoaded', function() {
     bindDeleteFolderEvents();
     bindFolderItemClickEvents();
 });
+
