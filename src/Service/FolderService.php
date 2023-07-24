@@ -31,24 +31,26 @@ class FolderService
 
     public function getFolders()
     {
-        if ($this->security->getUser() !== null) {
+        $user = $this->security->getUser();
+        if ($user !== null) {
             // L'utilisateur est connecté, récupérer la folder de la base de données
-            $folders = $this->folderRepository->findBy(['isDefault' => 'false'], ['id' => 'ASC']);
+            $folders = $this->folderRepository->findBy(['isDefault' => 'false', 'user' => $user], ['id' => 'ASC']);
             if ($folders === null) {
                 return null;
             }
             return $folders;
         } else {
             // L'utilisateur n'est pas connecté, récupérer la folder depuis la session
-
+            // Implement logic to retrieve folders from session
         }
     }
 
     public function getFoldersDefault()
     {
-        if ($this->security->getUser() !== null) {
+        $user = $this->security->getUser();
+        if ($user !== null) {
             // L'utilisateur est connecté, récupérer la folder de la base de données
-            $folders = $this->folderRepository->findBy(['isDefault' => 'true'], ['id' => 'ASC']);
+            $folders = $this->folderRepository->findBy(['isDefault' => 'true', 'user' => $user], ['id' => 'ASC']);
                 if ($folders === null) {
                 return null;
             }
@@ -84,6 +86,12 @@ class FolderService
     public function initFolder(User $user)
     {
         $entityManager = $this->entityManager;
+        if ($user === null) {
+            throw new \Exception("User not found");
+        }
+        if ($this->folderRepository->findOneBy(['user' => $user]) !== null) {
+            throw new \Exception("User already has folders");
+        }
         // Create 3 basic Folders at the creation of the user
         $folders = ['☀️ My Day' => 'A folder for your daily tasks', '💼 Work' => 'When it comes to work...', '🧑‍💼 Personal' => "Don't forget to pick up the kids!"];
         foreach ($folders as $folder => $description) {
