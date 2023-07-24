@@ -102,7 +102,6 @@ function updateCurrentFolder(folderId) {
             document.getElementById('currentFolderName').setAttribute('contenteditable', !folder.isDefault);
             document.getElementById('currentFolderDescription').setAttribute('contenteditable', !folder.isDefault);
 
-            console.log("binding");
             bindEditableEvents();
             updateTasks();
         })
@@ -152,20 +151,18 @@ document.getElementById("createFolder").addEventListener('click', function(event
 let previousTitle;
 
 function bindEditableEvents() {
-    if (userIsLoggedIn) {
         const currentFolderNameEl = document.getElementById('currentFolderName');
         const currentFolderDescriptionEl = document.getElementById('currentFolderDescription');
 
-        currentFolderNameEl.removeEventListener('focus');
-        currentFolderNameEl.removeEventListener('blur');
-        currentFolderDescriptionEl.removeEventListener('blur');
+        // currentFolderNameEl.removeEventListener('focus');
+        // currentFolderNameEl.removeEventListener('blur');
+        // currentFolderDescriptionEl.removeEventListener('blur');
 
         currentFolderNameEl.addEventListener('focus', function() {
             previousTitle = this.innerText;
         });
 
         currentFolderNameEl.addEventListener('blur', function() {
-            console.log("blur");
 
             const newTitle = this.innerText.trim();
             const id = this.getAttribute('data-id');
@@ -218,7 +215,6 @@ function bindEditableEvents() {
                 console.error('Error:', error);
             });
         });
-    }
 }
 
 
