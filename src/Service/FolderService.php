@@ -33,7 +33,7 @@ class FolderService
     {
         if ($this->security->getUser() !== null) {
             // L'utilisateur est connecté, récupérer la folder de la base de données
-            $folders = $this->folderRepository->findBy(['isDefault' => 'false']);
+            $folders = $this->folderRepository->findBy(['isDefault' => 'false'], ['id' => 'ASC']);
             if ($folders === null) {
                 return null;
             }

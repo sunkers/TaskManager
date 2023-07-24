@@ -4,11 +4,11 @@
 {% set doneTasks = tasks|filter(task => task.status == 1) %}
 {% set doneTasksCount = doneTasks|length %}
 
-<div class="bg-stone-300" style="max-height: calc(100vh - 268px);">
-    <div class="gridbg" style="max-height: calc(100vh - 268px);">
-        <div class="box" style="max-height: calc(100vh - 268px);">
-            <div id="scrollbar-container" class="w-full overflow-auto" style="height: calc(100vh - 268px);">
-                <div id="task-container" class="task-container flex justify-center" style="min-height: calc(100vh - 268px);">
+<div class="bg-stone-300" style="max-height: calc(100vh - 232px);">
+    <div class="gridbg" style="max-height: calc(100vh - 232px);">
+        <div class="box" style="max-height: calc(100vh - 232px);">
+            <div id="scrollbar-container" class="w-full overflow-auto" style="height: calc(100vh - 232px);">
+                <div id="task-container" class="task-container flex justify-center" style="min-height: calc(100vh - 232px);">
                     <div id="taskList" class="task-list pt-10 w-3/6 flex flex-col">
 
                     {% if totalTasks == 0 %}
