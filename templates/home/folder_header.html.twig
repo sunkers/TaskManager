@@ -1,35 +1,55 @@
 <div class="header gradient-background min-h-[10rem] pt-2 w-full text-white">
-  <div id="myFolderHeader" class="bg-white/10 pt-0">
-      <div class="flex justify-end text-right p-4 w-3/4">
-          <div>
-            {% if is_logged %}
-              <p id="currentFolderName" 
-                data-id="{{ currentFolder.id }}" 
-                class="text-4xl mt-10" 
-                {% if currentFolder.isDefault %} 
-                  contenteditable="false"
-                {% else %}
-                contenteditable="true"
-                {% endif %}>
-                {{ currentFolder.name }}
-              </p>
-              <p id="currentFolderDescription" 
-                class="text-lg" 
-                {% if currentFolder.isDefault %} 
-                  contenteditable="false"
-                {% else %}
-                contenteditable="true"
-                {% endif %}>
-                {{ currentFolder.description }}
-              </p>
-            {% endif %}
-          </div>
+  <div id="myFolderHeader" class="bg-white/10 pt-0 ">
+    <div class="justify-end text-right p-4 w-3/4 lg:flex hidden">
+      <div>
+        {% if is_logged %}
+          <p id="currentFolderName" 
+            data-id="{{ currentFolder.id }}" 
+            class="text-4xl mt-10" 
+            {% if currentFolder.isDefault %} 
+              contenteditable="false"
+            {% else %}
+            contenteditable="true"
+            {% endif %}>
+            {{ currentFolder.name }}
+          </p>
+          <p id="currentFolderDescription" 
+            class="text-lg" 
+            {% if currentFolder.isDefault %} 
+              contenteditable="false"
+            {% else %}
+            contenteditable="true"
+            {% endif %}>
+            {{ currentFolder.description }}
+          </p>
+        {% endif %}
       </div>
+    </div>
+    <div class="flex justify-center items-center">
+    <div class="lg:hidden flex justify-center items-center h-36 w-3/4">
+      <div id="folderCarousel" class="splide w-full h-full">
+        <div class="splide__track h-full">
+          <ul class="splide__list h-full text-5xl">
+          </ul>
+        </div>
+      </div>
+    </div>
+    </div>
   </div>
 </div>
 
 
+
 <style>
+.splide__arrow svg {
+  fill: white !important;
+  scale: 2;
+}
+
+.splide__pagination__page {
+  background-color: white !important;
+}
+
 .gradient-background {
   background: linear-gradient(326deg,#042326,#0a3a40,#1d7373,#107361);
   background-size: 240% 240%;
@@ -60,3 +80,4 @@
   height: 100vh;
 }
 </style>
+

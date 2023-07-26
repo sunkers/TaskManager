@@ -67,6 +67,17 @@ class FolderController extends AbstractController
     }
 
     /**
+     * @Route("/getFoldersAll", name="getFoldersAll", methods={"GET"})
+     */
+    public function getFoldersAll(FolderService $folderService, SerializerService $serializerService): Response
+    {
+        $folders = $folderService->getFoldersAll();
+        $jsonFolders = $serializerService->getSerializer()->serialize($folders, 'json');
+    
+        return new Response($jsonFolders, 200, ['Content-Type' => 'application/json']);
+    }
+
+    /**
      * @Route("/folder/new", name="folder_new", methods={"GET","POST"})
      */
     public function new(Request $request, FolderService $folderService): Response

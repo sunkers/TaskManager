@@ -17,6 +17,7 @@
     "build": "encore production --progress"
   },
   "dependencies": {
+    "@splidejs/splide": "^4.1.4",
     "jquery": "^3.7.0"
   }
 }

@@ -120,7 +120,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // If the user clicks outside the modal, close it
     window.addEventListener('click', function(event) {
-      if (userIsLoggedIn) {
         if (event.target == document.getElementById('loginModal')) {
           document.getElementById('loginModal').style.display = 'none';
           document.getElementById('overlay').style.display = 'none';
@@ -146,13 +145,11 @@ document.addEventListener('DOMContentLoaded', function() {
           document.getElementById('overlay').style.display = 'none';
           toggleDisplay('block');
         }
-      }
     });
 
     // Close the modal when the user presses the ESC key
     document.addEventListener('keydown', function(event) {
       if (event.key === 'Escape') {
-          if (userIsLoggedIn) {
             document.getElementById('loginModal').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
             document.getElementById('createModal').style.display = 'none';
@@ -160,7 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('createTaskModal').style.display = 'none';
             document.getElementById('editTaskModal').style.display = 'none';
             toggleDisplay('block');
-          }
       }
     });
 

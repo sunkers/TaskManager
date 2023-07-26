@@ -1,4 +1,51 @@
 import { updateTasks } from './updateTasks.js';
+import Splide from '@splidejs/splide';
+
+let splide;
+
+function updateCarousel() {
+    fetch('/getFoldersAll')
+        .then(response => response.json())
+        .then(folders => {
+            let carousel = document.querySelector('.splide__list');
+            carousel.innerHTML = '';
+            folders.forEach(folder => {
+                carousel.innerHTML += `
+                <li class="splide__slide flex justify-center items-center" data-id="${folder.id}">
+                    ${folder.name}
+                </li>
+                `;
+            });
+
+            // Remount the Splide after updating the carousel.
+            if(splide) {
+                splide.destroy();
+            }
+            
+            splide = new Splide('#folderCarousel', {
+                type: 'loop',
+                perPage: 1,
+                autoplay: false,
+            });
+            
+            splide.on('moved', function(newIndex) {
+                if (splide.Components.Elements.slides.length > 0) {
+                    let newSlide = splide.Components.Elements.slides[newIndex];
+                    let newFolderId = newSlide.getAttribute('data-id');
+                    updateCurrentFolder(newFolderId);
+                }
+            });
+            
+            splide.mount();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+document.addEventListener('DOMContentLoaded', updateCarousel);
+
+  
 
 // Function to handle folder item click events
 function onFolderItemClick(e) {

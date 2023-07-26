@@ -16,55 +16,55 @@
   {% endif %}
   >
     <form id="loginForm" class="tabContent">
-      <div class="form-container w-80 rounded-xl bg-secondary p-8 text-white">
-        <p class="title text-center text-xl leading-8 font-bold">
+      <div class="form-container w-100 rounded-xl bg-secondary p-8 text-white">
+        <p class="text-center lg:text-xl text-4xl leading-8 font-bold lg:mb-3 mb-6">
           <a class="" id="loginTab" onclick="changeTab('login')">Login</a>
         </p>
-          <div class="input-group mt-1 text-sm leading-5">
+          <div class="input-group mt-1 text-xl lg:text-sm leading-5">
             <label for="username" class="block text-gray-400 mb-1">Email</label>
             <input type="email" name="_username" id="username" placeholder="youremail@example.com" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" required>
           </div>
-          <div class="input-group mt-1 text-sm leading-5">
+          <div class="input-group mt-4 lg:mt-1 text-xl lg:text-sm leading-5">
             <label for="password" class="block text-gray-400 mb-1">Password</label>
             <input type="password" name="_password" id="password" placeholder="********" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" required>
-            <div class="forgot">
+            <div class="forgot flex justify-end lg:text-xs text-base leading-4">
               <a rel="noopener noreferrer" href="#">Forgot Password ?</a>
             </div>
           </div>
-          <button class="sign mb-4">Sign in</button>
-          <span class="bottom_text">Don't have an account? <a href="#" class="switch" for="register_toggle">Sign Up</a> </span>
+          <button class="sign mb-4 lg:text-base text-2xl">Sign in</button>
+          <span class="mt-8 lg:text-xs text-lg ">Don't have an account? <a href="#" class="switch font-bold" for="register_toggle">Sign Up</a> </span>
       </div>
     </form>
 
-    <form id="signupForm" class="tabContent" style="display: none;">
-      <div class="form-container w-80 rounded-xl bg-secondary p-8 text-white">
-        <p class="title text-center text-xl leading-8 font-bold">
-          <a class="" id="signupTab" onclick="changeTab('signup')">Register</a>
-        </p>
-          <div class="input-group mt-1 text-sm leading-5">
-            <label for="signupEmail" class="block text-gray-400 mb-1">Email</label>
-            <input type="email" name="signupEmail" id="signupEmail" placeholder="youremail@example.com" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" required>
+  <form id="signupForm" class="tabContent" style="display: none;">
+      <div class="form-container w-100 rounded-xl bg-secondary p-8 text-white">
+          <p class="text-center lg:text-xl text-4xl leading-8 font-bold lg:mb-3 mb-6">
+              <a class="" id="signupTab" onclick="changeTab('signup')">Register</a>
+          </p>
+          <div class="input-group mt-1 text-xl lg:text-sm leading-5">
+              <label for="signupEmail" class="block text-gray-400 mb-1">Email</label>
+              <input type="email" name="signupEmail" id="signupEmail" placeholder="youremail@example.com" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" required>
           </div>
-          <div class="input-group mt-1 text-sm leading-5">
-            <label for="signupPassword" class="block text-gray-400 mb-1">Password</label>
-            <input type="password" name="signupPassword" id="signupPassword" placeholder="********" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" required>
+          <div class="input-group mt-4 lg:mt-1 text-xl lg:text-sm leading-5">
+              <label for="signupPassword" class="block text-gray-400 mb-1">Password</label>
+              <input type="password" name="signupPassword" id="signupPassword" placeholder="********" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" required>
           </div>
-          <br>
-          <button class="sign mb-4">Create an account</button>
-          <span class="bottom_text">Already have an account? <a href="#" class="switch" for"register_toggle">Connect</a> </span>
+          <button class="sign my-8 lg:text-base text-2xl">Create an account</button>
+          <span class="mt-8 lg:text-xs text-lg ">Already have an account? <a href="#" class="switch font-bold" for="register_toggle">Connect</a> </span>
       </div>
-    </form>
+  </form>
+
 </div>
 
 {# <-- Create Modal --> #}
 <div id="createModal" 
 class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-40" style="display: none;">
   <div class="form-container w-100 rounded-xl bg-secondary p-8 text-white flex flex-col items-center justify-center">
-    <p class="title text-center text-xl leading-8 font-bold">
+    <p class="text-center lg:text-2xl text-4xl leading-8 font-bold lg:mb-3 mb-6">
       Wanna create something ?
     </p>
-    <button id="createCollectionButton" class="bg-highlight text-white w-60 rounded px-4 py-2 my-2">+ Add New Collection 📗</button>
-    <button id="createTaskButton" class="bg-highlight text-white rounded w-60  px-4 py-2 my-2">+ Add New Task ✅</button>
+    <button id="createCollectionButton" class="bg-highlight text-white min-w-[80%] lg:w-80 rounded px-4 py-2 my-2 lg:text-base text-2xl">+ Add New Collection 📗</button>
+    <button id="createTaskButton" class="bg-highlight text-white rounded min-w-[80%] lg:w-80  px-4 py-2 my-2 lg:text-base text-2xl">+ Add New Task ✅</button>
   </div>
 </div>
 
@@ -72,51 +72,54 @@ class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-40" s
 <div id="createCollectionModal"
   class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-40" style="display: none;">
   <div class="form-container w-100 rounded-xl bg-secondary p-8 text-white flex flex-col items-center justify-center">
-    <p class="title text-center text-xl leading-8 font-bold">
+    <p class="text-center lg:text-2xl text-4xl leading-8 font-bold lg:mb-3 mb-6">
       Create a new collection 📗
     </p>
-    <div class="input-group mt-1 text-sm leading-5 w-80">
+    <div class="input-group mt-4 lg:mt-1 text-xl lg:text-sm leading-5 w-3/4">
       <label for="collectionName" class="block text-gray-400 mb-1">Collection Name</label>
       <input type="text" name="collectionName" id="collectionName" placeholder="My Collection" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
     </div>
-    <div class="input-group mt-1 text-sm leading-5 w-80">
+    <div class="input-group mt-4 lg:mt-1 text-xl lg:text-sm leading-5 w-3/4">
       <label for="collectionDescription" class="block text-gray-400 mb-1">Collection Description</label>
       <textarea name="collectionDescription" id="collectionDescription" placeholder="My Collection Description" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" style="background-color: rgba(17, 24, 39, 1);"></textarea>
-      <button id="createFolder" class="bg-highlight text-white rounded w-40  px-4 py-2 my-2">Create Collection</button>
+    </div>
+    <div class="input-group flex justify-center mt-4 min-w-[75%]">
+      <button id="createFolder" class="bg-highlight text-white rounded lg:text-base text-2xl  px-8 py-2 my-4">Create Collection</button>
     </div>
   </div>
 </div>
+
 
 {# <-- Create Task Modal --> #}
 <div id="createTaskModal"
   class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-40" style="display: none;">
   <div class="form-container w-100 rounded-xl bg-secondary p-8 text-white flex flex-col items-center justify-center">
-    <p class="title text-center text-xl leading-8 font-bold">
+    <p class="text-center lg:text-xl text-4xl leading-8 font-bold lg:mb-3 mb-6">
       Create a new task ✅
     </p>
-    <div class="input-group mt-1 text-sm leading-5 w-80">
+    <div class="input-group mt-4 lg:mt-1 text-xl lg:text-sm lg:w-80 w-3/4">
       <label for="taskName" class="block text-gray-400 mb-1">Task Name</label>
       <input type="text" name="taskName" id="taskName" placeholder="My Task" maxlength="50" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
     </div>
-    <div class="input-group mt-1 text-sm leading-5 w-80">
+    <div class="input-group mt-4 lg:mt-1 text-xl lg:text-sm lg:w-80 w-3/4">
       <label for="taskDescription" class="block text-gray-400 mb-1">Task Description</label>
       <textarea name="taskDescription" id="taskDescription" placeholder="My Task Description" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" style="background-color: rgba(17, 24, 39, 1);"></textarea>
     </div>
-    <div class="flex justify-between w-80">
-      <div class="input-group mt-1 text-sm leading-5 mr-2 flex-1">
+    <div class="flex flex-col lg:flex-row justify-between lg:w-80 w-3/4">
+      <div class="input-group mt-4 lg:mt-1 text-xl lg:text-sm mb-2 lg:mb-0 lg:mr-2 flex-1">
         <label for="goalDate" class="block text-gray-400 mb-1">Goal Date</label>
         <input type="date" name="goalDate" id="goalDate" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
       </div>
-      <div class="input-group mt-1 text-sm leading-5 ml-2 flex-1">
+      <div class="input-group mt-4 lg:mt-1 text-xl lg:text-sm lg:ml-2 flex-1">
         <label for="goalTime" class="block text-gray-400 mb-1">Goal Time</label>
         <input type="time" name="goalTime" id="goalTime" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
       </div>
     </div>
-    <div class="input-group mt-1 text-sm leading-5 w-80">
+    <div class="input-group mt-4 lg:mt-1 text-xl lg:text-sm lg:w-80 w-3/4">
       <label for="location" class="block text-gray-400 mb-1">Location</label>
       <input type="text" name="location" id="location" placeholder="Location" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
     </div>
-    <button id="createTask" class="bg-highlight text-white rounded w-40  px-4 py-2 my-2">Create Task</button>
+    <button id="createTask" class="bg-highlight text-white rounded w-40  px-4 py-2 my-6">Create Task</button>
   </div>
 </div>
 
@@ -124,35 +127,36 @@ class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-40" s
 <div id="editTaskModal"
   class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-40" style="display: none;">
   <div class="form-container w-100 rounded-xl bg-secondary p-8 text-white flex flex-col items-center justify-center">
-    <p class="title text-center text-xl leading-8 font-bold">
+    <p class="text-center lg:text-xl text-4xl leading-8 font-bold lg:mb-3 mb-6">
       Edit task ✏️
     </p>
-    <div class="input-group mt-1 text-sm leading-5 w-80">
+    <div class="input-group mt-4 lg:mt-1 text-xl lg:text-sm lg:w-80 w-3/4">
       <label for="editTaskName" class="block text-gray-400 mb-1">Task Name</label>
       <input type="text" name="editTaskName" id="editTaskName" placeholder="My Task" maxlength="50" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
       <input type="hidden" id="editTaskId">
     </div>
-    <div class="input-group mt-1 text-sm leading-5 w-80">
+    <div class="input-group mt-4 lg:mt-1 text-xl lg:text-sm lg:w-80 w-3/4">
       <label for="editTaskDescription" class="block text-gray-400 mb-1">Task Description</label>
       <textarea name="editTaskDescription" id="editTaskDescription" placeholder="My Task Description" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200" style="background-color: rgba(17, 24, 39, 1);"></textarea>
     </div>
-    <div class="flex justify-between w-80">
-      <div class="input-group mt-1 text-sm leading-5 mr-2 flex-1">
+    <div class="flex flex-col lg:flex-row justify-between lg:w-80 w-3/4">
+      <div class="input-group mt-4 lg:mt-1 text-xl lg:text-sm mb-2 lg:mb-0 lg:mr-2 flex-1">
         <label for="editGoalDate" class="block text-gray-400 mb-1">Goal Date</label>
         <input type="date" name="editGoalDate" id="editGoalDate" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
       </div>
-      <div class="input-group mt-1 text-sm leading-5 ml-2 flex-1">
+      <div class="input-group mt-4 lg:mt-1 text-xl lg:text-sm lg:ml-2 flex-1">
         <label for="editGoalTime" class="block text-gray-400 mb-1">Goal Time</label>
         <input type="time" name="editGoalTime" id="editGoalTime" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
       </div>
     </div>
-    <div class="input-group mt-1 text-sm leading-5 w-80">
+    <div class="input-group mt-4 lg:mt-1 text-xl lg:text-sm lg:w-80 w-3/4">
       <label for="editLocation" class="block text-gray-400 mb-1">Location</label>
       <input type="text" name="editLocation" id="editLocation" placeholder="Location" class="w-full rounded border border-blueGray-700 outline-none bg-blueGray-900 py-3 px-4 text-gray-200">
     </div>
-  <button id="editTask" class="button-disabled text-white rounded w-40 px-4 py-2 mb-2 mt-8" disabled>Save Changes</button>
+    <button id="editTask" class="button-disabled text-white rounded w-40 px-4 py-2 my-6" disabled>Save Changes</button>
   </div>
 </div>
+
 
 <style>
 .button-disabled {
@@ -162,4 +166,60 @@ class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-40" s
 .button-enabled {
   background-color: #107361;
 }
+
+.form-container {
+  border-radius: 0.75rem;
+  padding: 2rem;
+}
+
+.input-group input {
+  border: 1px solid rgba(55, 65, 81, 1);
+  background-color: rgba(17, 24, 39, 1);
+  color: rgba(243, 244, 246, 1);
+}
+
+.input-group input:focus {
+  border-color: rgba(167, 139, 250);
+}
+
+.forgot {
+  color: rgba(156, 163, 175,1);
+  margin: 8px 0 14px 0;
+}
+
+.sign {
+  display: block;
+  width: 100%;
+  background-color: #107361;
+  padding: 0.75rem;
+  text-align: center;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 600;
+}
+
+.signup {
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: rgba(156, 163, 175, 1);
+}
+
+.bottom_text {
+  margin-top: 2rem;
+  font-size: 0.65em;
+}
+
+.bottom_text .switch {
+  font-weight:700;
+  cursor: pointer;
+}
+
+#overlay {
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(5px);
+  z-index: 1;
+}
+
 </style>
