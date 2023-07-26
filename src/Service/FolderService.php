@@ -45,6 +45,22 @@ class FolderService
         }
     }
 
+    public function getFoldersAll()
+    {
+        $user = $this->security->getUser();
+        if ($user !== null) {
+            // L'utilisateur est connecté, récupérer la folder de la base de données
+            $folders = $this->folderRepository->findBy(['user' => $user], ['id' => 'ASC']);
+            if ($folders === null) {
+                return null;
+            }
+            return $folders;
+        } else {
+            // L'utilisateur n'est pas connecté, récupérer la folder depuis la session
+            // Implement logic to retrieve folders from session
+        }
+    }
+
     public function getFoldersDefault()
     {
         $user = $this->security->getUser();
