@@ -17,16 +17,19 @@
     {% include 'header.html.twig' %}
 
     <!-- Page Content -->
-    <div class="container-fluid">
-        <div class="grid grid-cols-12">
+<div class="container-fluid">
+    <div class="grid grid-cols-12">
+        <div class="hidden lg:block col-span-2">
             {% include '_sidebar.html.twig' %}
-            
-            <div class="col-span-10" id="task-container">
-                {% block titlebar %}{% endblock %}
-                {% block body %}{% endblock %}
-            </div>
+        </div>
+        
+        <div class="col-span-12 lg:col-span-10" id="task-container">
+            {% block titlebar %}{% endblock %}
+            {% block body %}{% endblock %}
         </div>
     </div>
+</div>
+
     <!-- end Page Content -->
 
     <script src="{{ asset('build/app.js') }}"></script>

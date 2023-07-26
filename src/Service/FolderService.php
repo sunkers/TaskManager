@@ -21,7 +21,7 @@ class FolderService
         Security $security,
         RequestStack $requestStack,
         EntityManagerInterface $entityManager,
-    ) 
+    )
     {
         $this->folderRepository = $folderRepository;
         $this->security = $security;
