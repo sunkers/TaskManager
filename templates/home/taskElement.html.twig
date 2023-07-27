@@ -52,7 +52,7 @@
 
     <div class="right-side flex items-center" style="flex: 0 15%;">
         <div class="dropdownMenu relative inline-block">
-            <button class="ml-2 mr-2 p-1 rounded text-gray-600 hover:text-gray-800 text-3xl lg:text-base" onclick="toggleDropdownMenu(event)">
+            <button class="ml-2 mr-2 p-1 rounded text-gray-600 hover:text-gray-800 text-2xl lg:text-base" onclick="toggleDropdownMenu(event)">
                 <i class="fas fa-ellipsis-h"></i>
             </button>
             <div class="dropdownItems absolute left-0 mt-0 w-40 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 overflow-hidden z-10 invisible">
@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <input class="star text-4xl" type="checkbox" id="star_{{ task.id }}" data-task-id="{{ task.id }}" {{ task.importance ? 'checked' : '' }}>
+        <input class="star lg:text-base text-4xl" type="checkbox" id="star_{{ task.id }}" data-task-id="{{ task.id }}" {{ task.importance ? 'checked' : '' }}>
         <label for="star_{{ task.id }}" style="cursor: pointer;">
             <svg viewBox="0 0 24 24">
                 <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path>
