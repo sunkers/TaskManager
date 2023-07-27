@@ -6,6 +6,10 @@ export function isLoggedIn() {
     .catch(error => console.error('Error:', error));
 }
 
+// Sélectionnez l'élément
+const folderCarousel = document.getElementById('folderCarousel');
+
+
 
 isLoggedIn().then(isLoggedIn => {
   userIsLoggedIn = isLoggedIn;
@@ -52,6 +56,8 @@ document.addEventListener('DOMContentLoaded', function() {
     openCreateModalButton.addEventListener('click', function() {
       document.getElementById('createModal').style.display = 'flex';
       document.getElementById('overlay').style.display = 'block';
+      folderCarousel.classList.add('blur-effect');
+
       toggleDisplay('none');
     });
 
@@ -85,6 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
           event.preventDefault();
           const taskId = this.getAttribute("data-task-id");
           openEditTaskModal(taskId);
+      folderCarousel.classList.add('blur-effect');
+
       });
     });
 
@@ -123,26 +131,33 @@ document.addEventListener('DOMContentLoaded', function() {
         if (event.target == document.getElementById('loginModal')) {
           document.getElementById('loginModal').style.display = 'none';
           document.getElementById('overlay').style.display = 'none';
+          folderCarousel.classList.remove('blur-effect');
+
           toggleDisplay('block');
         }
         if (event.target == document.getElementById('createModal')) {
           document.getElementById('createModal').style.display = 'none';
+          folderCarousel.classList.remove('blur-effect');
           document.getElementById('overlay').style.display = 'none';
           toggleDisplay('block');
         }
         if (event.target == document.getElementById('createCollectionModal')) {
           document.getElementById('createCollectionModal').style.display = 'none';
           document.getElementById('overlay').style.display = 'none';
+          folderCarousel.classList.remove('blur-effect');
+
           toggleDisplay('block');
         }
         if (event.target == document.getElementById('createTaskModal')) {
           document.getElementById('createTaskModal').style.display = 'none';
           document.getElementById('overlay').style.display = 'none';
+          folderCarousel.classList.remove('blur-effect');
           toggleDisplay('block');
         }
         if (event.target == document.getElementById('editTaskModal')) {
           document.getElementById('editTaskModal').style.display = 'none';
           document.getElementById('overlay').style.display = 'none';
+          folderCarousel.classList.remove('blur-effect');
           toggleDisplay('block');
         }
     });
@@ -156,6 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('createCollectionModal').style.display = 'none';
             document.getElementById('createTaskModal').style.display = 'none';
             document.getElementById('editTaskModal').style.display = 'none';
+            folderCarousel.classList.remove('blur-effect');
             toggleDisplay('block');
       }
     });
