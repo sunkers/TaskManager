@@ -12,7 +12,7 @@
             <h3 class="task-title font-bold mb-1 {{ task.status == 1 ? 'line-through' : '' }} text-3xl lg:text-base" style="word-break: break-word; overflow-wrap: break-word;">{{ task.name }}</h3>
         </div>
         <div class="description-container">
-            <p class="task-description mb-1 {{ task.status == 1 ? 'line-through' : '' }} text-2xl lg:text-base" style="word-break: break-word; overflow-wrap: break-word;">{{ task.description }}</p>
+            <p class="task-description mb-1 {{ task.status == 1 ? 'line-through' : '' }} text-2xl lg:text-base whitespace-pre-line	" style="word-break: break-word; overflow-wrap: break-word;">{{ task.description }}</p>
         </div>
     </div>
 

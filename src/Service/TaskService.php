@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\Task;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Name;
 use Symfony\Config\SecurityConfig;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -18,16 +19,19 @@ class TaskService
     private TaskRepository $taskRepository;
     private EntityManagerInterface $entityManager;
     private RequestStack $requestStack;
+    private Security $security;
 
     public function __construct(
         TaskRepository $taskRepository, 
         EntityManagerInterface $entityManager,
         RequestStack $requestStack,
+        Security $security,
     )
     {
         $this->taskRepository = $taskRepository;
         $this->entityManager = $entityManager;
         $this->requestStack = $requestStack;
+        $this->security = $security;
     }
 
     public function getTasks(): array
@@ -42,7 +46,16 @@ class TaskService
 
     public function getImportantTasks()
     {
-        return $this->taskRepository->findBy(['importance' => '1'], ['id' => 'ASC']);
+        $user = $this->security->getUser();
+        $folders = $this->entityManager->getRepository(Folder::class)->findBy(['user' => $user]);
+        $data = [];
+        foreach ($folders as $folder) {
+            $tasks = $this->taskRepository->findBy(['importance' => '1', 'folder' => $folder], ['id' => 'ASC']);
+            foreach ($tasks as $task) {
+                $data[] = $task;
+            }
+        }
+        return $data;
     }
 
     public function getTaskById(int $taskId): ?Task
@@ -121,5 +134,10 @@ class TaskService
             $this->entityManager->persist($newTask);
             $this->entityManager->flush();
         }
+    }
+
+    public function nl2br(string $text): string
+    {
+        return nl2br($text);
     }
 }
