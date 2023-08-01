@@ -4,7 +4,7 @@
 {% set doneTasks = tasks|filter(task => task.status == 1) %}
 {% set doneTasksCount = doneTasks|length %}
 
-<div class="min-h-[10rem]"></div>
+<div class="min-h-[10rem] lg:hidden"></div>
 
 <div class="task-wrapper bg-stone-300" style="">
     <div class="gridbg">
