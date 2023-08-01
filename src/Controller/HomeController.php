@@ -25,7 +25,7 @@ class HomeController extends AbstractController
             $defaultFolders = $folderService->getFoldersDefault();
             $session->set('currentFolder', $defaultFolders[0]);
             $currentFolder = $session->get('currentFolder');
-            $tasks = $taskService->getTasksForFolder($currentFolder);
+            $tasks = $taskService->getTasksForFolder($currentFolder, 'id');
         } else {
             $folders = '';
             $defaultFolders = '';

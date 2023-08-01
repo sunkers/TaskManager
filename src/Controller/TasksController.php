@@ -22,7 +22,7 @@ class TasksController extends AbstractController
     public function tasks(TaskService $taskService, SessionInterface $session, FolderService $folderService, SerializerService $serializerService): Response
     {
         $folder = $session->get('currentFolder');
-        $tasks = $taskService->getTasksForFolder($folder);
+        $tasks = $taskService->getTasksForFolder($folder, 'id');
         $jsonTasks = $serializerService->getSerializer()->serialize($tasks, 'json');
     
         return new Response($jsonTasks, 200, ['Content-Type' => 'application/json']);
@@ -49,7 +49,7 @@ class TasksController extends AbstractController
             return new JsonResponse(['error' => 'Failed to save task: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     
-        $tasks = $taskService->getTasksForFolder($currentFolder);
+        $tasks = $taskService->getTasksForFolder($currentFolder, 'id');
         $jsonTasks = $serializerService->getSerializer()->serialize($tasks, 'json');
         
         return new Response($jsonTasks, 200, ['Content-Type' => 'application/json']);
@@ -58,21 +58,22 @@ class TasksController extends AbstractController
 
 
     /**
-     * @Route("/getTasksForFolder/{folderId}", name="get_tasks_for_folder", methods={"GET"})
-     */
-    public function getTasksForFolder(int $folderId, FolderService $folderService, TaskService $taskService, SerializerService $serializerService): Response
+    * @Route("/getTasksForFolder/{folderId}/{sortBy?}", name="get_tasks_for_folder", methods={"GET"})
+    */
+    public function getTasksForFolder(int $folderId, FolderService $folderService, TaskService $taskService, SerializerService $serializerService, $sortBy = 'id'): Response
     {
         if($folderId === 0) {
-            $tasks = $taskService->getImportantTasks();
+            $tasks = $taskService->getImportantTasks($sortBy);
         } else {
             $folder = $folderService->getFolderById($folderId);
-            $tasks = $taskService->getTasksForFolder($folder);
+            $tasks = $taskService->getTasksForFolder($folder, $sortBy);
         }
 
         $jsonTasks = $serializerService->getSerializer()->serialize($tasks, 'json');
-    
+
         return new Response($jsonTasks, 200, ['Content-Type' => 'application/json']);
     }
+
 
     /**
      * @Route("/get_task/{id}", name="get_task", methods={"GET"})

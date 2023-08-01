@@ -39,24 +39,25 @@ class TaskService
         return $this->taskRepository->findBy([], ['id' => 'ASC']);
     }
 
-    public function getTasksForFolder(Folder $folder)
+    public function getTasksForFolder(Folder $folder, $sortBy)
     {
-        return $this->taskRepository->findBy(['folder' => $folder], ['id' => 'ASC']);
+        return $this->taskRepository->findBy(['folder' => $folder], [$sortBy => 'ASC']);
     }
-
-    public function getImportantTasks()
+    
+    public function getImportantTasks($sortBy)
     {
         $user = $this->security->getUser();
         $folders = $this->entityManager->getRepository(Folder::class)->findBy(['user' => $user]);
         $data = [];
         foreach ($folders as $folder) {
-            $tasks = $this->taskRepository->findBy(['importance' => '1', 'folder' => $folder], ['id' => 'ASC']);
+            $tasks = $this->taskRepository->findBy(['importance' => '1', 'folder' => $folder], [$sortBy => 'ASC']);
             foreach ($tasks as $task) {
                 $data[] = $task;
             }
         }
         return $data;
     }
+    
 
     public function getTaskById(int $taskId): ?Task
     {

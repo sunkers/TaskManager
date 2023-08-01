@@ -8,6 +8,33 @@ function onTaskCheckboxChange(e) {
     updateTaskStatus(taskId, status);
 }
 
+// Function to handle task sorting
+function sortTasks(sortBy) {
+    let currentFolderId = '';
+    document.getElementById('currentFolderName').dataset.id == 'important' ? currentFolderId = '0' : currentFolderId = JSON.parse(document.getElementById('currentFolderName').dataset.id);
+    const url = `/getTasksForFolder/${currentFolderId}/${sortBy}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) throw new Error("Couldn't sort tasks");
+            return response.json();
+        })
+        .then(async taskData => {
+            await updateTasks(taskData);
+            document.getElementById('task-sorting').value = sortBy;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+function onSortChangeBtn(e){
+    let sortBy = this.value;
+    sortTasks(sortBy);
+};
+
+
+
 // Function to handle task delete button click events
 function onDeleteTaskBtnClick(e) {
     const taskId = this.dataset.taskId;
@@ -268,6 +295,11 @@ export function bindStarInputChangeEvents() {
     });
 }
 
+export function bindSortByChangeEvents() {
+    if (document.getElementById('task-sorting') === null) return;
+    document.getElementById('task-sorting').addEventListener('change', onSortChangeBtn);
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
     bindTaskCheckboxChangeEvents();
@@ -275,4 +307,5 @@ document.addEventListener('DOMContentLoaded', function() {
     bindDeleteTaskBtnClickEvents();
     bindDuplicateTaskBtnClickEvents(); 
     bindEditTaskBtnClickEvents();
+    bindSortByChangeEvents();
 });

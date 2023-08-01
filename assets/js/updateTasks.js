@@ -1,71 +1,89 @@
 import { getDateString } from "./dateManager";
-import { bindDeleteTaskBtnClickEvents, bindDuplicateTaskBtnClickEvents, bindEditTaskBtnClickEvents, bindEditTaskEvents, bindStarInputChangeEvents, bindTaskCheckboxChangeEvents } from "./tasks";
+import { bindDeleteTaskBtnClickEvents, bindDuplicateTaskBtnClickEvents, bindEditTaskBtnClickEvents, bindEditTaskEvents, bindStarInputChangeEvents, bindTaskCheckboxChangeEvents, bindSortByChangeEvents } from "./tasks";
 
 // Function to update tasks
 export function updateTasks() {
-    let currentFolderId = '';
-    // current id is set to 0 if the current folder is the important folder
-    document.getElementById('currentFolderName').dataset.id == 'important' ? currentFolderId = '0' : currentFolderId = JSON.parse(document.getElementById('currentFolderName').dataset.id);
+    return new Promise((resolve, reject) => {
+        let currentFolderId = '';
+        // current id is set to 0 if the current folder is the important folder
+        document.getElementById('currentFolderName').dataset.id == 'important' ? currentFolderId = '0' : currentFolderId = JSON.parse(document.getElementById('currentFolderName').dataset.id);
+        let sortBy = document.getElementById('task-sorting') === null ? 'createdAt' : document.getElementById('task-sorting').value;
 
-    fetch('/getTasksForFolder/' + currentFolderId)
-    .then(response => response.json())
-    .then(tasks => {
-        const taskList = document.getElementById('taskList');
-        taskList.innerHTML = '';
-        
-        const totalTasks = tasks.length;
-        const todoTasks = tasks.filter(task => task.status != 1);
-        const doneTasks = tasks.filter(task => task.status == 1);
-        const doneTasksCount = doneTasks.length;
+        fetch('/getTasksForFolder/' + currentFolderId + '/' + sortBy)
+        .then(response => response.json())
+        .then(tasks => {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+            
+            const totalTasks = tasks.length;
+            const todoTasks = tasks.filter(task => task.status != 1);
+            const doneTasks = tasks.filter(task => task.status == 1);
+            const doneTasksCount = doneTasks.length;
 
-        // Template for ToDo tasks
-        if(todoTasks.length > 0) {
-                taskList.insertAdjacentHTML('beforeend', `
-                <h1 class="mb-4 lg:text-3xl text-5xl font-extrabold text-gray-900 dark:text-white"><span class="text-transparent bg-clip-text bg-gradient-to-r to-primary from-highlight">To Do: </span></h1>
-            `);
-
-            if(doneTasksCount > 0)  {
-                taskList.insertAdjacentHTML('beforeend', `
-                    <div class="progress-bar border border-black w-full bg-gray-300 rounded mb-4">
-                        <div class="bg-gradient-to-r to-primary from-highlight lg:text-xs text-xl leading-none text-center text-white rounded" style="width: ${(doneTasksCount / totalTasks) * 100}%">
-                            ${doneTasksCount} / ${totalTasks}
+            // Template for ToDo tasks
+            if(todoTasks.length > 0) {
+                    taskList.insertAdjacentHTML('beforeend', `
+                    <div class="task-header flex justify-between items-center mb-4">
+                        <h1 class="lg:text-3xl text-5xl font-extrabold text-gray-900 dark:text-white">
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r to-primary from-highlight">To Do: </span>
+                        </h1>
+                        <div class="sort-controls flex flex-row lg:text-base text-2xl">
+                            <p> Sort By: </p>
+                            <select id="task-sorting" class="ml-2">
+                                <option value="createdAt">Creation Date</option>
+                                <option value="goalDate">Goal Date</option>
+                                <option value="importance">Importance</option>
+                            </select>
                         </div>
                     </div>
                 `);
+
+                if(doneTasksCount > 0)  {
+                    taskList.insertAdjacentHTML('beforeend', `
+                        <div class="progress-bar border border-black w-full bg-gray-300 rounded mb-4">
+                            <div class="bg-gradient-to-r to-primary from-highlight lg:text-xs text-xl leading-none text-center text-white rounded" style="width: ${(doneTasksCount / totalTasks) * 100}%">
+                                ${doneTasksCount} / ${totalTasks}
+                            </div>
+                        </div>
+                    `);
+                }
+
+                todoTasks.forEach(task => {
+                    taskList.appendChild(createTaskElement(task));
+                });
             }
 
-            todoTasks.forEach(task => {
-                taskList.appendChild(createTaskElement(task));
-            });
-        }
+            // Template for Done tasks
+            if(doneTasks.length > 0) {
+                taskList.insertAdjacentHTML('beforeend', `
+                    <h1 class="mb-4 lg:text-3xl text-5xl font-extrabold text-gray-900 dark:text-white"><span class="text-transparent bg-clip-text bg-gradient-to-r to-primary from-highlight">Done: </span></h1>
+                    `);
 
-        // Template for Done tasks
-        if(doneTasks.length > 0) {
-            taskList.insertAdjacentHTML('beforeend', `
-                <h1 class="mb-4 lg:text-3xl text-5xl font-extrabold text-gray-900 dark:text-white"><span class="text-transparent bg-clip-text bg-gradient-to-r to-primary from-highlight">Done: </span></h1>
+                doneTasks.forEach(task => {
+                    taskList.appendChild(createTaskElement(task));
+                });
+            }
+
+            if(totalTasks == 0) {
+                taskList.insertAdjacentHTML('beforeend', `
+                <h2 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white"><span class="text-transparent bg-clip-text bg-gradient-to-r to-primary from-highlight text-center">No tasks yet</span></h2>
+                <p class="mb-4 text-md font-bold text-gray-900 dark:text-white"><span class="text-black text-center">Add a task to get started with the + button at the top of the page</span></p>
                 `);
+            }
 
-            doneTasks.forEach(task => {
-                taskList.appendChild(createTaskElement(task));
-            });
-        }
-
-        if(totalTasks == 0) {
-            taskList.insertAdjacentHTML('beforeend', `
-            <h2 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white"><span class="text-transparent bg-clip-text bg-gradient-to-r to-primary from-highlight text-center">No tasks yet</span></h2>
-            <p class="mb-4 text-md font-bold text-gray-900 dark:text-white"><span class="text-black text-center">Add a task to get started with the + button at the top of the page</span></p>
-            `);
-        }
-
-        bindTaskCheckboxChangeEvents();
-        bindStarInputChangeEvents();
-        bindDeleteTaskBtnClickEvents();
-        bindEditTaskBtnClickEvents();
-        bindEditTaskEvents();
-        bindDuplicateTaskBtnClickEvents();
-    })
-    .catch((error) => {
-        console.error('Error:', error);
+            bindTaskCheckboxChangeEvents();
+            bindStarInputChangeEvents();
+            bindDeleteTaskBtnClickEvents();
+            bindEditTaskBtnClickEvents();
+            bindEditTaskEvents();
+            bindDuplicateTaskBtnClickEvents();
+            bindSortByChangeEvents();
+            resolve();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            reject();
+        });
     });
 }
 
