@@ -4,7 +4,9 @@
 {% set doneTasks = tasks|filter(task => task.status == 1) %}
 {% set doneTasksCount = doneTasks|length %}
 
-<div class="bg-stone-300" style="max-height: calc(100vh - 232px);">
+<div class="min-h-[10rem]"></div>
+
+<div class="task-wrapper bg-stone-300" style="">
     <div class="gridbg">
         <div class="box">
             <div id="scrollbar-container" class="w-full overflow-auto">
@@ -93,5 +95,11 @@ document.addEventListener('click', function(event) {
   background: radial-gradient(transparent, #ffffff 95%);
   height: 100vh;
   max-height: calc(100vh - 232px);
+}
+
+@media (min-width: 1024px) {
+    .task-wrapper {
+        max-height: calc(100vh - 232px);
+    }
 }
 </style>

@@ -171,6 +171,7 @@ document.getElementById("createTask").addEventListener('click', function(event) 
     .then(taskData => {
         document.getElementById('createTaskModal').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
+        document.getElementById('folderCarousel').classList.remove('blur-effect');
         updateTasks();
         resetFormFields();
     })
@@ -241,6 +242,7 @@ function editTask(taskId) {
             // ferme la fenetre modal et updateTasks
             document.getElementById('editTaskModal').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
+            document.getElementById('folderCarousel').classList.remove('blur-effect');
 
             updateTasks();
         } else {
