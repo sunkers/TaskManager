@@ -25,7 +25,7 @@ class TaskService
         TaskRepository $taskRepository, 
         EntityManagerInterface $entityManager,
         RequestStack $requestStack,
-        Security $security,
+        Security $security
     )
     {
         $this->taskRepository = $taskRepository;
